@@ -1,0 +1,19 @@
+{
+	"name": "drago-fw/translator",
+	"type": "library",
+	"description": "Little translator for applications",
+	"license": ["MIT"],
+	"authors": [
+		{
+			"name": "Zdeněk Papučík",
+			"homepage": "https://github.com/accgit"
+		}
+	],
+	"require": {
+		"php": ">=5.6.0",
+		"nette/utils": "~2.3"
+	},
+	"autoload": {
+		"classmap": ["src/"]
+	}
+}
