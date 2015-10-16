@@ -2,7 +2,7 @@
 Little translator for applications.
 
 ## Instruction
-Instructions on how to easily translate application
+Instructions on how to easily translate application.
 ```php
 /**
  * Read more about persistent annotation https://doc.nette.org/en/2.3/presenters#toc-persistent-parameters
@@ -25,7 +25,7 @@ public function getTranslator()
 }
 ```
 
-Create in project localization.ini file and add your translation
+Create in project localization.ini file and add your translation.
 ```ini
 hello.word = Hello Word
 ...
