@@ -25,17 +25,6 @@ public function getTranslator()
 }
 ```
 
-Create in project localization.ini file and add your translation.
-```ini
-hello.word = Hello Word
-...
-```
-Languages switch, add this to template:
-```latte
-<a n:href="this, 'lang' => 'en'">EN</a>
-...
-```
-
 **TIP:**
 You can translate the entire application with one language or translate the application
 as a parameter of the URL.
@@ -44,7 +33,13 @@ as a parameter of the URL.
 $path = __DIR__ . '/' . $this->lang . '.ini';
 ```
 
-For template use this
+Create in project localization.ini file and add your translation.
+```ini
+hello.word = Hello Word
+...
+```
+
+For template use this:
 ```php
 protected function beforeRender()
 {
@@ -56,6 +51,12 @@ protected function beforeRender()
 In Templates using the underscore:
 ```latte
 {_'hello.word'}
+```
+
+Languages switch, add this to template:
+```latte
+<a n:href="this, 'lang' => 'en'">EN</a>
+...
 ```
 
 Used to translate the Presenter:
