@@ -21,6 +21,10 @@ use Drago\Localization\Translator;
 public function getTranslator()
 {
 	$path = __DIR__ . '/localization.ini';
+	if (!is_file($path)) {
+		throw new \Exception('Missing translation file in ' . $path);
+	}
+
 	return new Translator(parse_ini_file($path));
 }
 ```
