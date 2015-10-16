@@ -39,7 +39,7 @@ hello.word = Hello Word
 ...
 ```
 
-For template use this:
+To support translations in the template, use this:
 ```php
 protected function beforeRender()
 {
