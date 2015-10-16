@@ -48,7 +48,7 @@ protected function beforeRender()
 }
 ```
 
-In Templates using the underscore
+In Templates using the underscore:
 ```latte
 {_'hello.word'}
 ```
