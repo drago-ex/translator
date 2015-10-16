@@ -11,7 +11,7 @@ Instructions on how to easily translate application.
  */
 public $lang;
 ```
-Add this method to Presenter
+Add this method to Presenter:
 ```php
 use Drago\Localization\Translator;
 
