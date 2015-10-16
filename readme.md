@@ -53,7 +53,7 @@ In Templates using the underscore
 {_'hello.word'}
 ```
 
-Used to translate the Presenter
+Used to translate the Presenter:
 ```php
 // Forms
 $form = New Form;
@@ -66,8 +66,7 @@ $form->addError('hello.word');
 $this->flashMessage('hello.word));
 ```
 
-Passing parameters for Routers.
-Add the configuration file
+Passing parameters for Routers. Insert to configuration file this:
 ```neon
 parameters:
 
@@ -78,14 +77,14 @@ parameters:
 	locales: 'en|de|cs'
 
 ```
-The parameters passed to router
+The parameters passed to router:
 
 ```neon
 services:
 	router: RouterFactory::createRouter(%locale%, %locales%)
 ```
 
-In this way we use route
+In this way we use route:
 ```php
 use Drago\Localization\Route as Lang;
 ...
