@@ -1,4 +1,4 @@
-## Translator adapter.
+## Translator adapter
 Little translator for applications.
 
 ## Instruction
@@ -31,7 +31,7 @@ hello.word = Hello Word
 ...
 ```
 
-### TIP
+**TIP**
 You can translate the entire application with one language or translate the application
 as a parameter of the URL.
 
