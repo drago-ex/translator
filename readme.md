@@ -34,6 +34,7 @@ Languages switch, add this to template:
 ```latte
 <a n:href="this, 'lang' => 'en'">EN</a>
 ...
+```
 
 **TIP:**
 You can translate the entire application with one language or translate the application
