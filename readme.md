@@ -25,7 +25,7 @@ public function getTranslator()
 }
 ```
 
-Create in project localization.ini file and add you localization
+Create in project localization.ini file and add your translation
 ```ini
 hello.word = Hello Word
 ...
