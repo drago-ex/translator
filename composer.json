@@ -1,7 +1,7 @@
 {
 	"name": "drago-fw/translator",
 	"type": "library",
-	"description": "Drago Framework - little translator for applications",
+	"description": "Translator for applications",
 	"license": ["MIT"],
 	"authors": [
 		{
