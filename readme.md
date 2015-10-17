@@ -72,7 +72,7 @@ $form->setTranslator($this->getTranslator());
 // Form errors
 $form->addError('hello.word');
 
-// Flash Messages
+// Flash messages
 $this->flashMessage('hello.word));
 ```
 
