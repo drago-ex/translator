@@ -103,7 +103,8 @@ class RouterFactory
 {
 	public static function createRouter($locale, $locales)
 	{
-		$router[] = new Route(Lang::locale($locale, $locales) . '<presenter>/<action>[/<id>]', 'Presenter:action');
+		$lang     = Lang::locale($locale, $locales);
+		$router[] = new Route($lang . '<presenter>/<action>[/<id>]', 'Presenter:action');
 		...
 	}
 }
