@@ -39,7 +39,6 @@ $path = __DIR__ . '/' . $this->lang . '.ini';
 Create in project localization.ini file and add your translation.
 ```ini
 hello.word = Hello Word
-...
 ```
 
 To support translations in the template, use this:
@@ -58,21 +57,14 @@ In Templates using the underscore:
 
 Languages switch, add this to template:
 ```latte
-<a n:href="this, 'lang' => 'en'">EN</a>
-...
+<a n:href="this, 'lang' => 'en'">English</a>
 ```
 
-Used to translate the Presenter:
+Use translate with forms:
 ```php
 // Forms
 $form = New Form;
 $form->setTranslator($this->getTranslator());
-
-// Form errors
-$form->addError('hello.word');
-
-// Flash messages
-$this->flashMessage('hello.word));
 ```
 
 Passing parameters for Routers. Insert to configuration file this:
@@ -96,13 +88,12 @@ services:
 In this way we use route:
 ```php
 use Drago\Localization\Route as Lang;
-...
 
 class RouterFactory
 {
 	public static function createRouter($locale, $locales)
 	{
-		$lang     = Lang::locale($locale, $locales);
+		$lang = Lang::locale($locale, $locales);
 		$router[] = new Route($lang . '<presenter>/<action>[/<id>]', 'Presenter:action');
 		...
 	}
