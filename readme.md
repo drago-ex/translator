@@ -5,7 +5,6 @@ Little translator for applications.
 Instructions on how to easily translate application.
 ```php
 /**
- * Persistent annotation https://doc.nette.org/en/2.3/presenters#toc-persistent-parameters
  * @var string
  * @persistent
  */
