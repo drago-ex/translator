@@ -68,7 +68,7 @@ $form->setTranslator($this->getTranslator());
 ```
 
 Passing parameters for Routers. Insert to configuration file this:
-```neon
+```yaml
 parameters:
 
 	# default translation
@@ -80,7 +80,7 @@ parameters:
 ```
 The parameters passed to router:
 
-```neon
+```yaml
 services:
 	router: RouterFactory::createRouter(%locale%, %locales%)
 ```
