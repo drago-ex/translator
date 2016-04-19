@@ -42,8 +42,7 @@ class Translator implements Nette\Localization\ITranslator
 			$count = 1;
 		}
 
-		$arr = $this->message[$message];
-		return isset($arr) ? $arr : $message;
+		return isset($this->message[$message]) ? $this->message[$message] : $message;
 	}
 
 }
