@@ -19,9 +19,13 @@ class Translator implements Nette\Localization\ITranslator
 	 */
 	private $message;
 
-	public function __construct($message)
+	public function __construct($path)
 	{
-		$this->message = $message;
+		if (!is_file($path)) {
+			throw new \Exception('Missing translation file in ' . $path);
+		}
+
+		$this->message = parse_ini_file($path);
 	}
 
 	/**
@@ -36,11 +40,8 @@ class Translator implements Nette\Localization\ITranslator
 			$count = 1;
 		}
 
-		if (isset($this->message[$message])) {
-			return $this->message[$message];
-		}
-
-		return $message;
+		$arr = $this->message[$message];
+		return isset($arr) ? $arr : $message;
 	}
 
 }
