@@ -19,8 +19,7 @@ use Drago\Localization\Translator;
  */
 public function getTranslator()
 {
-	$path = __DIR__ . '/localization.ini';
-	return new Translator($path);
+	return new Translator(__DIR__ . '/localization.ini);
 }
 ```
 
