@@ -5,7 +5,9 @@
  * Copyright (c) 2015, Zdeněk Papučík
  */
 namespace Drago\Localization;
+
 use Nette;
+use Exception;
 
 /**
  * Translator adapter.
@@ -22,7 +24,7 @@ class Translator implements Nette\Localization\ITranslator
 	public function __construct($path)
 	{
 		if (!is_file($path)) {
-			throw new \Exception('Missing translation file in ' . $path);
+			throw new Exception('Missing translation file in ' . $path);
 		}
 
 		$this->message = parse_ini_file($path);
