@@ -23,11 +23,12 @@ class Translator implements Nette\Localization\ITranslator
 
 	public function __construct($path)
 	{
-		if (!is_file($path)) {
-			throw new Exception('Missing translation file in ' . $path);
+		$file = $path . '.ini';
+		if (!is_file($file)) {
+			throw new Exception('Missing translation file in ' . $file);
 		}
 
-		$this->message = parse_ini_file($path);
+		$this->message = parse_ini_file($file);
 	}
 
 	/**
