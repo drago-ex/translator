@@ -48,10 +48,10 @@ Passing parameters for Routers. Insert to configuration file this:
 parameters:
 
 	# default translation
-	locale: 'en'
+	locale: 'cs'
 
 	# list of available translations
-	locales: 'en|de|cs'
+	locales: 'cs|en'
 
 ```
 
@@ -74,4 +74,10 @@ class RouterFactory
 		...
 	}
 }
+```
+
+Languages switch, add this to template:
+```latte
+<a n:href="this, 'lang' => 'cs'">Czech</a>
+<a n:href="this, 'lang' => 'en'">English</a>
 ```
