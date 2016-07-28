@@ -1,8 +1,11 @@
 ## Translator adapter
+
 Little translator for applications.
 
 ## Instruction
+
 Instructions on how to easily translate application.
+
 ```php
 /**
  * @var string
@@ -12,6 +15,7 @@ public $lang;
 ```
 
 Add this method to Presenter:
+
 ```php
 
 /**
@@ -24,11 +28,13 @@ public function getTranslator()
 ```
 
 Create in project localization.ini file and add your translation.
+
 ```ini
 hello.word = Hello Word
 ```
 
 To support translations in the template, use this:
+
 ```php
 protected function beforeRender()
 {
@@ -38,12 +44,15 @@ protected function beforeRender()
 ```
 
 In Templates using the underscore:
+
 ```latte
 {_'hello.word'}
 ```
 
 ## Translator route
+
 Passing parameters for Routers. Insert to configuration file this:
+
 ```yaml
 parameters:
 
@@ -56,12 +65,14 @@ parameters:
 ```
 
 The parameters passed to router:
+
 ```yaml
 services:
 	router: RouterFactory::createRouter(%locale%, %locales%)
 ```
 
 In this way we use route:
+
 ```php
 use Drago\Localization\Route as Lang;
 
@@ -77,6 +88,7 @@ class RouterFactory
 ```
 
 Languages switch, add this to template:
+
 ```latte
 <a n:href="this, 'lang' => 'cs'">Czech</a>
 <a n:href="this, 'lang' => 'en'">English</a>
