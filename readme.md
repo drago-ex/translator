@@ -22,15 +22,6 @@ public function getTranslator()
 }
 ```
 
-**TIP**
-
-You can translate the entire application with one language or translate the application
-as a parameter of the URL.
-
-```php
-$path = __DIR__ . '/' . $this->lang . '.ini';
-```
-
 Create in project localization.ini file and add your translation.
 ```ini
 hello.word = Hello Word
