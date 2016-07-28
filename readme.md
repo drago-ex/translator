@@ -23,6 +23,7 @@ public function getTranslator()
 ```
 
 **TIP**
+
 You can translate the entire application with one language or translate the application
 as a parameter of the URL.
 
