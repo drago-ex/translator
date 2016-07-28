@@ -10,6 +10,7 @@ Instructions on how to easily translate application.
  */
 public $lang;
 ```
+
 Add this method to Presenter:
 ```php
 
@@ -41,18 +42,7 @@ In Templates using the underscore:
 {_'hello.word'}
 ```
 
-Languages switch, add this to template:
-```latte
-<a n:href="this, 'lang' => 'en'">English</a>
-```
-
-Use translate with forms:
-```php
-// Forms
-$form = New Form;
-$form->setTranslator($this->getTranslator());
-```
-
+## Translator route
 Passing parameters for Routers. Insert to configuration file this:
 ```yaml
 parameters:
@@ -64,8 +54,8 @@ parameters:
 	locales: 'en|de|cs'
 
 ```
-The parameters passed to router:
 
+The parameters passed to router:
 ```yaml
 services:
 	router: RouterFactory::createRouter(%locale%, %locales%)
