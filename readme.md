@@ -12,18 +12,17 @@ public $lang;
 ```
 Add this method to Presenter:
 ```php
-use Drago\Localization\Translator;
 
 /**
  * @return Translator
  */
 public function getTranslator()
 {
-	return new Translator(__DIR__ . '/localization.ini);
+	return new Drago\Localization\Translator(__DIR__ . '/localization.ini);
 }
 ```
 
-**TIP:**
+**TIP**
 You can translate the entire application with one language or translate the application
 as a parameter of the URL.
 
