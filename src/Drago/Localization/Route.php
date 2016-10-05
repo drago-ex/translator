@@ -11,8 +11,10 @@ use Nette;
  * Settings the language for multiple-language website.
  * @author Zdeněk Papučík
  */
-class Route extends Nette\Object
+class Route
 {
+	use Nette\SmartObject;
+
 	/**
 	 * Method for languages route.
 	 * @param  string
