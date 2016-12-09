@@ -1,4 +1,4 @@
-## Translator adapter
+## Drago Translator
 
 Little translator for applications.
 
