@@ -1,5 +1,5 @@
 {
-	"name": "drago-fw/translator",
+	"name": "drago-ex/translator",
 	"type": "library",
 	"description": "Translator for applications",
 	"license": ["MIT"],
