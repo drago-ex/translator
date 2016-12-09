@@ -1,7 +1,7 @@
 <?php
 
 /**
- * This file is part of the Drago Framework
+ * Drago Translator, extending Nette Framework
  * Copyright (c) 2015, Zdeněk Papučík
  */
 namespace Drago\Localization;
