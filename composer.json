@@ -1,5 +1,8 @@
 {
 	"name": "drago-ex/translator",
+	"replace": {
+		"drago-fw/translator": "self.version"
+	},
 	"type": "library",
 	"description": "Translator for applications",
 	"license": ["MIT"],
