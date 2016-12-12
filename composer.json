@@ -14,7 +14,7 @@
 		"nette/utils": "~2.4.0"
 	},
 	"replace": {
-		"drago-fw/translator": "*"
+		"drago-fw/translator": "self.version"
 	},
 	"autoload": {
 		"classmap": ["src/"]
