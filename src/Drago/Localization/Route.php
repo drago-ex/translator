@@ -13,7 +13,7 @@ use Nette;
  */
 class Route
 {
-	use Nette\SmartObject;
+	use Nette\StaticClass;
 
 	/**
 	 * Method for languages route.
