@@ -1,6 +1,6 @@
 ## Drago Translator
 
-Little translator for applications.
+Little translator.
 
 ## Instruction
 
