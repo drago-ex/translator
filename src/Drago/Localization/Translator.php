@@ -15,6 +15,8 @@ use Exception;
  */
 class Translator implements Nette\Localization\ITranslator
 {
+	use Nette\SmartObject;
+
 	/**
 	 * List of words for translation.
 	 * @var array
