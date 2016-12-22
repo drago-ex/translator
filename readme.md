@@ -39,6 +39,8 @@ To support translations in the template, use this:
 protected function beforeRender()
 {
 	parent::beforeRender();
+	
+	// Translation template.
 	$this->template->setTranslator($this->getTranslator());
 }
 ```
@@ -51,37 +53,48 @@ In Templates using the underscore:
 
 ## Translator route
 
-Passing parameters for Routers. Insert to configuration file this:
-
-```yaml
-parameters:
-
-	# default translation
-	locale: 'cs'
-
-	# list of available translations
-	locales: 'cs|en'
-
-```
-
-The parameters passed to router:
+Passing parameters for Routers. Insert to configuration file (.neon) this:
 
 ```yaml
 services:
-	router: RouterFactory::createRouter(%locale%, %locales%)
+
+	# Settings router for multiple-language website.
+	- Drago\Localization\Localize('cs', 'cs|en|de')
+
 ```
 
 In this way we use route:
 
 ```php
-use Drago\Localization\Route as Lang;
-
 class RouterFactory
 {
-	public static function createRouter($locale, $locales)
+	use Nette\SmartObject;
+
+	/**
+	 * @var Drago\Localization\Localize
+	 */
+	private $localize;
+
+	public function __construct(Drago\Localization\Localize $localize)
 	{
-		$lang = Lang::locale($locale, $locales);
-		$router[] = new Route($lang . '<presenter>/<action>[/<id>]', 'Presenter:action');
+		$this->localize = $localize;
+	}
+
+	/**
+	 * Route language.
+	 * @return string
+	 */
+	private function locale()
+	{
+		return $this->localize->locale();
+	}
+
+	/**
+	 * @return Nette\Application\IRouter
+	 */
+	public function createRouter()
+	{
+		$router[] = new Route($this->locale() . '<presenter>/<action>[/<id>]', 'Presenter:action');
 		...
 	}
 }
