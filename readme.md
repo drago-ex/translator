@@ -29,7 +29,6 @@ hello.word = Hello Word
 Add this method to Presenter:
 
 ```php
-
 /**
  * @return Translator
  */
