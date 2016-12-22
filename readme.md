@@ -2,7 +2,7 @@
 
 Little translator.
 
-## Presenter
+## Parameter language
 
 The presenter must create this public variable that gives us the current language parameter:
 
@@ -22,7 +22,9 @@ Create in project localization.ini file and add your translation.
 hello.word = Hello Word
 ```
 
-This will create methods in the presenter that we get a array of translation:
+## The method, which returns us to array of translation
+
+This method will create the presenter:
 
 ```php
 /**
@@ -33,6 +35,8 @@ public function getTranslator()
 	return new Drago\Localization\Translator(__DIR__ . '/localization.ini);
 }
 ```
+
+## Translation templates
 
 To support translations in the template, use this:
 
@@ -53,6 +57,15 @@ The template displays the translation follows:
 
 ```latte
 {_'hello.word'}
+```
+
+## Translation form
+
+To translate the forms using this method:
+
+```php
+$form->setTranslator($this->getTranslator());
+$form->addText('hello', 'hello.word');
 ```
 
 ## Edit route
