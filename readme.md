@@ -26,7 +26,7 @@ Create in project localization.ini file and add your translation.
 hello.word = Hello Word
 ```
 
-Add this method to Presenter:
+This will create methods in the presenter that we get a array of translation:
 
 ```php
 /**
