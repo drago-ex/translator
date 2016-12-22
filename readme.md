@@ -70,13 +70,13 @@ $form->addText('hello', 'hello.word');
 
 ## Edit route
 
-Do we need to add rue settings for languages:
+Do we need to add route settings for languages:
 
 ```php
 $router[] = new Route('[<lang cs|en>/]<presenter>/<action>', 'Homepage:default');
 ```
 
-## Languages switch, add this to template:
+## Languages switch, add this to template
 
 ```latte
 <a n:href="this, 'lang' => 'cs'">Czech</a>
