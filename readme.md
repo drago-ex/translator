@@ -6,12 +6,25 @@ Little translator.
 
 Instructions on how to easily translate application.
 
+## Presenter
+
+The presenter must create this public variable. The presenter must create
+this public variable that gives us the current language parameter.
+
 ```php
 /**
  * @var string
  * @persistent
  */
 public $lang;
+```
+
+## Language file
+
+Create in project localization.ini file and add your translation.
+
+```ini
+hello.word = Hello Word
 ```
 
 Add this method to Presenter:
@@ -27,19 +40,13 @@ public function getTranslator()
 }
 ```
 
-Create in project localization.ini file and add your translation.
-
-```ini
-hello.word = Hello Word
-```
-
 To support translations in the template, use this:
 
 ```php
 protected function beforeRender()
 {
 	parent::beforeRender();
-	
+
 	// Translation template.
 	$this->template->setTranslator($this->getTranslator());
 }
