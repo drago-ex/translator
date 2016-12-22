@@ -2,13 +2,9 @@
 
 Little translator.
 
-## Instruction
-
-Instructions on how to easily translate application.
-
 ## Presenter
 
-The presenter must create this public variable that gives us the current language parameter.
+The presenter must create this public variable that gives us the current language parameter:
 
 ```php
 /**
@@ -45,6 +41,9 @@ protected function beforeRender()
 {
 	parent::beforeRender();
 
+	// Add to template language.
+	$this->template->lang = $this->lang;
+
 	// Translation template.
 	$this->template->setTranslator($this->getTranslator());
 }
@@ -56,56 +55,15 @@ The template displays the translation follows:
 {_'hello.word'}
 ```
 
-## Translator route
+## Edit route
 
-Passing parameters for Routers. Insert to configuration file (.neon) this:
-
-```yaml
-services:
-
-	# Settings router for multiple-language website.
-	- Drago\Localization\Localize('cs', 'cs|en|de')
-
-```
-
-In this way we use route:
+Do we need to add rue settings for languages:
 
 ```php
-class RouterFactory
-{
-	use Nette\SmartObject;
-
-	/**
-	 * @var Drago\Localization\Localize
-	 */
-	private $localize;
-
-	public function __construct(Drago\Localization\Localize $localize)
-	{
-		$this->localize = $localize;
-	}
-
-	/**
-	 * Route language.
-	 * @return string
-	 */
-	private function locale()
-	{
-		return $this->localize->locale();
-	}
-
-	/**
-	 * @return Nette\Application\IRouter
-	 */
-	public function createRouter()
-	{
-		$router[] = new Route($this->locale() . '<presenter>/<action>[/<id>]', 'Presenter:action');
-		...
-	}
-}
+$router[] = new Route('[<lang cs|en>/]<presenter>/<action>', 'Homepage:default');
 ```
 
-Languages switch, add this to template:
+## Languages switch, add this to template:
 
 ```latte
 <a n:href="this, 'lang' => 'cs'">Czech</a>
