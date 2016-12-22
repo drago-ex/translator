@@ -28,7 +28,7 @@ This method will create the presenter:
 
 ```php
 /**
- * @return Translator
+ * @return Drago\Localization\Translator
  */
 public function getTranslator()
 {
