@@ -45,7 +45,7 @@ protected function beforeRender()
 }
 ```
 
-In Templates using the underscore:
+The template displays the translation follows:
 
 ```latte
 {_'hello.word'}
