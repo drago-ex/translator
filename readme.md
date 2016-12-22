@@ -8,8 +8,7 @@ Instructions on how to easily translate application.
 
 ## Presenter
 
-The presenter must create this public variable. The presenter must create
-this public variable that gives us the current language parameter.
+The presenter must create this public variable that gives us the current language parameter.
 
 ```php
 /**
