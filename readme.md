@@ -87,7 +87,7 @@ class RouterFactory
 
 	/**
 	 * Route language.
-	 * @return string [<lang=cs cs|en|de>/]
+	 * @return string
 	 */
 	private function locale()
 	{
