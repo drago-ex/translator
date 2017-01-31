@@ -1,7 +1,7 @@
 {
 	"name": "drago-ex/translator",
 	"type": "library",
-	"description": "Translator for applications",
+	"description": "Translator for applications.",
 	"license": ["MIT"],
 	"authors": [
 		{
