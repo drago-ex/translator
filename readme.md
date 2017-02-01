@@ -82,36 +82,3 @@ $router[] = new Route('[<lang cs|en>/]<presenter>/<action>', 'Presenter:action')
 <a n:href="this, 'lang' => 'cs'">Czech</a>
 <a n:href="this, 'lang' => 'en'">English</a>
 ```
-## Tip for route
-
-If you have more route and know that it will add another translation, 
-will you throw this simple tip for editing route for translation.
-
-In the configuration file, specify this parameter.
-
-```yaml
-parameters:
-
-	# route for translation
-	routers: '[<lang cs|en>/]'
-
-services:
-
-	# transmission parameters for route
-	router: Router::create(%routers%)
-```
-
-And then modify the class itself:
-
-```php
-class Router
-{
-	public static function create($locales)
-	{
-		$router   = new RouteList;
-		$router[] = new Route($locales . '<presenter>/<action>', 'Presenter:action');
-		return $router;
-	}
-
-}
-```
