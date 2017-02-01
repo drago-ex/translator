@@ -82,3 +82,41 @@ $router[] = new Route('[<lang cs|en>/]<presenter>/<action>', 'Presenter:action')
 <a n:href="this, 'lang' => 'cs'">Czech</a>
 <a n:href="this, 'lang' => 'en'">English</a>
 ```
+## Tip for route
+
+If you have more route and know that it will add another translation, 
+will you throw this simple tip for editing route for translation.
+
+In the configuration file, specify this parameter.
+
+```yaml
+parameters:
+
+	# route for translation
+	routers: '[<lang cs|en>/]'
+
+services:
+
+	# transmission parameters for route
+	router: App\RouterFactory::createRouter(%routers%)
+```
+
+And then modify the class itself:
+
+```php
+class RouterFactory
+{
+	use Nette\StaticClass;
+
+	/**
+	 * @return Nette\Application\IRouter
+	 */
+	public static function createRouter($locales)
+	{
+		$router = new RouteList;
+		$router[] = new Route($locales . '<presenter>/<action>', 'Homepage:default');
+		return $router;
+	}
+
+}
+```
