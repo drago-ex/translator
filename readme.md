@@ -98,23 +98,18 @@ parameters:
 services:
 
 	# transmission parameters for route
-	router: App\RouterFactory::createRouter(%routers%)
+	router: Router::create(%routers%)
 ```
 
 And then modify the class itself:
 
 ```php
-class RouterFactory
+class Router
 {
-	use Nette\StaticClass;
-
-	/**
-	 * @return Nette\Application\IRouter
-	 */
-	public static function createRouter($locales)
+	public static function create($locales)
 	{
-		$router = new RouteList;
-		$router[] = new Route($locales . '<presenter>/<action>', 'Homepage:default');
+		$router   = new RouteList;
+		$router[] = new Route($locales . '<presenter>/<action>', 'Presenter:action');
 		return $router;
 	}
 
