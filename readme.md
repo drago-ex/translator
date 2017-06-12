@@ -1,5 +1,7 @@
 ## Drago Translator
 
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/014959b4bea44e7eae6c0d9beb5102e9)](https://www.codacy.com/app/zdenek.papucik/translator?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=drago-ex/translator&amp;utm_campaign=Badge_Grade)
+
 Little translator.
 
 ## Parameter language
