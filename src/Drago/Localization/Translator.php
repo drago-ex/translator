@@ -38,7 +38,6 @@ class Translator implements Nette\Localization\ITranslator
 		if (!is_file($filename)) {
 			throw new Exception('Missing translation file in ' . $filename);
 		}
-
 		return parse_ini_file($filename);
 	}
 
@@ -53,7 +52,6 @@ class Translator implements Nette\Localization\ITranslator
 		if ($count === NULL) {
 			$count = 1;
 		}
-
 		return isset($this->message[$message]) ? $this->message[$message] : $message;
 	}
 
