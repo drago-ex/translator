@@ -10,7 +10,7 @@ use Nette;
 use Exception;
 
 /**
- * Translator adapter.
+ * Little translator.
  * @author Zdeněk Papučík
  */
 class Translator implements Nette\Localization\ITranslator
