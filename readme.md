@@ -2,12 +2,11 @@
 
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/c816f793fb404487ad7a565c4374ae74)](https://www.codacy.com/app/accgit/translator?utm_source=github.com&utm_medium=referral&utm_content=drago-ex/translator&utm_campaign=badger)
 
-
 Little translator.
 
 ## Parameter language
 
-The presenter must create this public variable that gives us the current language parameter:
+We put this parameter into Presenter so we know what translation to use:
 
 ```php
 /**
@@ -25,9 +24,7 @@ Create in project localization.ini file and add your translation.
 hello.word = Hello Word
 ```
 
-## The method, which returns us to array of translation
-
-This method will create the presenter:
+## We'll get the translation as an array
 
 ```php
 /**
@@ -39,9 +36,7 @@ public function getTranslator()
 }
 ```
 
-## Translation templates
-
-To support translations in the template, use this:
+## Translation in templates
 
 ```php
 protected function beforeRender()
@@ -56,7 +51,7 @@ protected function beforeRender()
 }
 ```
 
-The template displays the translation follows:
+Macro for translation in template:
 
 ```latte
 {_'hello.word'}
@@ -64,22 +59,18 @@ The template displays the translation follows:
 
 ## Translation form
 
-To translate the forms using this method:
-
 ```php
 $form->setTranslator($this->getTranslator());
 $form->addText('hello', 'hello.word');
 ```
 
-## Edit route
-
-Do we need to add route settings for languages:
+## Edit routes
 
 ```php
 $router[] = new Route('[<lang cs|en>/]<presenter>/<action>', 'Presenter:action');
 ```
 
-## Languages switch, add this to template
+## Switch language in template
 
 ```latte
 <a n:href="this, 'lang' => 'cs'">Czech</a>
