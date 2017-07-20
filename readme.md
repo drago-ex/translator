@@ -36,7 +36,7 @@ public function getTranslator()
 }
 ```
 
-## Translation in templates
+##  Translation in templates
 
 ```php
 protected function beforeRender()
@@ -51,7 +51,7 @@ protected function beforeRender()
 }
 ```
 
-Macro for translation in template:
+##  Macro for translation in template
 
 ```latte
 {_'hello.word'}
