@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Extending for Nette Framework.
+ * Extending for Nette Framework
  * Copyright (c) 2015, Zdeněk Papučík
  */
 namespace Drago\Localization;
@@ -18,7 +18,6 @@ class Translator implements Nette\Localization\ITranslator
 	use Nette\SmartObject;
 
 	/**
-	 * List of words for translation.
 	 * @var array
 	 */
 	private $message;
@@ -30,7 +29,7 @@ class Translator implements Nette\Localization\ITranslator
 
 	/**
 	 * Parse ini file.
-	 * @param  string
+	 * @param string
 	 * @return array
 	 */
 	private function parse($filename)
@@ -43,8 +42,8 @@ class Translator implements Nette\Localization\ITranslator
 
 	/**
 	 * Translates the given string.
-	 * @param  string
-	 * @param  int
+	 * @param string
+	 * @param int
 	 * @return string
 	 */
 	public function translate($message, $count = NULL)
