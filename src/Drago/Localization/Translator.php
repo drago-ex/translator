@@ -51,9 +51,7 @@ class Translator implements Nette\Localization\ITranslator
 		if ($count === NULL) {
 			$count = 1;
 		}
-		$found = $this->message[$message];
-		$translate = isset($found) ? $found : $message;
-		return $translate;
+		return isset($this->message[$message]) ? $this->message[$message] : $message;
 	}
 
 }
