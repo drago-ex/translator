@@ -11,7 +11,6 @@ use Exception;
 
 /**
  * Little translator.
- * @author Zdeněk Papučík
  */
 class Translator implements Nette\Localization\ITranslator
 {
