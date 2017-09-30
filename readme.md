@@ -23,7 +23,7 @@ hello.world = Ahoj světe
 
 ## Zpracování souboru s překladem
 
-V presenteru vytvoříme metodu, které předáme souboru s překladem dle aktuálního parametru jazyka.
+V presenteru vytvoříme metodu, které předáme soubor s překladem dle aktuálního parametru jazyka.
 
 ```php
 /**
