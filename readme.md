@@ -2,75 +2,75 @@
 
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/c816f793fb404487ad7a565c4374ae74)](https://www.codacy.com/app/accgit/translator?utm_source=github.com&utm_medium=referral&utm_content=drago-ex/translator&utm_campaign=badger)
 
-Little translator.
+Malý jednoduchý překladač.
 
-## Parameter language
+## Jak začít
 
-We put this parameter into Presenter so we know what translation to use:
+V balíčku se nachází traita Locales, kterou přidáme do presenteru, abychom měli přístup k parametru
+jazyka $this->lang a metodě, které předáme soubor s překladem.
 
 ```php
-/**
- * @var string
- * @persistent
- */
-public $lang;
+use Drago\Localization\Locales
 ```
 
-## Language file
+## Vytvoření souboru s překladem
 
-Create in project localization.ini file and add your translation.
+V projektu vytvoříme soubory s názvem cs.ini, en.ini ve kterých si nadefinujeme potřebný překlad.
 
 ```ini
-hello.word = Hello Word
+hello.world = Ahoj světe
 ```
 
-## We'll get the translation as an array
+## Zpracování souboru s překladem
+
+V presenteru vytvoříme metodu, které předáme souboru s překladem dle aktuálního parametru jazyka.
 
 ```php
 /**
- * @return Drago\Localization\Translator
+ * Překlad aplikace dle aktuálního parametru jazyka.
+ * @return array
  */
-public function getTranslator()
+public function translate()
 {
-	return new Drago\Localization\Translator(__DIR__ . '/localization.ini);
+	return $this->getTranslator(__DIR__ . '/locales/' . $this->lang . '.ini');
 }
 ```
 
-##  Translation in templates
+## Nastavení překladu pro šablony
 
 ```php
 protected function beforeRender()
 {
 	parent::beforeRender();
 
-	// Add to template language.
+	// Aktuální parametr jazyka.
 	$this->template->lang = $this->lang;
 
-	// Translation template.
-	$this->template->setTranslator($this->getTranslator());
+	// Překlad pro šablony.
+	$this->template->setTranslator($this->translate());
 }
 ```
 
-##  Macro for translation in template
+## Makro pro výpis překladů v šablonách
 
 ```latte
-{_'hello.word'}
+{_'hello.world'}
 ```
 
-## Translation form
+## Překlad formulářů
 
 ```php
-$form->setTranslator($this->getTranslator());
-$form->addText('hello', 'hello.word');
+$form->setTranslator($this->translate());
+$form->addText('hello', 'hello.world');
 ```
 
-## Edit routes
+## Routa pro jednotlivé překlady
 
 ```php
 $router[] = new Route('[<lang cs|en>/]<presenter>/<action>', 'Presenter:action');
 ```
 
-## Switch language in template
+## Přepínání mezi jednotlivými jazyky
 
 ```latte
 <a n:href="this, 'lang' => 'cs'">Czech</a>
