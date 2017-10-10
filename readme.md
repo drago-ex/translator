@@ -4,6 +4,17 @@
 
 Malý jednoduchý překladač.
 
+## Požadavky
+
+- PHP 7.0.8 nebo vyšší
+- composer
+
+## Instalace
+
+```
+composer require drago-ex/translator
+```
+
 ## Jak začít
 
 V balíčku se nachází traita Locales, kterou přidáme do presenteru, abychom měli přístup k parametru
