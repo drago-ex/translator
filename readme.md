@@ -74,12 +74,6 @@ $form->setTranslator($this->translate());
 $form->addText('hello', 'hello.world');
 ```
 
-## Routa s výchozím nastavením překladu
-
-```
-[<lang=cs>/]
-```
-
 ## Routa pro jednotlivé překlady
 
 ```
