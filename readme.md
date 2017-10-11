@@ -17,24 +17,23 @@ composer require drago-ex/translator
 
 ## Jak začít
 
-V balíčku se nachází traita Locales, kterou přidáme do presenteru, abychom měli přístup k parametru
-jazyka $this->lang a metodě, které předáme soubor s překladem.
+Najdeme traitu Locales a přídáme ji do base presenteru.
 
 ```php
 use Drago\Localization\Locales
 ```
 
-## Vytvoření souboru s překladem
+## Vytváření souborů s překladem
 
-V projektu vytvoříme soubory s názvem cs.ini, en.ini ve kterých si nadefinujeme potřebný překlad.
+Kdekoliv v projektu vytvoříme soubor s názvem cs.ini ve kterém si nadefinujeme potřebný překlad.
 
 ```ini
 hello.world = Ahoj světe
 ```
 
-## Zpracování souboru s překladem
+## Zpracování souborů s překladem
 
-V presenteru vytvoříme metodu, které předáme soubor s překladem dle aktuálního parametru jazyka.
+V presenteru vytvoříme níže uvedenou metodu, a zadáme cestu k souborům s překladem.
 
 ```php
 /**
@@ -43,7 +42,7 @@ V presenteru vytvoříme metodu, které předáme soubor s překladem dle aktuá
  */
 public function translate()
 {
-	return $this->getTranslator(__DIR__ . '/locales/' . $this->lang . '.ini');
+	return $this->getTranslator(__DIR__ . '/' . $this->lang . '.ini');
 }
 ```
 
@@ -62,23 +61,29 @@ protected function beforeRender()
 }
 ```
 
-## Makro pro výpis překladů v šablonách
+## Pro výpis překladů v šablonách použijeme toto makro
 
 ```latte
 {_'hello.world'}
 ```
 
-## Překlad formulářů
+## Překlad pro formuláře
 
 ```php
 $form->setTranslator($this->translate());
 $form->addText('hello', 'hello.world');
 ```
 
+## Routa s výchozím nastavením překladu
+
+```
+[<lang=cs>/]
+```
+
 ## Routa pro jednotlivé překlady
 
-```php
-$router[] = new Route('[<lang cs|en>/]<presenter>/<action>', 'Presenter:action');
+```
+[<lang cs|en>/]
 ```
 
 ## Přepínání mezi jednotlivými jazyky
