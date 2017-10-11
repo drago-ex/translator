@@ -33,7 +33,7 @@ hello.world = Ahoj světe
 
 ## Zpracování souborů s překladem
 
-V presenteru vytvoříme níže uvedenou metodu, a zadáme cestu k souborům s překladem.
+V presenteru vytvoříme níže uvedenou metodu, a přidáme cestu k souborům s překladem.
 
 ```php
 /**
