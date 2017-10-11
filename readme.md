@@ -76,8 +76,8 @@ $form->addText('hello', 'hello.world');
 
 ## Routa pro jednotlivé překlady
 
-```
-[<lang cs|en>/]
+```php
+$router[] = new Route('[<lang cs|en>/]<presenter>/<action>', 'Presenter:action');
 ```
 
 ## Přepínání mezi jednotlivými jazyky
