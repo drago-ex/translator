@@ -17,7 +17,7 @@ composer require drago-ex/translator
 
 ## Jak začít
 
-Najdeme traitu Locales a přídáme ji do base presenteru.
+Níže uvedenou traitu vložíme do base presenteru.
 
 ```php
 use Drago\Localization\Locales
