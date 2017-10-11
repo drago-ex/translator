@@ -61,7 +61,7 @@ protected function beforeRender()
 }
 ```
 
-## Pro výpis překladů v šablonách použijeme toto makro
+## Makro pro výpis překladů v šablonách
 
 ```latte
 {_'hello.world'}
