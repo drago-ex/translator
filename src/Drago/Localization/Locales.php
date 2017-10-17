@@ -8,7 +8,7 @@ namespace Drago\Localization;
 use Drago\Localization\Translator;
 
 /**
- * Malý jednoduchý překladač.
+ * Simple translator.
  */
 trait Locales
 {

@@ -2,42 +2,42 @@
 
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/c816f793fb404487ad7a565c4374ae74)](https://www.codacy.com/app/accgit/translator?utm_source=github.com&utm_medium=referral&utm_content=drago-ex/translator&utm_campaign=badger)
 
-Simple translator.
+Malý jednoduchý překladač.
 
-## Requirements
+## Požadavky
 
-- PHP 7.0.8 or higher
+- PHP 7.0.8 nebo vyšší
 - composer
 
-## Installation
+## Instalace
 
 ```
 composer require drago-ex/translator
 ```
 
-## How to begin
+## Jak začít
 
-Put the trait into the presenter base.
+Níže uvedenou traitu vložíme do base presenteru.
 
 ```php
 use Drago\Localization\Locales
 ```
 
-## Creating translation files
+## Vytváření souborů s překladem
 
-Anywhere in a project we create a file called cs.ini in which we will define the necessary translation.
+Kdekoliv v projektu vytvoříme soubor s názvem cs.ini ve kterém si nadefinujeme potřebný překlad.
 
 ```ini
-hello.world = Hello world
+hello.world = Ahoj světe
 ```
 
-## Processing files with translation
+## Zpracování souborů s překladem
 
-In the Presenter, we create the method below and add the path to the translation files.
+V presenteru vytvoříme níže uvedenou metodu, a přidáme cestu k souborům s překladem.
 
 ```php
 /**
- * Translation of the application according to the current language parameter.
+ * Překlad aplikace dle aktuálního parametru jazyka.
  * @return array
  */
 public function translate()
@@ -46,41 +46,41 @@ public function translate()
 }
 ```
 
-## Set translation for templates
+## Nastavení překladu pro šablony
 
 ```php
 protected function beforeRender()
 {
 	parent::beforeRender();
 
-	// The current language parameter.
+	// Aktuální parametr jazyka.
 	$this->template->lang = $this->lang;
 
-	// Translation for Templates.
+	// Překlad pro šablony.
 	$this->template->setTranslator($this->translate());
 }
 ```
 
-## Macro for translation in template
+## Makro pro překlad v šabloně
 
 ```latte
 {_'hello.world'}
 ```
 
-## Translation for forms
+## Překlad pro formuláře
 
 ```php
 $form->setTranslator($this->translate());
 $form->addText('hello', 'hello.world');
 ```
 
-## Route for translations
+## Routa pro překlady
 
 ```php
 $router[] = new Route('[<lang cs|en>/]<presenter>/<action>', 'Presenter:action');
 ```
 
-## Switching languages
+## Přepínání jazyků
 
 ```latte
 <a n:href="this, 'lang' => 'cs'">Czech</a>

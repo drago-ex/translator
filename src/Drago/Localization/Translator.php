@@ -10,13 +10,13 @@ use Nette;
 use Exception;
 
 /**
- * Malý jednoduchý překladač.
+ * Simple translator.
  */
 class Translator implements Nette\Localization\ITranslator
 {
 	use Nette\SmartObject;
 
-	// Zpráva pro výjimku.
+	// Exception message.
 	const FILE_NOT_FOUND = 'The translation file was not found.';
 
 	/**
@@ -42,7 +42,7 @@ class Translator implements Nette\Localization\ITranslator
 	}
 
 	/**
-	 * Přeloží daný řetězec.
+	 * Translates the given string.
 	 * @param string
 	 * @param int
 	 * @return string
