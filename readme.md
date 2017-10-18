@@ -25,7 +25,7 @@ use Drago\Localization\Locales
 
 ## Creating translation files
 
-Anywhere in a project we create a file called cs.ini in which we will define the necessary translation.
+Anywhere in a project we create a file called en.ini in which we will define the necessary translation.
 
 ```ini
 hello.world = Hello world
