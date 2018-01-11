@@ -22,7 +22,7 @@ trait Locales
 	 * @param string
 	 * @return Translator
 	 */
-	public function translator($filename)
+	public function createTranslator($filename)
 	{
 		return new Translator($filename);
 	}
