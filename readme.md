@@ -48,16 +48,12 @@ protected function translate(): array
 ## Set translation for templates
 
 ```php
-protected function beforeRender(): void
-{
-	parent::beforeRender();
 
-	// The current language parameter.
-	$this->template->lang = $this->lang;
+// The current language parameter.
+$this->template->lang = $this->lang;
 
-	// Translation for Templates.
-	$this->template->setTranslator($this->translate());
-}
+// Translation for Templates.
+$this->template->setTranslator($this->translate());
 ```
 
 ## Macro for translation in template
