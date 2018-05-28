@@ -21,7 +21,9 @@ trait Locales
 	 */
 	public $lang;
 
-
+	/**
+	 * Create a translation.
+	 */
 	public function createTranslator(string $filename): Translator
 	{
 		return new Translator($filename);

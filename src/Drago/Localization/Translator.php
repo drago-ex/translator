@@ -19,18 +19,15 @@ class Translator implements Nette\Localization\ITranslator
 {
 	use Nette\SmartObject;
 
-	// Exception message.
-	private const FILE_NOT_FOUND = 'The translation file was not found.';
-
-	/** @var array */
+	/**
+	 * @var array
+	 */
 	private $message;
 
-
-	public function __construct($filename)
+	public function __construct(string $filename)
 	{
 		$this->message = $this->parse($filename);
 	}
-
 
 	/**
 	 * Processing translate file.
@@ -38,11 +35,10 @@ class Translator implements Nette\Localization\ITranslator
 	private function parse(string $filename): array
 	{
 		if (!is_file($filename)) {
-			throw new Exception(self::FILE_NOT_FOUND);
+			throw new Exception('The translation file was not found.');
 		}
 		return parse_ini_file($filename);
 	}
-
 
 	/**
 	 * The translation itself by the key.
