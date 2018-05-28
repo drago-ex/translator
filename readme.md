@@ -38,9 +38,8 @@ In the Presenter, we create the method below and add the path to the translation
 ```php
 /**
  * Translation of the application according to the current language parameter.
- * @return array
  */
-public function translate()
+protected function translate(): array
 {
 	return $this->createTranslator(__DIR__ . '/' . $this->lang . '.ini');
 }
@@ -49,7 +48,7 @@ public function translate()
 ## Set translation for templates
 
 ```php
-protected function beforeRender()
+protected function beforeRender(): void
 {
 	parent::beforeRender();
 
