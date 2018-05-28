@@ -48,7 +48,6 @@ protected function translate(): array
 ## Set translation for templates
 
 ```php
-
 // The current language parameter.
 $this->template->lang = $this->lang;
 
