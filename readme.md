@@ -6,7 +6,7 @@ Simple translator.
 
 ## Requirements
 
-- PHP 7.0.8 or higher
+- PHP 7.1 or higher
 - composer
 
 ## Installation
@@ -17,7 +17,7 @@ composer require drago-ex/translator
 
 ## How to begin
 
-Put the trait into the presenter base.
+Put the trait into the presenter.
 
 ```php
 use Drago\Localization\Locales
@@ -42,7 +42,7 @@ In the Presenter, we create the method below and add the path to the translation
  */
 public function translate()
 {
-	return $this->getTranslator(__DIR__ . '/' . $this->lang . '.ini');
+	return $this->createTranslator(__DIR__ . '/' . $this->lang . '.ini');
 }
 ```
 

@@ -1,5 +1,8 @@
 <?php
 
+// Enable strict mode.
+declare(strict_types = 1);
+
 /**
  * Drago Translator
  * Copyright (c) 2015, Zdeněk Papučík
@@ -17,23 +20,22 @@ class Translator implements Nette\Localization\ITranslator
 	use Nette\SmartObject;
 
 	// Exception message.
-	const FILE_NOT_FOUND = 'The translation file was not found.';
+	private const FILE_NOT_FOUND = 'The translation file was not found.';
 
-	/**
-	 * @var array
-	 */
+	/** @var array */
 	private $message;
+
 
 	public function __construct($filename)
 	{
 		$this->message = $this->parse($filename);
 	}
 
+
 	/**
-	 * @param string
-	 * @return array
+	 * Processing translate file.
 	 */
-	private function parse($filename)
+	private function parse(string $filename): array
 	{
 		if (!is_file($filename)) {
 			throw new Exception(self::FILE_NOT_FOUND);
@@ -41,13 +43,11 @@ class Translator implements Nette\Localization\ITranslator
 		return parse_ini_file($filename);
 	}
 
+
 	/**
-	 * Translates the given string.
-	 * @param string
-	 * @param int
-	 * @return string
+	 * The translation itself by the key.
 	 */
-	public function translate($message, $count = null)
+	public function translate(string $message, int $count = null): string
 	{
 		if ($count === null) {
 			$count = 1;
