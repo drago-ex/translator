@@ -1,8 +1,5 @@
 <?php
 
-// Enable strict mode.
-declare(strict_types = 1);
-
 /**
  * Drago Translator
  * Copyright (c) 2015, Zdeněk Papučík
@@ -24,15 +21,18 @@ class Translator implements Nette\Localization\ITranslator
 	 */
 	private $message;
 
-	public function __construct(string $filename)
+	public function __construct($filename)
 	{
 		$this->message = $this->parse($filename);
 	}
 
 	/**
 	 * Processing translate file.
+	 * @param string $filename
+	 * @return array
+	 * @throws Exception
 	 */
-	private function parse(string $filename): array
+	private function parse($filename)
 	{
 		if (!is_file($filename)) {
 			throw new Exception('The translation file was not found.');
@@ -42,8 +42,11 @@ class Translator implements Nette\Localization\ITranslator
 
 	/**
 	 * The translation itself by the key.
+	 * @param string $message
+	 * @param int $count
+	 * @return string
 	 */
-	public function translate(string $message, int $count = null): string
+	public function translate($message, $count = null)
 	{
 		if ($count === null) {
 			$count = 1;

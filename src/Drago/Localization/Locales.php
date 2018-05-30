@@ -1,8 +1,5 @@
 <?php
 
-// Enable strict mode.
-declare(strict_types = 1);
-
 /**
  * Drago Translator
  * Copyright (c) 2015, Zdeněk Papučík
@@ -23,8 +20,10 @@ trait Locales
 
 	/**
 	 * Create a translation.
+	 * @param string $filename
+	 * @return Translator
 	 */
-	public function createTranslator(string $filename): Translator
+	public function createTranslator($filename)
 	{
 		return new Translator($filename);
 	}
