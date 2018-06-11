@@ -10,7 +10,7 @@ use Drago\Localization\Translator;
 /**
  * Simple translator.
  */
-trait Locales
+trait Locale
 {
 	/**
 	 * @persistent
