@@ -38,8 +38,9 @@ In the Presenter, we create the method below and add the path to the translation
 ```php
 /**
  * Translation of the application according to the current language parameter.
+ * @return array
  */
-protected function translate(): array
+protected function translate()
 {
 	return $this->createTranslator(__DIR__ . '/' . $this->lang . '.ini');
 }
