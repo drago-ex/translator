@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 /**
  * Drago Translator
  * Copyright (c) 2015, Zdeněk Papučík
@@ -16,12 +18,9 @@ trait TranslateControl
 	 */
 	public $translation;
 
-	/**
-	 * @param array $translation
-	 */
-	public function setTranslator($translation)
+
+	public function setTranslator(array $translation)
 	{
 		$this->translation = $translation;
 	}
-
 }

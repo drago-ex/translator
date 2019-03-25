@@ -1,11 +1,12 @@
 <?php
 
+declare(strict_types = 1);
+
 /**
  * Drago Translator
  * Copyright (c) 2015, Zdeněk Papučík
  */
 namespace Drago\Localization;
-use Drago\Localization\Translator;
 
 /**
  * Simple translator.
@@ -18,14 +19,12 @@ trait Locale
 	 */
 	public $lang;
 
+
 	/**
 	 * Create a translation.
-	 * @param string $filename
-	 * @return Translator
 	 */
-	public function createTranslator($filename)
+	public function createTranslator(string $filename): Translator
 	{
 		return new Translator($filename);
 	}
-
 }
