@@ -1,8 +1,10 @@
-<?php declare(strict_types = 1);
+<?php
+
+declare(strict_types = 1);
 
 /**
- * Drago Translator
- * Copyright (c) 2015, Zdeněk Papučík
+ * Drago Localization
+ * Package built on Nette Framework
  */
 namespace Drago\Localization;
 
@@ -11,6 +13,7 @@ use Exception;
 
 /**
  * Simple translator.
+ * @package Drago\Localization
  */
 class Translator implements Nette\Localization\ITranslator
 {
