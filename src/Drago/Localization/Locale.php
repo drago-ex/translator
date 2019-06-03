@@ -1,13 +1,14 @@
 <?php declare(strict_types = 1);
 
 /**
- * Drago Translator
- * Copyright (c) 2015, Zdeněk Papučík
+ * Drago Localization
+ * Package built on Nette Framework
  */
 namespace Drago\Localization;
 
 /**
  * Simple translator.
+ * @package Drago\Localization
  */
 trait Locale
 {
