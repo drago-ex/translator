@@ -17,11 +17,11 @@ trait TranslateControl
 	/**
 	 * @var Translator
 	 */
-	public $translation;
+	public $translator;
 
 
-	public function setTranslator(array $translation)
+	public function setTranslator(Translator $translator)
 	{
-		$this->translation = $translation;
+		$this->translator = $translator;
 	}
 }
