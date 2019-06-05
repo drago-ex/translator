@@ -24,6 +24,7 @@ class Translator implements Nette\Localization\ITranslator
 	 */
 	private $message;
 
+
 	public function __construct(string $filename)
 	{
 		$this->message = $this->parse($filename);
@@ -42,10 +43,11 @@ class Translator implements Nette\Localization\ITranslator
 		return parse_ini_file($filename);
 	}
 
+
 	/**
 	 * Translates the given string.
 	 */
-	function translate($message, array ...$parameters): string
+	function translate($message, ...$parameters): string
 	{
 		return isset($this->message[$message]) ? $this->message[$message] : $message;
 	}
