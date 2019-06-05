@@ -18,7 +18,7 @@ composer require drago-ex/translator
 Put the trait into the presenter.
 
 ```php
-use Drago\Localization\Locales
+use Drago\Localization\Locale
 ```
 
 ## Creating translation files
