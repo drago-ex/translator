@@ -34,7 +34,7 @@ hello.world = Hello, world'!'
 In the Presenter, we create the method below and add the path to the translation files.
 
 ```php
-protected function getTranslator(): array
+protected function getTranslator(): Translator
 {
 	return $this->createTranslator(__DIR__ . '/' . $this->lang . '.ini');
 }
