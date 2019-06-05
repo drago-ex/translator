@@ -66,7 +66,7 @@ $form->addText('hello', 'hello.world');
 ## Route for translation
 
 ```php
-$router[] = new Route('[<lang cs|en>/]<presenter>/<action>', 'Presenter:action');
+$router->addRoute('[<lang cs|en>/]<presenter>/<action>', 'Presenter:action');
 ```
 
 ## Switching languages
