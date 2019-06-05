@@ -63,7 +63,7 @@ $form->setTranslator($this->getTranslator());
 $form->addText('hello', 'hello.world');
 ```
 
-## Route for translations
+## Route for translation
 
 ```php
 $router[] = new Route('[<lang cs|en>/]<presenter>/<action>', 'Presenter:action');
