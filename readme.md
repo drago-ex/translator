@@ -43,10 +43,10 @@ protected function getTranslator(): Translator
 ## Set translation for templates
 
 ```php
-// The current language parameter.
+// The current language.
 $this->template->lang = $this->lang;
 
-// Translation for Templates.
+// Translation in templates.
 $this->template->setTranslator($this->translate());
 ```
 
