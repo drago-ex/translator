@@ -26,7 +26,7 @@ use Drago\Localization\Locale
 Anywhere in a project we create a file called en.ini in which we will define the necessary translation.
 
 ```ini
-hello.world = Hello, world!
+hello.world = Hello, world'!'
 ```
 
 ## Processing files with translation
