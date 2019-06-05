@@ -34,9 +34,6 @@ hello.world = Hello, world!
 In the Presenter, we create the method below and add the path to the translation files.
 
 ```php
-/**
- * Translation of the application according to the current language parameter.
- */
 protected function translator(): array
 {
 	return $this->createTranslator(__DIR__ . '/' . $this->lang . '.ini');
