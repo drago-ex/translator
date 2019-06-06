@@ -16,8 +16,8 @@ namespace Drago\Localization;
 trait Locale
 {
 	/**
-	 * @persistent
 	 * @var string
+	 * @persistent
 	 */
 	public $lang;
 
