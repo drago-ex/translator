@@ -8,6 +8,7 @@ declare(strict_types = 1);
  */
 namespace Drago\Localization;
 
+
 /**
  * Simple translator.
  * @package Drago\Localization
