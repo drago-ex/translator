@@ -11,6 +11,7 @@ namespace Drago\Localization;
 use Nette;
 use Exception;
 
+
 /**
  * Simple translator.
  * @package Drago\Localization
@@ -19,9 +20,7 @@ class Translator implements Nette\Localization\ITranslator
 {
 	use Nette\SmartObject;
 
-	/**
-	 * @var array
-	 */
+	/** @var array */
 	private $message;
 
 
