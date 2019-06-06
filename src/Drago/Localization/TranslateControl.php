@@ -16,11 +16,17 @@ namespace Drago\Localization;
 trait TranslateControl
 {
 	/** @var Translator */
-	public $translator;
+	private $translator;
 
 
 	public function setTranslator(Translator $translator)
 	{
 		$this->translator = $translator;
+	}
+
+
+	public function getTranslator(): Translator
+	{
+		return $this->translator;
 	}
 }
