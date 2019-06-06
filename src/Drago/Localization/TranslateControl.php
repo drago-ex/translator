@@ -8,15 +8,14 @@ declare(strict_types = 1);
  */
 namespace Drago\Localization;
 
+
 /**
  * Simple translator.
  * @package Drago\Localization
  */
 trait TranslateControl
 {
-	/**
-	 * @var Translator
-	 */
+	/** @var Translator */
 	public $translator;
 
 
