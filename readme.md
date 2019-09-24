@@ -11,6 +11,7 @@ Simple translator.
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://raw.githubusercontent.com/drago-ex/translator/master/license.md)
 [![PHP version](https://badge.fury.io/ph/drago-ex%2Ftranslator.svg)](https://badge.fury.io/ph/drago-ex%2Ftranslator)
+[![Build Status](https://travis-ci.org/drago-ex/translator.svg?branch=master)](https://travis-ci.org/drago-ex/translator)
 [![CodeFactor](https://www.codefactor.io/repository/github/drago-ex/translator/badge)](https://www.codefactor.io/repository/github/drago-ex/translator)
 
 ## Requirements
