@@ -24,6 +24,8 @@ trait Locale
 
 	/**
 	 * Create a translation.
+	 * @param  string  $filename
+	 * @throws \Exception
 	 */
 	public function createTranslator(string $filename): Translator
 	{

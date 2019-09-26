@@ -8,22 +8,25 @@ declare(strict_types = 1);
  */
 namespace Drago\Localization;
 
-use Nette;
-use Exception;
+use Nette\Localization\ITranslator;
+use Nette\SmartObject;
 
 
 /**
  * Simple translator.
  * @package Drago\Localization
  */
-class Translator implements Nette\Localization\ITranslator
+class Translator implements ITranslator
 {
-	use Nette\SmartObject;
+	use SmartObject;
 
 	/** @var array */
 	private $message;
 
 
+	/**
+	 * @throws \Exception
+	 */
 	public function __construct(string $filename)
 	{
 		$this->message = $this->parse($filename);
@@ -32,12 +35,13 @@ class Translator implements Nette\Localization\ITranslator
 
 	/**
 	 * Processing translate file.
-	 * @throws Exception
+	 * @param  string  $filename
+	 * @throws \Exception
 	 */
 	private function parse(string $filename): array
 	{
 		if (!is_file($filename)) {
-			throw new Exception('The translation file was not found.');
+			throw new \Exception('The translation file was not found.');
 		}
 		return parse_ini_file($filename);
 	}
