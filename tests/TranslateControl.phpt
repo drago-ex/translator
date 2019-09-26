@@ -8,7 +8,8 @@ use Tester\Assert;
 
 require __DIR__ . '/bootstrap.php';
 
-class Control {
+class Control
+{
 	use TranslateControl;
 }
 
