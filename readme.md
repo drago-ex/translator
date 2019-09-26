@@ -6,7 +6,6 @@
 <p align="center">Simple packages built on Nette Framework</p>
 
 ## Info
-
 Simple translator.
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://raw.githubusercontent.com/drago-ex/translator/master/license.md)
@@ -15,12 +14,10 @@ Simple translator.
 [![CodeFactor](https://www.codefactor.io/repository/github/drago-ex/translator/badge)](https://www.codefactor.io/repository/github/drago-ex/translator)
 
 ## Requirements
-
 - PHP 7.1 or higher
 - composer
 
 ## Installation
-
 ```
 composer require drago-ex/translator
 ```
