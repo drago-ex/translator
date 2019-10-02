@@ -12,7 +12,6 @@ namespace Drago\Localization;
 
 /**
  * Simple translator.
- * @package Drago\Localization
  */
 trait TranslateControl
 {
