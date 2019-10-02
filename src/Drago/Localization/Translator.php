@@ -15,7 +15,6 @@ use Nette\SmartObject;
 
 /**
  * Simple translator.
- * @package Drago\Localization
  */
 class Translator implements ITranslator
 {
