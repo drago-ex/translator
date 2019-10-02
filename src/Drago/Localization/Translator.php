@@ -6,6 +6,7 @@ declare(strict_types = 1);
  * Drago Localization
  * Package built on Nette Framework
  */
+
 namespace Drago\Localization;
 
 use Nette\Localization\ITranslator;
@@ -50,7 +51,7 @@ class Translator implements ITranslator
 	/**
 	 * Translates the given string.
 	 */
-	function translate($message, ...$parameters): string
+	public function translate($message, ...$parameters): string
 	{
 		return isset($this->message[$message]) ? $this->message[$message] : $message;
 	}
