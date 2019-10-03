@@ -35,7 +35,6 @@ class Translator implements ITranslator
 
 	/**
 	 * Processing translate file.
-	 * @param  string  $filename
 	 * @throws \Exception
 	 */
 	private function parse(string $filename): array
