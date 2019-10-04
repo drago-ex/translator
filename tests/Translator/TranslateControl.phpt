@@ -6,7 +6,7 @@ use Drago\Localization\TranslateControl;
 use Drago\Localization\Translator;
 use Tester\Assert;
 
-require __DIR__ . '/bootstrap.php';
+require __DIR__ . '/../bootstrap.php';
 
 class Control
 {
@@ -14,6 +14,6 @@ class Control
 }
 
 $control = new Control();
-$control->setTranslator(new Translator(__DIR__ . '/locale/en.ini'));
+$control->setTranslator(new Translator(__DIR__ . '/../locale/en.ini'));
 
-Assert::type('object', $control->getTranslator());
+Assert::type(Translator::class, $control->getTranslator());
