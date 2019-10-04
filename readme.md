@@ -12,6 +12,7 @@ Simple translator.
 [![PHP version](https://badge.fury.io/ph/drago-ex%2Ftranslator.svg)](https://badge.fury.io/ph/drago-ex%2Ftranslator)
 [![Build Status](https://travis-ci.org/drago-ex/translator.svg?branch=master)](https://travis-ci.org/drago-ex/translator)
 [![CodeFactor](https://www.codefactor.io/repository/github/drago-ex/translator/badge)](https://www.codefactor.io/repository/github/drago-ex/translator)
+[![Coverage Status](https://coveralls.io/repos/github/drago-ex/translator/badge.svg?branch=master)](https://coveralls.io/github/drago-ex/translator?branch=master)
 
 ## Requirements
 - PHP 7.1 or higher
