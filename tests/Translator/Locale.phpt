@@ -2,8 +2,8 @@
 
 declare(strict_types = 1);
 
-use Drago\Localization\Translator;
 use Drago\Localization\Locale;
+use Drago\Localization\Translator;
 use Tester\Assert;
 
 require __DIR__ . '/../bootstrap.php';
