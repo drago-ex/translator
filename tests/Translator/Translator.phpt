@@ -12,3 +12,6 @@ $translator->setFile(__DIR__ . '/en');
 
 Assert::type('string', $translator->translate('hello.world'));
 Assert::same('Hello, world!', $translator->translate('hello.world'));
+Assert::exception(function () use ($translator) {
+	$translator->setFile('');
+}, Exception::class, 'The translation file was not found.');
