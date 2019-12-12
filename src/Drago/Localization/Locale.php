@@ -21,14 +21,21 @@ trait Locale
 	 */
 	public $lang;
 
+	/**
+	 * @var Translator
+	 * @inject
+	 */
+	public $translator;
+
 
 	/**
 	 * Create a translation.
-	 * @param  string  $filename
 	 * @throws \Exception
 	 */
-	public function createTranslator(string $filename): Translator
+	public function createTranslator(string $file): Translator
 	{
-		return new Translator($filename);
+		$translator = $this->translator;
+		$translator->setFile($file);
+		return $translator;
 	}
 }

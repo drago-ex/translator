@@ -13,7 +13,10 @@ class Control
 	use TranslateControl;
 }
 
+$translator = new Translator;
+$translator->setFile(__DIR__ . '/en');
+
 $control = new Control;
-$control->setTranslator(new Translator(__DIR__ . '/../locale/en.ini'));
+$control->setTranslator($translator);
 
 Assert::type(Translator::class, $control->getTranslator());

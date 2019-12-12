@@ -25,24 +25,18 @@ class Translator implements ITranslator
 
 
 	/**
+	 * Path to the translation file.
 	 * @throws \Exception
 	 */
-	public function __construct(string $filename)
+	public function setFile(string $file): array
 	{
-		$this->message = $this->parse($filename);
-	}
-
-
-	/**
-	 * Processing translate file.
-	 * @throws \Exception
-	 */
-	private function parse(string $filename): array
-	{
-		if (!is_file($filename)) {
+		$file = $file . '.ini';
+		if (!is_file($file)) {
 			throw new \Exception('The translation file was not found.');
 		}
-		return parse_ini_file($filename);
+
+		$this->message = parse_ini_file($file);
+		return $this->message;
 	}
 
 
@@ -51,6 +45,8 @@ class Translator implements ITranslator
 	 */
 	public function translate($message, ...$parameters): string
 	{
-		return isset($this->message[$message]) ? $this->message[$message] : $message;
+		return isset($this->message[$message])
+			? $this->message[$message]
+			: $message;
 	}
 }

@@ -14,6 +14,7 @@ class Localization
 }
 
 $locale = new Localization;
+$locale->translator = new Translator;
 $locale->lang = 'en';
 
-Assert::type(Translator::class, $locale->createTranslator(__DIR__ . '/../locale/' . $locale->lang . '.ini'));
+Assert::type(Translator::class, $locale->createTranslator(__DIR__ . '/' . $locale->lang));
