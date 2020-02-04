@@ -59,7 +59,6 @@ class TranslatorExtension extends TestContainer
 		$presenter->translator = $class;
 
 		Assert::type($presenter->getTranslator(), $class);
-
 	}
 
 

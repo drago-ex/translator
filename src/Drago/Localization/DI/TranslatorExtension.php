@@ -31,6 +31,7 @@ class TranslatorExtension extends CompilerExtension
 	public function loadConfiguration(): void
 	{
 		$builder = $this->getContainerBuilder();
+
 		$builder->addDefinition($this->prefix('translator'))
 			->setFactory(Translator::class, [$this->translateDir]);
 	}
