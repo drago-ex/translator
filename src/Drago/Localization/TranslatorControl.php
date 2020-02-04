@@ -13,13 +13,13 @@ namespace Drago\Localization;
 /**
  * Simple translator.
  */
-trait TranslateControl
+trait TranslatorControl
 {
 	/** @var Translator */
 	private $translator;
 
 
-	public function setTranslator(Translator $translator)
+	public function setTranslator(Translator $translator): void
 	{
 		$this->translator = $translator;
 	}

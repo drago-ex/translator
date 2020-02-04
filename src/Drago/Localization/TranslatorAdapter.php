@@ -13,7 +13,7 @@ namespace Drago\Localization;
 /**
  * Simple translator.
  */
-trait Locale
+trait TranslatorAdapter
 {
 	/**
 	 * @var string
@@ -21,21 +21,22 @@ trait Locale
 	 */
 	public $lang;
 
-	/**
-	 * @var Translator
-	 * @inject
-	 */
+	/** @var Translator */
 	public $translator;
 
 
+	public function injectTranslator(Translator $translator): void
+	{
+		$this->translator = $translator;
+	}
+
+
 	/**
-	 * Create a translation.
 	 * @throws \Exception
 	 */
-	public function createTranslator(string $file): Translator
+	public function getTranslator(): Translator
 	{
-		$translator = $this->translator;
-		$translator->setFile($file);
-		return $translator;
+		$this->translator->setTranslate($this->lang);
+		return $this->translator;
 	}
 }
