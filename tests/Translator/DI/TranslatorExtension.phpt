@@ -2,11 +2,8 @@
 
 declare(strict_types = 1);
 
-namespace Test\DI;
-
-use Drago\Localization;
+use Drago\Localization\Translator;
 use Nette\DI;
-use Test\TestContainer;
 use Tester\Assert;
 
 $container = require __DIR__ . '/../../bootstrap.php';
@@ -20,7 +17,7 @@ class TranslatorExtension extends TestContainer
 		$loader = new DI\ContainerLoader($params['tempDir'], true);
 
 		$class = $loader->load(function (DI\Compiler $compiler) use ($params): void {
-			$compiler->addExtension('translator', new Localization\DI\TranslatorExtension(
+			$compiler->addExtension('translator', new Drago\Localization\DI\TranslatorExtension(
 				$params['appDir'] . '/locale'
 			));
 		});
@@ -28,16 +25,16 @@ class TranslatorExtension extends TestContainer
 	}
 
 
-	private function getTranslatorByType(): Localization\Translator
+	private function getTranslatorByType(): Translator
 	{
 		$translator = $this->createContainer();
-		return $translator->getByType(Localization\Translator::class);
+		return $translator->getByType(Translator::class);
 	}
 
 
 	public function test01(): void
 	{
-		Assert::type(Localization\Translator::class, $this->getTranslatorByType());
+		Assert::type(Translator::class, $this->getTranslatorByType());
 	}
 
 
@@ -53,19 +50,17 @@ class TranslatorExtension extends TestContainer
 
 	public function test03(): void
 	{
-		$class = $this->getTranslatorByType();
-		$presenter = new \Presenter;
+		$presenter = new Presenter;
 		$presenter->lang = 'en';
-		$presenter->translator = $class;
 
-		Assert::type($presenter->getTranslator(), $class);
+		Assert::type($presenter->getTranslator(), $this->getTranslatorByType());
 	}
 
 
 	public function test04(): void
 	{
 		$class = $this->getTranslatorByType();
-		$control = new \Control;
+		$control = new Control;
 		$control->setTranslator($class);
 
 		Assert::type($control->getTranslator(), $class);

@@ -9,16 +9,15 @@ declare(strict_types = 1);
 
 namespace Drago\Localization;
 
-use Nette\Localization\ITranslator;
-use Nette\SmartObject;
+use Nette;
 
 
 /**
  * Simple translator.
  */
-class Translator implements ITranslator
+class Translator implements Nette\Localization\ITranslator
 {
-	use SmartObject;
+	use Nette\SmartObject;
 
 	/** @var array */
 	private $message;

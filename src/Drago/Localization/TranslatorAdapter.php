@@ -9,7 +9,7 @@ declare(strict_types = 1);
 
 namespace Drago\Localization;
 
-use Nette\Application\UI\Presenter;
+use Nette;
 
 
 /**
@@ -27,7 +27,7 @@ trait TranslatorAdapter
 	private $translator;
 
 
-	public function injectTranslator(Translator $translator, Presenter $presenter): void
+	public function injectTranslator(Translator $translator, Nette\Application\UI\Presenter $presenter): void
 	{
 		$this->translator = $translator;
 		$presenter->onRender[] = function () use ($presenter) {
