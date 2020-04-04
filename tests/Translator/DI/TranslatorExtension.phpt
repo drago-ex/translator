@@ -27,8 +27,8 @@ class TranslatorExtension extends TestContainer
 
 	private function getTranslatorByType(): Translator
 	{
-		$translator = $this->createContainer();
-		return $translator->getByType(Translator::class);
+		return $this->createContainer()
+			->getByType(Translator::class);
 	}
 
 
