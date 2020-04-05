@@ -3,8 +3,8 @@
 declare(strict_types = 1);
 
 use Drago\Localization\Translator;
-use Nette\DI;
 use Nette\Application\IPresenterFactory;
+use Nette\DI;
 use Tester\Assert;
 
 $container = require __DIR__ . '/../../bootstrap.php';
