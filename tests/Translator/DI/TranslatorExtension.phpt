@@ -4,6 +4,7 @@ declare(strict_types = 1);
 
 use Drago\Localization\Translator;
 use Nette\DI;
+use Nette\Application\IPresenterFactory;
 use Tester\Assert;
 
 $container = require __DIR__ . '/../../bootstrap.php';
@@ -25,10 +26,23 @@ class TranslatorExtension extends TestContainer
 	}
 
 
-	private function getTranslatorByType(): Translator
+	/**
+	 * @return Translator|object|null
+	 */
+	private function getTranslatorByType()
 	{
-		return $this->createContainer()
-			->getByType(Translator::class);
+		$translator = $this->createContainer()->getByType(Translator::class);
+		$translator->setTranslate('en');
+		return $translator;
+	}
+
+
+	/**
+	 * @return IPresenterFactory|object|null
+	 */
+	private function getPresenterByType()
+	{
+		return $this->container->getByType(IPresenterFactory::class);
 	}
 
 
@@ -41,26 +55,26 @@ class TranslatorExtension extends TestContainer
 	public function test02(): void
 	{
 		$class = $this->getTranslatorByType();
-		$class->setTranslate('en');
-
 		Assert::same('Hello, world!', $class->translate('hello.world'));
 	}
 
 
 	public function test03(): void
 	{
-		$presenter = new Presenter;
-		$presenter->lang = 'en';
-		$presenter->injectTranslator($this->getTranslatorByType(), $presenter);
+		/** @var Nette\Application\UI\Presenter $presenter */
+		$presenter = $this->getPresenterByType()->createPresenter('Test');
+		$class = new TranslatorAdapter;
+		$class->lang = 'en';
+		$class->injectTranslator($this->getTranslatorByType(), $presenter);
 
-		Assert::type($presenter->getTranslator(), $this->getTranslatorByType());
+		Assert::type($class->getTranslator(), $this->getTranslatorByType());
 	}
 
 
 	public function test04(): void
 	{
 		$class = $this->getTranslatorByType();
-		$control = new Control;
+		$control = new TranslatorControl;
 		$control->setTranslator($class);
 
 		Assert::type($control->getTranslator(), $class);

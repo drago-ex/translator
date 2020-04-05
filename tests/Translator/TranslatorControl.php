@@ -4,7 +4,7 @@ declare(strict_types = 1);
 
 use Drago\Localization;
 
-class Control
+class TranslatorControl
 {
 	use Localization\TranslatorControl;
 }

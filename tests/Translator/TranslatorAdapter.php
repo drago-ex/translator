@@ -4,7 +4,7 @@ declare(strict_types = 1);
 
 use Drago\Localization;
 
-class Presenter extends Nette\Application\UI\Presenter
+class TranslatorAdapter
 {
 	use Localization\TranslatorAdapter;
 }
