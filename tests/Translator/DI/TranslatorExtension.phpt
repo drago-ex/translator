@@ -62,7 +62,9 @@ class TranslatorExtension extends TestContainer
 	public function test03(): void
 	{
 		/** @var Nette\Application\UI\Presenter $presenter */
-		$presenter = $this->getPresenterByType()->createPresenter('Test');
+		$presenter = $this->getPresenterByType()
+			->createPresenter('Test');
+
 		$class = new TranslatorAdapter;
 		$class->lang = 'en';
 		$class->injectTranslator($this->getTranslatorByType(), $presenter);
@@ -73,11 +75,10 @@ class TranslatorExtension extends TestContainer
 
 	public function test04(): void
 	{
-		$class = $this->getTranslatorByType();
 		$control = new TranslatorControl;
-		$control->setTranslator($class);
+		$control->setTranslator($this->getTranslatorByType());
 
-		Assert::type($control->getTranslator(), $class);
+		Assert::type($control->getTranslator(), $this->getTranslatorByType());
 	}
 }
 
