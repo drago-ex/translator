@@ -41,9 +41,8 @@ class TranslatorExtension extends TestContainer
 	public function test02(): void
 	{
 		$class = $this->getTranslatorByType();
+		$class->setTranslate('en');
 
-		Assert::type('array', $class->setTranslate('en'));
-		Assert::type('string', $class->translate('hello.world'));
 		Assert::same('Hello, world!', $class->translate('hello.world'));
 	}
 
@@ -52,6 +51,7 @@ class TranslatorExtension extends TestContainer
 	{
 		$presenter = new Presenter;
 		$presenter->lang = 'en';
+		$presenter->injectTranslator($this->getTranslatorByType(), $presenter);
 
 		Assert::type($presenter->getTranslator(), $this->getTranslatorByType());
 	}
