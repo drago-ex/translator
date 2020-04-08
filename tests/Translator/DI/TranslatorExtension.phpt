@@ -26,10 +26,7 @@ class TranslatorExtension extends TestContainer
 	}
 
 
-	/**
-	 * @return Translator|object|null
-	 */
-	private function getTranslatorByType()
+	private function getTranslatorByType(): Translator
 	{
 		$translator = $this->createContainer()->getByType(Translator::class);
 		$translator->setTranslate('en');
@@ -37,10 +34,7 @@ class TranslatorExtension extends TestContainer
 	}
 
 
-	/**
-	 * @return IPresenterFactory|object|null
-	 */
-	private function getPresenterByType()
+	private function getPresenterByType(): IPresenterFactory
 	{
 		return $this->container->getByType(IPresenterFactory::class);
 	}
