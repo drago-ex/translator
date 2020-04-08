@@ -63,11 +63,6 @@ class TranslatorExtension extends TestContainer
 		$class->lang = 'en';
 		$class->injectTranslator($this->getTranslatorByType(), $presenter);
 
-		$presenter->onRender[] = function () use ($presenter, $class) {
-			$presenter->template->lang = $class->lang;
-			$presenter->template->setTranslator($class->getTranslator());
-		};
-
 		Assert::type($class->getTranslator(), $this->getTranslatorByType());
 	}
 
