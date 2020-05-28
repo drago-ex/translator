@@ -33,12 +33,26 @@ class Translator implements Nette\Localization\ITranslator
 
 
 	/**
-	 * @throws \Exception
+	 * @return array|false
 	 */
+	private function parseFile(string $file)
+	{
+		$parse = parse_ini_file($file);
+		return $parse;
+	}
+
+
 	public function setTranslate(string $translate): array
 	{
 		$file = $this->translateDir . '/' . $translate . '.ini';
-		$this->message = parse_ini_file($file);
+		$this->message = $this->parseFile($file);
+		return $this->message;
+	}
+
+
+	public function setCustomTranslate(string $path): array
+	{
+		$this->message = parse_ini_file($path);
 		return $this->message;
 	}
 
