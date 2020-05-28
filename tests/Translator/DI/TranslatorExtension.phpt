@@ -74,6 +74,28 @@ class TranslatorExtension extends TestContainer
 
 		Assert::type($control->getTranslator(), $this->getTranslatorByType());
 	}
+
+
+	private function translator(): Translator
+	{
+		/** @var Nette\Application\UI\Presenter $presenter */
+		$presenter = $this->getPresenterByType()
+			->createPresenter('Test');
+
+		$class = new TranslatorAdapter;
+		$class->lang = 'en';
+		$class->injectTranslator($this->getTranslatorByType(), $presenter);
+		return $class->getTranslator();
+	}
+
+
+	public function test05(): void
+	{
+		$messages = $this->translator()
+			->setCustomTranslate(__DIR__ . '/../../locale/en.ini');
+
+		Assert::type('array', $messages);
+	}
 }
 
 $extension = new TranslatorExtension($container);
