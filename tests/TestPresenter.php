@@ -2,6 +2,8 @@
 
 declare(strict_types = 1);
 
-class TestPresenter extends Nette\Application\UI\Presenter
+use Nette\Application\UI\Presenter;
+
+class TestPresenter extends Presenter
 {
 }

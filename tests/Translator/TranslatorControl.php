@@ -2,9 +2,10 @@
 
 declare(strict_types = 1);
 
-use Drago\Localization;
+use Drago\Localization\TranslatorControl;
 
-class TranslatorControl
+
+class TestTranslatorControl
 {
-	use Localization\TranslatorControl;
+	use TranslatorControl;
 }

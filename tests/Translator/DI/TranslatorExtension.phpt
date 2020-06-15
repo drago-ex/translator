@@ -2,23 +2,27 @@
 
 declare(strict_types = 1);
 
+use Drago\Localization\DI\TranslatorExtension;
 use Drago\Localization\Translator;
 use Nette\Application\IPresenterFactory;
-use Nette\DI;
+use Nette\Application\UI\Presenter;
+use Nette\DI\Compiler;
+use Nette\DI\Container;
+use Nette\DI\ContainerLoader;
 use Tester\Assert;
 
 $container = require __DIR__ . '/../../bootstrap.php';
 
 
-class TranslatorExtension extends TestContainer
+class TestTranslatorExtension extends TestContainer
 {
-	private function createContainer(): DI\Container
+	private function createContainer(): Container
 	{
 		$params = $this->container->getParameters();
-		$loader = new DI\ContainerLoader($params['tempDir'], true);
+		$loader = new ContainerLoader($params['tempDir'], true);
 
-		$class = $loader->load(function (DI\Compiler $compiler) use ($params): void {
-			$compiler->addExtension('translator', new Drago\Localization\DI\TranslatorExtension(
+		$class = $loader->load(function (Compiler $compiler) use ($params): void {
+			$compiler->addExtension('translator', new TranslatorExtension(
 				$params['appDir'] . '/locale'
 			));
 		});
@@ -55,11 +59,11 @@ class TranslatorExtension extends TestContainer
 
 	public function test03(): void
 	{
-		/** @var Nette\Application\UI\Presenter $presenter */
+		/** @var Presenter $presenter */
 		$presenter = $this->getPresenterByType()
 			->createPresenter('Test');
 
-		$class = new TranslatorAdapter;
+		$class = new TestTranslatorAdapter;
 		$class->lang = 'en';
 		$class->injectTranslator($this->getTranslatorByType(), $presenter);
 
@@ -69,7 +73,7 @@ class TranslatorExtension extends TestContainer
 
 	public function test04(): void
 	{
-		$control = new TranslatorControl;
+		$control = new TestTranslatorControl;
 		$control->setTranslator($this->getTranslatorByType());
 
 		Assert::type($control->getTranslator(), $this->getTranslatorByType());
@@ -78,11 +82,11 @@ class TranslatorExtension extends TestContainer
 
 	private function translator(): Translator
 	{
-		/** @var Nette\Application\UI\Presenter $presenter */
+		/** @var Presenter $presenter */
 		$presenter = $this->getPresenterByType()
 			->createPresenter('Test');
 
-		$class = new TranslatorAdapter;
+		$class = new TestTranslatorAdapter;
 		$class->lang = 'en';
 		$class->injectTranslator($this->getTranslatorByType(), $presenter);
 		return $class->getTranslator();
@@ -98,5 +102,5 @@ class TranslatorExtension extends TestContainer
 	}
 }
 
-$extension = new TranslatorExtension($container);
+$extension = new TestTranslatorExtension($container);
 $extension->run();

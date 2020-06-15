@@ -9,14 +9,14 @@ declare(strict_types = 1);
 
 namespace Drago\Localization\DI;
 
-use Drago;
-use Nette;
+use Drago\Localization\Translator;
+use Nette\DI\CompilerExtension;
 
 
 /**
  * Register services.
  */
-class TranslatorExtension extends Nette\DI\CompilerExtension
+class TranslatorExtension extends CompilerExtension
 {
 	/** @var string */
 	private $translateDir;
@@ -32,6 +32,6 @@ class TranslatorExtension extends Nette\DI\CompilerExtension
 	{
 		$builder = $this->getContainerBuilder();
 		$builder->addDefinition($this->prefix('translator'))
-			->setFactory(Drago\Localization\Translator::class, [$this->translateDir]);
+			->setFactory(Translator::class, [$this->translateDir]);
 	}
 }
