@@ -71,15 +71,6 @@ class TestTranslatorExtension extends TestContainer
 	}
 
 
-	public function test04(): void
-	{
-		$control = new TestTranslatorControl;
-		$control->setTranslator($this->getTranslatorByType());
-
-		Assert::type($control->getTranslator(), $this->getTranslatorByType());
-	}
-
-
 	private function translator(): Translator
 	{
 		/** @var Presenter $presenter */

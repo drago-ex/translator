@@ -17,14 +17,10 @@ use Nette\Application\UI\Presenter;
  */
 trait TranslatorAdapter
 {
-	/**
-	 * @var string
-	 * @persistent
-	 */
-	public $lang;
+	/** @persistent */
+	public string $lang;
 
-	/** @var Translator */
-	private $translator;
+	private Translator $translator;
 
 
 	public function injectTranslator(Translator $translator, Presenter $presenter): void

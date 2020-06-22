@@ -19,11 +19,8 @@ class Translator implements Nette\Localization\ITranslator
 {
 	use Nette\SmartObject;
 
-	/** @var array */
-	private $message;
-
-	/** @var string */
-	private $translateDir;
+	private array $message;
+	private string $translateDir;
 
 
 	public function __construct(string $translateDir)
@@ -52,7 +49,7 @@ class Translator implements Nette\Localization\ITranslator
 
 	public function setCustomTranslate(string $path): array
 	{
-		$this->message = parse_ini_file($path);
+		$this->message = $this->parseFile($path);
 		return $this->message;
 	}
 

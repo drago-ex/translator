@@ -1,8 +1,5 @@
 language: php
 php:
-  - 7.1
-  - 7.2
-  - 7.3
   - 7.4
 
 before_install:
@@ -10,9 +7,6 @@ before_install:
 
 install:
   - composer install --no-interaction --prefer-source
-
-script:
-  - vendor/bin/tester tests -s
 
 jobs:
   include:
@@ -23,11 +17,16 @@ jobs:
         - php temp/code-checker/code-checker --strict-types
 
 
-    - name: Nette Coding Standard
-      install:
-        - travis_retry composer create-project nette/coding-standard temp/coding-standard ^2 --no-progress
+    - name: Static Analysis
       script:
-        - php temp/coding-standard/ecs check src tests --config temp/coding-standard/coding-standard-php71.yml
+        - composer run-script phpstan
+
+
+    - stage: Nette Tester
+      install:
+        - travis_retry composer require nette/tester --dev
+      script:
+        - composer run-script tester
 
 
     - stage: Code Coverage

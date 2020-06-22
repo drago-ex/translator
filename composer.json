@@ -10,9 +10,9 @@
 		}
 	],
 	"require": {
-		"php": ">=7.1",
+		"php": ">=7.4",
 		"nette/di": "^3.0",
-		"nette/utils": "^3.0",
+		"nette/utils": "^3.1",
 		"nette/application": "^3.0"
 	},
 	"require-dev": {
@@ -26,5 +26,9 @@
 	},
 	"autoload": {
 		"classmap": ["src/"]
+	},
+	"scripts": {
+		"phpstan": "phpstan analyse --level 5 --configuration tests/phpstan.neon src",
+		"tester": "tester tests -s"
 	}
 }
