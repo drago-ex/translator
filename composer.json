@@ -21,9 +21,6 @@
 		"tracy/tracy": "^2.7",
 		"phpstan/phpstan-nette": "^0.12"
 	},
-	"replace": {
-		"drago-fw/translator": "self.version"
-	},
 	"autoload": {
 		"classmap": ["src/"]
 	},
