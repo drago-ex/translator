@@ -42,7 +42,7 @@ use Drago\Localization\TranslatorAdapter
 ## Currently set language
 
 ```php
-$this->lang
+$this->lang;
 ```
 
 ## A method that returns a translator
