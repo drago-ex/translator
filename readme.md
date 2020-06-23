@@ -3,7 +3,7 @@
 </p>
 
 <h3 align="center">Drago Extension</h3>
-<p align="center">Simple packages built on Nette Framework</p>
+<p align="center">Extension for Nette Framework</p>
 
 ## Drago Translator
 Simple translator.
