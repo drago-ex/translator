@@ -15,7 +15,7 @@ Simple translator.
 [![Coverage Status](https://coveralls.io/repos/github/drago-ex/translator/badge.svg?branch=master)](https://coveralls.io/github/drago-ex/translator?branch=master)
 
 ## Technology
-- PHP 7.1 or higher
+- PHP 7.4 or higher
 - composer
 
 ## Installation
