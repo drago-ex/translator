@@ -15,7 +15,7 @@ use Nette;
 /**
  * Simple translator.
  */
-class Translator implements Nette\Localization\ITranslator
+class Translator implements Nette\Localization\Translator
 {
 	use Nette\SmartObject;
 
@@ -29,13 +29,9 @@ class Translator implements Nette\Localization\ITranslator
 	}
 
 
-	/**
-	 * @return array|false
-	 */
-	private function parseFile(string $file)
+	private function parseFile(string $file): array|false
 	{
-		$parse = parse_ini_file($file);
-		return $parse;
+		return parse_ini_file($file);
 	}
 
 
@@ -57,7 +53,7 @@ class Translator implements Nette\Localization\ITranslator
 	/**
 	 * Translates the given string.
 	 */
-	public function translate($message, ...$parameters): string
+	public function translate(mixed $message, mixed ...$parameters): string
 	{
 		return isset($this->message[$message])
 			? $this->message[$message]

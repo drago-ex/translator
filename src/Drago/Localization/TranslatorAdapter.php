@@ -9,6 +9,7 @@ declare(strict_types = 1);
 
 namespace Drago\Localization;
 
+use Nette\Application\Attributes\Persistent;
 use Nette\Application\UI\Presenter;
 
 
@@ -17,7 +18,7 @@ use Nette\Application\UI\Presenter;
  */
 trait TranslatorAdapter
 {
-	/** @persistent */
+	#[Persistent]
 	public string $lang;
 
 	private Translator $translator;
@@ -33,9 +34,6 @@ trait TranslatorAdapter
 	}
 
 
-	/**
-	 * @throws \Exception
-	 */
 	public function getTranslator(): Translator
 	{
 		$this->translator->setTranslate($this->lang);
