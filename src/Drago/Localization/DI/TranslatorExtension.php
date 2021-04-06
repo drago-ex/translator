@@ -18,12 +18,10 @@ use Nette\DI\CompilerExtension;
  */
 class TranslatorExtension extends CompilerExtension
 {
-	private string $translateDir;
+	public function __construct(
+		public string $translateDir
+	) {
 
-
-	public function __construct(string $translateDir)
-	{
-		$this->translateDir = $translateDir;
 	}
 
 

@@ -20,12 +20,12 @@ class Translator implements Nette\Localization\Translator
 	use Nette\SmartObject;
 
 	private array $message;
-	private string $translateDir;
 
 
-	public function __construct(string $translateDir)
-	{
-		$this->translateDir = $translateDir;
+	public function __construct(
+		public string $translateDir
+	) {
+
 	}
 
 
