@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 /**
  * Drago Extension
@@ -21,7 +21,6 @@ class TranslatorExtension extends CompilerExtension
 	public function __construct(
 		public string $translateDir
 	) {
-
 	}
 
 

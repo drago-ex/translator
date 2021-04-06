@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 /**
  * Drago Extension
@@ -25,7 +25,6 @@ class Translator implements Nette\Localization\Translator
 	public function __construct(
 		public string $translateDir
 	) {
-
 	}
 
 
@@ -55,8 +54,6 @@ class Translator implements Nette\Localization\Translator
 	 */
 	public function translate(mixed $message, mixed ...$parameters): string
 	{
-		return isset($this->message[$message])
-			? $this->message[$message]
-			: $message;
+		return $this->message[$message] ?? $message;
 	}
 }
