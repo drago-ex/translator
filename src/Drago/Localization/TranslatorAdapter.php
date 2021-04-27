@@ -21,7 +21,7 @@ trait TranslatorAdapter
 	#[Persistent]
 	public string $lang;
 
-	private Translator $translator;
+	public Translator $translator;
 
 
 	public function injectTranslator(Translator $translator, Presenter $presenter): void
