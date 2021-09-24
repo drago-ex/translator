@@ -2,16 +2,21 @@
 
 declare(strict_types=1);
 
-use Nette\Configurator;
-use Tester\Environment;
+if (@!include __DIR__ . '/../vendor/autoload.php') {
+	echo 'Install Nette Tester using `composer install`';
+	exit(1);
+}
 
-require __DIR__ . '/../vendor/autoload.php';
 
-Environment::setup();
+Tester\Environment::setup();
 date_default_timezone_set('Europe/Prague');
-define('TEMP_DIR', __DIR__ . '/tmp');
 
-$boot = new Configurator;
+const TEMP_DIR = __DIR__ . '/tmp';
+
+@mkdir(dirname(TEMP_DIR));
+@mkdir(TEMP_DIR);
+
+$boot = new Nette\Configurator;
 $boot->setTempDirectory(TEMP_DIR);
 $boot->createRobotLoader()
 	->addDirectory(__DIR__)
@@ -19,3 +24,9 @@ $boot->createRobotLoader()
 	->register();
 
 return $boot->createContainer();
+
+
+function test(string $title, Closure $function): void
+{
+	$function();
+}
