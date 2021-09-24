@@ -24,9 +24,3 @@ $boot->createRobotLoader()
 	->register();
 
 return $boot->createContainer();
-
-
-function test(string $title, Closure $function): void
-{
-	$function();
-}
