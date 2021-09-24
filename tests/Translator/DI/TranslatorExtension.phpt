@@ -1,5 +1,9 @@
 <?php
 
+/**
+ * Test: Drago\Localization\DI\TranslatorExtension
+ */
+
 declare(strict_types=1);
 
 use Drago\Localization\DI\TranslatorExtension;
