@@ -26,7 +26,7 @@ composer require drago-ex/translator
 ## Extension registration
 ```php
 extensions:
-	- Drago\Localization\DI\TranslatorExtension(%appDir%/locale)
+	- Drago\Localization\DI\TranslatorExtension(translateDir: %appDir%/locale)
 ```
 
 ## Use in the presenter
