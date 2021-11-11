@@ -28,9 +28,13 @@ class Translator implements Nette\Localization\Translator
 	}
 
 
-	private function parseFile(string $file): array|false
+	private function parseFile(string $file): array
 	{
-		return parse_ini_file($file);
+		$arr = [];
+		if (is_file($file)) {
+			$arr = parse_ini_file($file);
+		}
+		return $arr;
 	}
 
 
