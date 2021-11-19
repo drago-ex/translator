@@ -92,7 +92,7 @@ class TestTranslatorExtension extends TestCase
 	public function test05(): void
 	{
 		$messages = $this->translator()
-			->setCustomTranslate(__DIR__ . '/../../locale/en.ini');
+			->setCustomTranslate(__DIR__ . '/../../locale/', 'en');
 
 		Assert::type('array', $messages);
 	}
