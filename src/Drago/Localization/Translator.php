@@ -10,6 +10,7 @@ declare(strict_types=1);
 namespace Drago\Localization;
 
 use Nette;
+use Nette\Neon\Neon;
 
 
 /**
@@ -28,11 +29,11 @@ class Translator implements Nette\Localization\Translator
 	}
 
 
-	private function parseFile(string $file): array
+	private function decodeFile(string $file): array
 	{
 		$arr = [];
 		if (is_file($file)) {
-			$arr = parse_ini_file($file);
+			$arr = Neon::decodeFile($file);
 		}
 		return $arr;
 	}
@@ -40,15 +41,16 @@ class Translator implements Nette\Localization\Translator
 
 	public function setTranslate(string $translate): array
 	{
-		$file = $this->translateDir . '/' . $translate . '.ini';
-		$this->message = $this->parseFile($file);
+		$file = $this->translateDir . '/' . $translate . '.neon';
+		$this->message = $this->decodeFile($file);
 		return $this->message;
 	}
 
 
-	public function setCustomTranslate(string $path): array
+	public function setCustomTranslate(string $path, string $translate): array
 	{
-		$this->message = $this->parseFile($path);
+		$file = $path . $translate . '.neon';
+		$this->message = $this->decodeFile($file);
 		return $this->message;
 	}
 
