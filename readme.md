@@ -24,7 +24,7 @@ composer require drago-ex/translator
 ```
 
 ## Extension registration
-```php
+```neon
 extensions:
 	- Drago\Localization\DI\TranslatorExtension(translateDir: %appDir%/locale)
 ```
@@ -44,20 +44,19 @@ $this->lang;
 $this->getTranslator();
 ```
 
-## We will create the translation in ini files
-```php
-hello.world = Hello, world'!'
+## We will create the translation in neon files
+```neon
+'Hello, world!': 'Hello, world!'
 ```
 
 ## Translation in the template
 ```latte
-{_'hello.world'}
+{_'Hello, world!'}
 ```
 
 ## Translation in forms
 ```php
 $form->setTranslator($this->getTranslator());
-$form->addText('hello', 'hello.world');
 ```
 
 ## Route settings for translation

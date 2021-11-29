@@ -60,7 +60,7 @@ class TestTranslatorExtension extends TestCase
 	public function test02(): void
 	{
 		$class = $this->getTranslatorByType();
-		Assert::same('Hello, world!', $class->translate('hello.world'));
+		Assert::same('Hello, world!', $class->translate('Hello, world!'));
 	}
 
 
