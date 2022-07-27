@@ -19,7 +19,7 @@ use Nette\DI\CompilerExtension;
 class TranslatorExtension extends CompilerExtension
 {
 	public function __construct(
-		public string $translateDir
+		public string $translateDir,
 	) {
 	}
 
