@@ -36,7 +36,7 @@ class TestTranslatorExtension extends TestCase
 
 		$class = $loader->load(function (Compiler $compiler) use ($params): void {
 			$compiler->addExtension('translator', new TranslatorExtension(
-				$params['appDir'] . '/locale'
+				$params['appDir'] . '/locale',
 			));
 		});
 		return new $class;
