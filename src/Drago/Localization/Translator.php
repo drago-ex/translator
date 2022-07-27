@@ -24,7 +24,7 @@ class Translator implements Nette\Localization\Translator
 
 
 	public function __construct(
-		public string $translateDir
+		public string $translateDir,
 	) {
 	}
 
