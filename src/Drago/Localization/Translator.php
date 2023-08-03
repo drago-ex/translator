@@ -10,6 +10,7 @@ declare(strict_types=1);
 namespace Drago\Localization;
 
 use Nette;
+use Nette\Neon\Exception;
 use Nette\Neon\Neon;
 
 
@@ -29,6 +30,9 @@ class Translator implements Nette\Localization\Translator
 	}
 
 
+	/**
+	 * @throws Exception
+	 */
 	private function decodeFile(string $file): array
 	{
 		$arr = [];
@@ -39,6 +43,9 @@ class Translator implements Nette\Localization\Translator
 	}
 
 
+	/**
+	 * @throws Exception
+	 */
 	public function setTranslate(string $translate): array
 	{
 		$file = $this->translateDir . '/' . $translate . '.neon';
@@ -47,6 +54,9 @@ class Translator implements Nette\Localization\Translator
 	}
 
 
+	/**
+	 * @throws Exception
+	 */
 	public function setCustomTranslate(string $path, string $translate): array
 	{
 		$file = $path . $translate . '.neon';

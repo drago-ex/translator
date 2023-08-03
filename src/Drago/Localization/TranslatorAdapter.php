@@ -11,6 +11,7 @@ namespace Drago\Localization;
 
 use Nette\Application\Attributes\Persistent;
 use Nette\Application\UI\Presenter;
+use Nette\Neon\Exception;
 
 
 /**
@@ -34,6 +35,9 @@ trait TranslatorAdapter
 	}
 
 
+	/**
+	 * @throws Exception
+	 */
 	public function getTranslator(): Translator
 	{
 		$this->translator->setTranslate($this->lang);
