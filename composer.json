@@ -19,7 +19,7 @@
 		"nette/tester": "^2.3",
 		"nette/bootstrap": "^3.0",
 		"tracy/tracy": "^2.7",
-		"phpstan/phpstan-nette": "^0.12"
+		"phpstan/phpstan-nette": "^1.2.9"
 	},
 	"autoload": {
 		"classmap": ["src/"]
