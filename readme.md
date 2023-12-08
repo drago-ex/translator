@@ -40,12 +40,15 @@ $this->getTranslator();
 
 ## We will create the translation in neon files
 ```neon
-'Hello, world!': 'Hello, world!'
+"Hello, world!": "Hello, world!"
 ```
 
 ## Translation in the template
 ```latte
-{_'Hello, world!'}
+{_"Hello, world!'"}
+
+{* or use filter *}
+{$var|translate}
 ```
 
 ## Translation in forms
