@@ -45,7 +45,7 @@ $this->getTranslator();
 
 ## Translation in the template
 ```latte
-{_"Hello, world!'"}
+{_"Hello, world!"}
 
 {* filter for translate *}
 {$var|translate}
