@@ -47,7 +47,7 @@ $this->getTranslator();
 ```latte
 {_"Hello, world!'"}
 
-{* or use filter *}
+{* filter for translate *}
 {$var|translate}
 ```
 
