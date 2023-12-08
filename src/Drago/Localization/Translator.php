@@ -19,8 +19,6 @@ use Nette\Neon\Neon;
  */
 class Translator implements Nette\Localization\Translator
 {
-	use Nette\SmartObject;
-
 	private array $message;
 
 
