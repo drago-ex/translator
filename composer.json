@@ -1,7 +1,7 @@
 {
 	"name": "drago-ex/translator",
 	"type": "library",
-	"description": "Simple translator for Nette Framework",
+	"description": "Drago Extension for Nette Framework providing localization support with a custom Translator service and DI integration.",
 	"license": ["MIT"],
 	"authors": [
 		{
@@ -10,7 +10,7 @@
 		}
 	],
 	"require": {
-		"php": ">=8.1 <8.4",
+		"php": ">=8.3 <9",
 		"nette/di": "^3.1",
 		"nette/utils": "^4.0",
 		"nette/application": "^3.1"
