@@ -28,8 +28,6 @@ class Translator implements Nette\Localization\Translator
 
 
 	/**
-	 *
-	 *
 	 * @param string $translateDir The directory containing translation files.
 	 */
 	public function __construct(string $translateDir)

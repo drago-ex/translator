@@ -24,8 +24,6 @@ class TranslatorExtension extends CompilerExtension
 
 
 	/**
-	 *
-	 *
 	 * @param string $translateDir The directory containing translation files.
 	 */
 	public function __construct(string $translateDir)
