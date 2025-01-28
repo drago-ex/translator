@@ -10,7 +10,6 @@ declare(strict_types=1);
 namespace Drago\Localization;
 
 use Nette;
-use Nette\Neon\Exception;
 use Nette\Neon\Neon;
 
 
