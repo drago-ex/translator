@@ -23,46 +23,28 @@ class Translator implements Nette\Localization\Translator
 	/** @var array<string, string> Array of translation messages. */
 	private array $messages = [];
 
-	/** @var string Directory where translation files are stored. */
-	private string $translateDir;
 
-
-	/**
-	 * @param string $translateDir The directory containing translation files.
-	 */
-	public function __construct(string $translateDir)
-	{
-		$this->translateDir = $translateDir;
+	public function __construct(
+		public string $translateDir,
+	) {
 	}
 
 
 	/**
-	 * Decodes a NEON translation file into an associative array.
-	 *
-	 * @param string $file Path to the translation file.
-	 *
-	 * @return array<string, string> Decoded translation messages.
-	 *
-	 * @throws Exception If the file is not found or if decoding fails.
+	 * Decodes the contents of a NEON file and returns it as an array.
 	 */
 	private function decodeFile(string $file): array
 	{
-		if (!is_file($file)) {
-			throw new Exception("File '$file' not found.");
+		$arr = [];
+		if (is_file($file)) {
+			$arr = Neon::decodeFile($file);
 		}
-
-		return Neon::decodeFile($file);
+		return $arr;
 	}
 
 
 	/**
-	 * Loads translations from the default translation file located in the translate directory.
-	 *
-	 * @param string $translate Name of the translation file (without extension).
-	 *
-	 * @return array<string, string> Loaded translation messages.
-	 *
-	 * @throws Exception If the translation file cannot be loaded or decoded.
+	 * Sets the default translation file and loads its content into messages.
 	 */
 	public function setTranslate(string $translate): array
 	{
@@ -72,14 +54,7 @@ class Translator implements Nette\Localization\Translator
 
 
 	/**
-	 * Loads translations from a custom translation file located at a specific path.
-	 *
-	 * @param string $path Path to the directory containing the translation file.
-	 * @param string $translate Name of the translation file (without extension).
-	 *
-	 * @return array<string, string> Loaded translation messages.
-	 *
-	 * @throws Exception If the translation file cannot be loaded or decoded.
+	 * Sets a custom translation file from a given path and loads its content into messages.
 	 */
 	public function setCustomTranslate(string $path, string $translate): array
 	{
@@ -89,14 +64,7 @@ class Translator implements Nette\Localization\Translator
 
 
 	/**
-	 * Translates the given message by looking it up in the loaded translations.
-	 *
-	 * If the message is not found, it will return the original message as a string.
-	 *
-	 * @param mixed $message The message to translate.
-	 * @param mixed ...$parameters Parameters for string interpolation (not used in this implementation).
-	 *
-	 * @return string Translated message or original message if not found.
+	 * Translates a message, returns the translated string or the original message if no translation is found.
 	 */
 	public function translate(mixed $message, mixed ...$parameters): string
 	{
