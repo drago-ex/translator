@@ -8,9 +8,10 @@ Simple and lightweight translator for Nette Framework, providing localization su
 [![CodeFactor](https://www.codefactor.io/repository/github/drago-ex/translator/badge)](https://www.codefactor.io/repository/github/drago-ex/translator)
 [![Coverage Status](https://coveralls.io/repos/github/drago-ex/translator/badge.svg?branch=master)](https://coveralls.io/github/drago-ex/translator?branch=master)
 
-## Technology
-- PHP 8.3 or higher
-- composer
+## Requirements
+- PHP >= 8.3
+- Nette Framework
+- Composer
 
 ## Installation
 ```
@@ -76,3 +77,4 @@ To switch between languages in your templates, you can use n:href to pass the se
 <a n:href="this, 'lang' => 'cs'">Czech</a>
 <a n:href="this, 'lang' => 'en'">English</a>
 ```
+
