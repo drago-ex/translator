@@ -77,5 +77,3 @@ To switch between languages in your templates, you can use n:href to pass the se
 <a n:href="this, 'lang' => 'cs'">Czech</a>
 <a n:href="this, 'lang' => 'en'">English</a>
 ```
-
-
