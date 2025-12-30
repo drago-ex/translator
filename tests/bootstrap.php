@@ -18,7 +18,7 @@ const TemDir = __DIR__ . '/tmp';
 @mkdir(dirname(TemDir));
 @mkdir(TemDir);
 
-$boot = new Configurator();
+$boot = new Configurator;
 $boot->setTempDirectory(TemDir);
 $boot->createRobotLoader()
 	->addDirectory(__DIR__)
