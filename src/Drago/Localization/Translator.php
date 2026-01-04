@@ -15,36 +15,36 @@ use Nette\Neon\Neon;
 
 
 /**
- * Handles loading and translating messages from NEON files.
- * Supports multiple translation directories, allowing global and module-specific translations.
+ * NEON-based translator implementation.
+ *
+ * Supports multiple translation directories.
+ * Later directories override earlier ones.
  */
 class Translator implements Nette\Localization\Translator
 {
-	/** @var array<string, string> Loaded and merged translation messages */
+	/** @var array<string, string> */
 	private array $messages = [];
 
-	/** @var string[] Registered translation directories */
+	/** @var string[] */
 	private array $translateDirs = [];
 
 
 	/**
-	 * @param string $translateDir Path to the main translation directory
-	 * @param Options $options Optional module-specific translation directory
+	 * @param string  $translateDir Base translation directory
+	 * @param Options $options      Translator configuration
 	 */
 	public function __construct(string $translateDir, Options $options)
 	{
 		$this->addTranslateDir($translateDir);
-		if ($options->moduleDir) {
-			$this->addTranslateDir($options->moduleDir);
+
+		if ($options->moduleLocaleDir) {
+			$this->addTranslateDir($options->moduleLocaleDir);
 		}
 	}
 
 
 	/**
-	 * Adds a translation directory.
-	 * Later directories override earlier ones if keys collide.
-	 *
-	 * @param string $dir Path to translation directory
+	 * @param string $dir Translation directory path
 	 */
 	public function addTranslateDir(string $dir): void
 	{
@@ -59,15 +59,15 @@ class Translator implements Nette\Localization\Translator
 
 
 	/**
-	 * Loads and merges translations for the given language from all registered directories.
+	 * Loads translations for given language.
 	 *
-	 * @param string $lang Language code (e.g., 'cs', 'en')
-	 * @return array<string, string> Merged translations
+	 * @param string $lang Language code (e.g. 'cs', 'en')
 	 * @throws Exception
 	 */
 	public function setTranslate(string $lang): array
 	{
 		$this->messages = [];
+
 		foreach ($this->translateDirs as $dir) {
 			$file = $dir . '/' . $lang . '.neon';
 
@@ -83,13 +83,6 @@ class Translator implements Nette\Localization\Translator
 	}
 
 
-	/**
-	 * Translates a message.
-	 *
-	 * @param mixed $message The original message
-	 * @param mixed ...$parameters Additional parameters (currently unused)
-	 * @return string Translated message or original if not found
-	 */
 	public function translate(mixed $message, mixed ...$parameters): string
 	{
 		return $this->messages[$message] ?? (string) $message;

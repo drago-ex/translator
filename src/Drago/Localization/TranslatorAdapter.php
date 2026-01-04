@@ -5,7 +5,6 @@
  * Package built on Nette Framework
  */
 
-
 declare(strict_types=1);
 
 namespace Drago\Localization;
@@ -16,27 +15,24 @@ use Nette\Neon\Exception;
 
 
 /**
- * Trait for presenters to provide translation functionality.
- * Handles language parameter and injects the Translator instance.
+ * Presenter helper for translator integration.
+ *
+ * Handles persistent language parameter
+ * and template translator setup.
  */
 trait TranslatorAdapter
 {
-	/** @var string Language code from route (persistent) */
 	#[Persistent]
 	public string $lang;
 
-	/** @var Translator Translator instance used for translations */
 	public Translator $translator;
 
-	/** @var bool Ensures translations are initialized only once per request */
 	private bool $translatorInitialized = false;
 
 
 	/**
-	 * Injects the Translator and sets up template integration.
-	 *
 	 * @param Translator $translator Translator service
-	 * @param Presenter $presenter Presenter to inject translator into
+	 * @param Presenter  $presenter  Target presenter
 	 */
 	public function injectTranslator(Translator $translator, Presenter $presenter): void
 	{
@@ -50,9 +46,7 @@ trait TranslatorAdapter
 
 
 	/**
-	 * Returns the Translator instance with merged translations for the current language.
-	 *
-	 * @return Translator
+	 * Returns initialized translator for current language.
 	 * @throws Exception
 	 */
 	public function getTranslator(): Translator

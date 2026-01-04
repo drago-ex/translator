@@ -11,12 +11,12 @@ namespace Drago\Localization;
 
 
 /**
- * Translator options.
+ * Translator configuration options.
  *
- * Holds optional module-specific translation directory.
+ * Used by the DI extension.
  */
 class Options
 {
-	/** @var string|null Optional path to module-specific translations */
-	public ?string $moduleDir = null;
+	/** Optional path to module translations. */
+	public ?string $moduleLocaleDir = null;
 }

@@ -87,15 +87,6 @@ class TestTranslatorExtension extends TestCase
 		$class->injectTranslator($this->getTranslatorByType(), $testPresenter);
 		return $class->getTranslator();
 	}
-
-
-	public function test05(): void
-	{
-		$messages = $this->translator()
-			->setCustomTranslate(__DIR__ . '/../../locale/', 'en');
-
-		Assert::type('array', $messages);
-	}
 }
 
 (new TestTranslatorExtension($container))->run();
