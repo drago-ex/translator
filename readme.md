@@ -103,4 +103,3 @@ You can switch languages by passing the lang parameter:
 - Translator loads translations lazily on first use
 - Translations are loaded once per request
 - Missing keys return the original message
-
