@@ -1,5 +1,7 @@
 ## Drago Translator
-Simple and lightweight translator for Nette Framework, providing localization support using NEON translation files.
+Simple and lightweight translator for the Nette Framework.
+Provides localization using NEON translation files with support
+for global and optional module-specific translations.
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://raw.githubusercontent.com/drago-ex/translator/master/license)
 [![PHP version](https://badge.fury.io/ph/drago-ex%2Ftranslator.svg)](https://badge.fury.io/ph/drago-ex%2Ftranslator)
@@ -19,18 +21,44 @@ composer require drago-ex/translator
 ```
 
 ## Extension registration
-Register the `Drago\Localization\DI\TranslatorExtension` in your Nette project by adding the following
-configuration to your `neon` file:
+Register the DI extension in your NEON configuration.
+You must provide a base directory for translation files.
 ```neon
 extensions:
 	- Drago\Localization\DI\TranslatorExtension(translateDir: %appDir%/locale)
 ```
 
-## Use in the presenter
-To use the translator in your presenter, add the `TranslatorAdapter` trait:
-```php
-use Drago\Localization\TranslatorAdapter
+## Optional configuration
+```neon
+translator:
+	moduleLocaleDir: %appDir%/modules/Blog/locale
 ```
+
+## The translator supports multiple translation directories.
+- The base directory is always loaded first
+- The optional module directory is loaded second
+- If translation keys collide, later directories override earlier ones
+
+Translation files must be named by language code:
+```
+cs.neon
+en.neon
+```
+
+## Translation File Format
+```neon
+"Hello, world!": "Hello, world!"
+```
+
+## Using Translator in Presenters
+Add the TranslatorAdapter trait to your presenter:
+```php
+use Drago\Localization\TranslatorAdapter;
+```
+The trait provides:
+- persistent language parameter ($lang)
+- automatic translator initialization
+- template integration
 
 ## Accessing the Current Language
 You can access the currently set language using the following property:
@@ -38,42 +66,40 @@ You can access the currently set language using the following property:
 $this->lang;
 ```
 
-## Get Translator Instance
-To get the translator instance, use the `getTranslator` method:
+## Getting Translator Instance
+To get the initialized translator for the current language:
 ```php
-$this->getTranslator();
-```
-
-## Translation File Format
-Translation files should be written in the NEON format. For example:
-```neon
-"Hello, world!": "Hello, world!"
+$this->getTranslator()
 ```
 
 ## Using Translations in Templates
-You can translate strings directly in your Latte templates using the following syntax:
+The translator is automatically registered in templates.
+Example usage in Latte:
 ```latte
 {_"Hello, world!"}
-
-{* Using a filter for translation *}
-{$var|translate}
+{$label|translate}
 ```
 
-## Translating Forms
-To use translations in forms, simply set the translator for the form:
+## Using Translator in Forms
+To enable translations in forms, set the translator explicitly:
 ```php
 $form->setTranslator($this->getTranslator());
 ```
 
-## Route Configuration for Language Switching
-Set up your routes to support language prefixes. For example, you can define routes with language codes:
+## Routing for Language Switching
+To support language prefixes, configure your routes accordingly:
 ```php
 $router->addRoute('[<lang=en cs|en>/]<presenter>/<action>', 'Presenter:action');
 ```
 
 ## Switching Languages in Templates
-To switch between languages in your templates, you can use n:href to pass the selected language:
+You can switch languages by passing the lang parameter:
 ```latte
-<a n:href="this, 'lang' => 'cs'">Czech</a>
-<a n:href="this, 'lang' => 'en'">English</a>
+<a n:href="this, lang => cs">Czech</a>
+<a n:href="this, lang => en">English</a>
 ```
+
+## Notes
+- Translator loads translations lazily on first use
+- Translations are loaded once per request
+- Missing keys return the original message

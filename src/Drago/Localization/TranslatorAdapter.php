@@ -15,34 +15,29 @@ use Nette\Neon\Exception;
 
 
 /**
- * TranslatorAdapter trait provides translation functionality to presenters
- * by injecting a Translator instance and handling the language setting.
+ * Presenter helper for translator integration.
+ *
+ * Handles persistent language parameter
+ * and template translator setup.
  */
 trait TranslatorAdapter
 {
-	/**
-	 * @var string The selected language for translation.
-	 * The language is persisted across requests.
-	 */
 	#[Persistent]
 	public string $lang;
 
-	/** @var Translator The Translator instance responsible for translating messages. */
 	public Translator $translator;
+
+	private bool $translatorInitialized = false;
 
 
 	/**
-	 * Injects the Translator instance and sets up the onRender callback
-	 * to pass the language and translator to the presenter template.
-	 *
-	 * @param Translator $translator The translator to inject.
-	 * @param Presenter $presenter The presenter in which the language and translator will be used.
+	 * @param Translator $translator Translator service
+	 * @param Presenter  $presenter  Target presenter
 	 */
 	public function injectTranslator(Translator $translator, Presenter $presenter): void
 	{
 		$this->translator = $translator;
 
-		// Set language and translator in the presenter template before rendering
 		$presenter->onRender[] = function () use ($presenter) {
 			$presenter->template->lang = $this->lang;
 			$presenter->template->setTranslator($this->getTranslator());
@@ -51,15 +46,16 @@ trait TranslatorAdapter
 
 
 	/**
-	 * Gets the Translator instance with the current language set.
-	 *
-	 * @throws Exception If the translator is not properly set or if the language file is missing.
-	 * @return Translator The configured Translator instance.
+	 * Returns initialized translator for current language.
+	 * @throws Exception
 	 */
 	public function getTranslator(): Translator
 	{
-		// Set the translation file based on the current language
-		$this->translator->setTranslate($this->lang);
+		if (!$this->translatorInitialized) {
+			$this->translator->setTranslate($this->lang);
+			$this->translatorInitialized = true;
+		}
+
 		return $this->translator;
 	}
 }

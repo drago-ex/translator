@@ -9,22 +9,27 @@ declare(strict_types=1);
 
 namespace Drago\Localization\DI;
 
+use Drago\Localization\Options;
 use Drago\Localization\Translator;
 use Nette\DI\CompilerExtension;
+use Nette\Schema\Expect;
+use Nette\Schema\Processor;
+use Nette\Schema\Schema;
 
 
 /**
- * CompilerExtension for registering the Translator service in the DI container.
- * This extension allows the injection of a custom translation directory for the Translator service.
+ * Nette DI extension for registering the Translator service.
+ *
+ * Allows configuration of an optional module-specific
+ * translation directory.
  */
 class TranslatorExtension extends CompilerExtension
 {
-	/** @var string The directory where translation files are stored. */
 	private string $translateDir;
 
 
 	/**
-	 * @param string $translateDir The directory containing translation files.
+	 * @param string $translateDir Base translation directory
 	 */
 	public function __construct(string $translateDir)
 	{
@@ -32,16 +37,24 @@ class TranslatorExtension extends CompilerExtension
 	}
 
 
-	/**
-	 * Loads the configuration for the Translator service into the container.
-	 * Registers the Translator service with the provided translation directory.
-	 */
+	public function getConfigSchema(): Schema
+	{
+		return Expect::structure([
+			'moduleLocaleDir' => Expect::string()->nullable(),
+		]);
+	}
+
+
 	public function loadConfiguration(): void
 	{
 		$builder = $this->getContainerBuilder();
 
-		// Register the Translator service with the translation directory
+		$options = (new Processor)->process(
+			Expect::from(new Options),
+			$this->config,
+		);
+
 		$builder->addDefinition($this->prefix('translator'))
-			->setFactory(Translator::class, [$this->translateDir]);
+			->setFactory(Translator::class, [$this->translateDir, $options]);
 	}
 }

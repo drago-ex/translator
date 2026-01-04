@@ -10,61 +10,79 @@ declare(strict_types=1);
 namespace Drago\Localization;
 
 use Nette;
+use Nette\Neon\Exception;
 use Nette\Neon\Neon;
 
 
 /**
- * Translator class provides simple localization by loading translations from NEON files.
- * It allows setting default and custom translation files and translates messages.
+ * NEON-based translator implementation.
+ *
+ * Supports multiple translation directories.
+ * Later directories override earlier ones.
  */
 class Translator implements Nette\Localization\Translator
 {
-	/** @var array<string, string> Array of translation messages. */
+	/** @var array<string, string> */
 	private array $messages = [];
 
-
-	public function __construct(
-		public string $translateDir,
-	) {
-	}
+	/** @var string[] */
+	private array $translateDirs = [];
 
 
 	/**
-	 * Decodes the contents of a NEON file and returns it as an array.
+	 * @param string  $translateDir Base translation directory
+	 * @param Options $options      Translator configuration
 	 */
-	private function decodeFile(string $file): array
+	public function __construct(string $translateDir, Options $options)
 	{
-		$arr = [];
-		if (is_file($file)) {
-			$arr = Neon::decodeFile($file);
+		$this->addTranslateDir($translateDir);
+
+		if ($options->moduleLocaleDir) {
+			$this->addTranslateDir($options->moduleLocaleDir);
 		}
-		return $arr;
 	}
 
 
 	/**
-	 * Sets the default translation file and loads its content into messages.
+	 * @param string $dir Translation directory path
 	 */
-	public function setTranslate(string $translate): array
+	public function addTranslateDir(string $dir): void
 	{
-		$file = $this->translateDir . '/' . $translate . '.neon';
-		return $this->messages = $this->decodeFile($file);
+		if (!is_dir($dir)) {
+			return;
+		}
+
+		if (!in_array($dir, $this->translateDirs, true)) {
+			$this->translateDirs[] = $dir;
+		}
 	}
 
 
 	/**
-	 * Sets a custom translation file from a given path and loads its content into messages.
+	 * Loads translations for given language.
+	 *
+	 * @param string $lang Language code (e.g. 'cs', 'en')
+	 * @throws Exception
 	 */
-	public function setCustomTranslate(string $path, string $translate): array
+	public function setTranslate(string $lang): array
 	{
-		$file = $path . $translate . '.neon';
-		return $this->messages = $this->decodeFile($file);
+		$this->messages = [];
+
+		foreach ($this->translateDirs as $dir) {
+			$file = $dir . '/' . $lang . '.neon';
+
+			if (is_file($file)) {
+				$data = Neon::decodeFile($file);
+				if (is_array($data)) {
+					$this->messages = array_merge($this->messages, $data);
+				}
+			}
+		}
+
+		return $this->messages;
 	}
 
 
-	/**
-	 * Translates a message, returns the translated string or the original message if no translation is found.
-	 */
 	public function translate(mixed $message, mixed ...$parameters): string
 	{
 		return $this->messages[$message] ?? (string) $message;
