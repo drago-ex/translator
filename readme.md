@@ -23,7 +23,7 @@ Register the DI extension in your NEON configuration.
 You must provide a base directory for translation files.
 ```neon
 extensions:
-	- Drago\Localization\DI\TranslatorExtension(translateDir: %appDir%/locale)
+	translator: Drago\Localization\DI\TranslatorExtension(translateDir: %appDir%/locale)
 ```
 
 ## Optional configuration
