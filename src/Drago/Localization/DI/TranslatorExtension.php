@@ -9,22 +9,26 @@ declare(strict_types=1);
 
 namespace Drago\Localization\DI;
 
+use Drago\Localization\Options;
 use Drago\Localization\Translator;
 use Nette\DI\CompilerExtension;
+use Nette\Schema\Expect;
+use Nette\Schema\Processor;
+use Nette\Schema\Schema;
 
 
 /**
- * CompilerExtension for registering the Translator service in the DI container.
- * This extension allows the injection of a custom translation directory for the Translator service.
+ * DI extension for registering the Translator service.
+ * Supports global and optional module-specific translation directories.
  */
 class TranslatorExtension extends CompilerExtension
 {
-	/** @var string The directory where translation files are stored. */
+	/** @var string Path to the main translation directory */
 	private string $translateDir;
 
 
 	/**
-	 * @param string $translateDir The directory containing translation files.
+	 * @param string $translateDir Path to the main translation directory
 	 */
 	public function __construct(string $translateDir)
 	{
@@ -33,15 +37,35 @@ class TranslatorExtension extends CompilerExtension
 
 
 	/**
-	 * Loads the configuration for the Translator service into the container.
-	 * Registers the Translator service with the provided translation directory.
+	 * Defines the structure of the extension configuration.
+	 *
+	 * @return Schema Expected configuration structure
+	 */
+	public function getConfigSchema(): Schema
+	{
+		return Expect::structure([
+			'moduleDir' => Expect::string()->nullable(), // Optional module-specific translations
+		]);
+	}
+
+
+	/**
+	 * Registers the Translator service in the DI container.
+	 * Adds both the global and optional module translation directories.
 	 */
 	public function loadConfiguration(): void
 	{
 		$builder = $this->getContainerBuilder();
 
-		// Register the Translator service with the translation directory
+		// Normalize config into Options object
+		$processor = new Processor;
+		$options = $processor->process(
+			Expect::from(new Options),
+			$this->config,
+		);
+
+		// Register Translator service
 		$builder->addDefinition($this->prefix('translator'))
-			->setFactory(Translator::class, [$this->translateDir]);
+			->setFactory(Translator::class, [$this->translateDir, $options]);
 	}
 }

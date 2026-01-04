@@ -5,6 +5,7 @@
  * Package built on Nette Framework
  */
 
+
 declare(strict_types=1);
 
 namespace Drago\Localization;
@@ -15,34 +16,32 @@ use Nette\Neon\Exception;
 
 
 /**
- * TranslatorAdapter trait provides translation functionality to presenters
- * by injecting a Translator instance and handling the language setting.
+ * Trait for presenters to provide translation functionality.
+ * Handles language parameter and injects the Translator instance.
  */
 trait TranslatorAdapter
 {
-	/**
-	 * @var string The selected language for translation.
-	 * The language is persisted across requests.
-	 */
+	/** @var string Language code from route (persistent) */
 	#[Persistent]
 	public string $lang;
 
-	/** @var Translator The Translator instance responsible for translating messages. */
+	/** @var Translator Translator instance used for translations */
 	public Translator $translator;
+
+	/** @var bool Ensures translations are initialized only once per request */
+	private bool $translatorInitialized = false;
 
 
 	/**
-	 * Injects the Translator instance and sets up the onRender callback
-	 * to pass the language and translator to the presenter template.
+	 * Injects the Translator and sets up template integration.
 	 *
-	 * @param Translator $translator The translator to inject.
-	 * @param Presenter $presenter The presenter in which the language and translator will be used.
+	 * @param Translator $translator Translator service
+	 * @param Presenter $presenter Presenter to inject translator into
 	 */
 	public function injectTranslator(Translator $translator, Presenter $presenter): void
 	{
 		$this->translator = $translator;
 
-		// Set language and translator in the presenter template before rendering
 		$presenter->onRender[] = function () use ($presenter) {
 			$presenter->template->lang = $this->lang;
 			$presenter->template->setTranslator($this->getTranslator());
@@ -51,15 +50,18 @@ trait TranslatorAdapter
 
 
 	/**
-	 * Gets the Translator instance with the current language set.
+	 * Returns the Translator instance with merged translations for the current language.
 	 *
-	 * @throws Exception If the translator is not properly set or if the language file is missing.
-	 * @return Translator The configured Translator instance.
+	 * @return Translator
+	 * @throws Exception
 	 */
 	public function getTranslator(): Translator
 	{
-		// Set the translation file based on the current language
-		$this->translator->setTranslate($this->lang);
+		if (!$this->translatorInitialized) {
+			$this->translator->setTranslate($this->lang);
+			$this->translatorInitialized = true;
+		}
+
 		return $this->translator;
 	}
 }
