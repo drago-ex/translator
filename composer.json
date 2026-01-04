@@ -1,7 +1,7 @@
 {
 	"name": "drago-ex/translator",
 	"type": "library",
-	"description": "Drago Extension for Nette Framework providing localization support with a custom Translator service and DI integration.",
+	"description": "Simple and lightweight translator for the Nette Framework. Provides localization using NEON translation files with support for global and optional module-specific translations.",
 	"license": ["MIT"],
 	"authors": [
 		{
@@ -29,3 +29,4 @@
 		"tester": "tester tests -s"
 	}
 }
+
