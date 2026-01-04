@@ -1,7 +1,5 @@
 ## Drago Translator
-Simple and lightweight translator for the Nette Framework.
-Provides localization using NEON translation files with support
-for global and optional module-specific translations.
+Lightweight translator for Nette Framework using NEON files, supporting global and module-specific translations
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://raw.githubusercontent.com/drago-ex/translator/master/license)
 [![PHP version](https://badge.fury.io/ph/drago-ex%2Ftranslator.svg)](https://badge.fury.io/ph/drago-ex%2Ftranslator)
@@ -103,3 +101,4 @@ You can switch languages by passing the lang parameter:
 - Translator loads translations lazily on first use
 - Translations are loaded once per request
 - Missing keys return the original message
+
