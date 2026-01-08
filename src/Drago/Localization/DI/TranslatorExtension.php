@@ -11,6 +11,7 @@ namespace Drago\Localization\DI;
 
 use Drago\Localization\Options;
 use Drago\Localization\Translator;
+use Drago\Localization\TranslatorFinder;
 use Nette\DI\CompilerExtension;
 use Nette\Schema\Expect;
 use Nette\Schema\Processor;
@@ -25,22 +26,26 @@ use Nette\Schema\Schema;
  */
 class TranslatorExtension extends CompilerExtension
 {
-	private string $translateDir;
+	private string $appDir;
+	private string $tempDir;
 
 
 	/**
-	 * @param string $translateDir Base translation directory
+	 * @param string $appDir  Base application directory (%appDir%)
+	 * @param string $tempDir Temp directory for caching (%tempDir%)
 	 */
-	public function __construct(string $translateDir)
+	public function __construct(string $appDir, string $tempDir)
 	{
-		$this->translateDir = $translateDir;
+		$this->appDir = $appDir;
+		$this->tempDir = $tempDir;
 	}
 
 
 	public function getConfigSchema(): Schema
 	{
 		return Expect::structure([
-			'moduleLocaleDir' => Expect::string()->nullable(),
+			'autoFinder' => Expect::bool(true),
+			'translateDir' => Expect::string()->nullable(),
 		]);
 	}
 
@@ -48,13 +53,17 @@ class TranslatorExtension extends CompilerExtension
 	public function loadConfiguration(): void
 	{
 		$builder = $this->getContainerBuilder();
-
 		$options = (new Processor)->process(
 			Expect::from(new Options),
 			$this->config,
 		);
 
+		// Register TranslationFinder service.
+		$builder->addDefinition($this->prefix('finder'))
+			->setFactory(TranslatorFinder::class, [$this->appDir, $this->tempDir]);
+
+		// Register Translator service.
 		$builder->addDefinition($this->prefix('translator'))
-			->setFactory(Translator::class, [$this->translateDir, $options]);
+			->setFactory(Translator::class, [$options, $this->prefix('@finder')]);
 	}
 }

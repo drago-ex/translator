@@ -9,18 +9,22 @@ declare(strict_types=1);
 
 namespace Drago\Localization;
 
-use Nette;
-use Nette\Neon\Exception;
 use Nette\Neon\Neon;
+use Nette\Localization\Translator as ITranslator;
+use Nette\Neon\Exception;
+use Throwable;
 
 
 /**
  * NEON-based translator implementation.
  *
- * Supports multiple translation directories.
+ * Supports multiple translation sources:
+ * - Single translation directory (manual)
+ * - Automatic finder scanning the whole app directory
+ *
  * Later directories override earlier ones.
  */
-class Translator implements Nette\Localization\Translator
+class Translator implements ITranslator
 {
 	/** @var array<string, string> */
 	private array $messages = [];
@@ -30,21 +34,23 @@ class Translator implements Nette\Localization\Translator
 
 
 	/**
-	 * @param string  $translateDir Base translation directory
-	 * @param Options $options      Translator configuration
+	 * @param Options $options Translator configuration
+	 * @param TranslatorFinder $finder Finder service (used if autoFinder is enabled)
 	 */
-	public function __construct(string $translateDir, Options $options)
-	{
-		$this->addTranslateDir($translateDir);
-
-		if ($options->moduleLocaleDir) {
-			$this->addTranslateDir($options->moduleLocaleDir);
+	public function __construct(
+		private readonly Options $options,
+		private readonly TranslatorFinder $finder,
+	) {
+		if (!$options->autoFinder && $options->translateDir !== null) {
+			$this->addTranslateDir($options->translateDir);
 		}
 	}
 
 
 	/**
-	 * @param string $dir Translation directory path
+	 * Add a custom translation directory.
+	 *
+	 * @param string $dir Absolute path to translation directory
 	 */
 	public function addTranslateDir(string $dir): void
 	{
@@ -59,30 +65,49 @@ class Translator implements Nette\Localization\Translator
 
 
 	/**
-	 * Loads translations for given language.
+	 * Loads translations for the given language.
 	 *
 	 * @param string $lang Language code (e.g. 'cs', 'en')
+	 * @return array<string, string>
 	 * @throws Exception
+	 * @throws Throwable
 	 */
 	public function setTranslate(string $lang): array
 	{
 		$this->messages = [];
+		$files = $this->options->autoFinder
+			? $this->finder->findFiles($lang)
+			: array_map(fn($dir) => $dir . '/' . $lang . '.neon', $this->translateDirs);
 
-		foreach ($this->translateDirs as $dir) {
-			$file = $dir . '/' . $lang . '.neon';
-
-			if (is_file($file)) {
-				$data = Neon::decodeFile($file);
-				if (is_array($data)) {
-					$this->messages = array_merge($this->messages, $data);
-				}
-			}
-		}
-
+		$this->loadFiles($files);
 		return $this->messages;
 	}
 
 
+	/**
+	 * Helper method to load NEON files and merge messages.
+	 *
+	 * @param string[] $files
+	 * @throws Exception
+	 */
+	private function loadFiles(array $files): void
+	{
+		foreach ($files as $file) {
+			if (!is_file($file)) {
+				continue;
+			}
+
+			$data = Neon::decodeFile($file);
+			if (is_array($data)) {
+				$this->messages = array_merge($this->messages, $data);
+			}
+		}
+	}
+
+
+	/**
+	 * Translate a message.
+	 */
 	public function translate(mixed $message, mixed ...$parameters): string
 	{
 		return $this->messages[$message] ?? (string) $message;

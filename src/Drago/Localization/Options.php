@@ -17,6 +17,15 @@ namespace Drago\Localization;
  */
 class Options
 {
-	/** Optional path to module translations. */
-	public ?string $moduleLocaleDir = null;
+	/**
+	 * Enables automatic scanning of all translation files in the app directory.
+	 * If false, translator will use only the manually specified translateDir.
+	 */
+	public bool $autoFinder = true;
+
+	/**
+	 * Custom translation directory.
+	 * Must be set if autoFinder is false.
+	 */
+	public ?string $translateDir = null;
 }
