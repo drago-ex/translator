@@ -37,7 +37,6 @@ trait TranslatorAdapter
 	public function injectTranslator(Translator $translator, Presenter $presenter): void
 	{
 		$this->translator = $translator;
-
 		$presenter->onRender[] = function () use ($presenter) {
 			$presenter->template->lang = $this->lang;
 			$presenter->template->setTranslator($this->getTranslator());
@@ -56,7 +55,6 @@ trait TranslatorAdapter
 			$this->translator->setTranslate($this->lang);
 			$this->translatorInitialized = true;
 		}
-
 		return $this->translator;
 	}
 }
