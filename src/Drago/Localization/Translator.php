@@ -35,11 +35,11 @@ class Translator implements ITranslator
 
 	/**
 	 * @param Options $options Translator configuration
-	 * @param TranslatorFinder $finder Finder service (used if autoFinder is enabled)
+	 * @param TranslatorFinder $translatorFinder Finder service (used if autoFinder is enabled)
 	 */
 	public function __construct(
 		private readonly Options $options,
-		private readonly TranslatorFinder $finder,
+		private readonly TranslatorFinder $translatorFinder,
 	) {
 		if (!$options->autoFinder && $options->translateDir !== null) {
 			$this->addTranslateDir($options->translateDir);
@@ -75,11 +75,11 @@ class Translator implements ITranslator
 	public function setTranslate(string $lang): array
 	{
 		$this->messages = [];
-		$files = $this->options->autoFinder
-			? $this->finder->findFiles($lang)
+		$translateFiles = $this->options->autoFinder
+			? $this->translatorFinder->findFiles($lang)
 			: array_map(fn($dir) => $dir . '/' . $lang . '.neon', $this->translateDirs);
 
-		$this->loadFiles($files);
+		$this->loadTranslateFiles($translateFiles);
 		return $this->messages;
 	}
 
@@ -90,7 +90,7 @@ class Translator implements ITranslator
 	 * @param string[] $files
 	 * @throws Exception
 	 */
-	private function loadFiles(array $files): void
+	private function loadTranslateFiles(array $files): void
 	{
 		foreach ($files as $file) {
 			if (!is_file($file)) {
