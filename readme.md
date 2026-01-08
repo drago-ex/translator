@@ -23,19 +23,22 @@ Register the DI extension in your NEON configuration.
 You must provide a base directory for translation files.
 ```neon
 extensions:
-	translator: Drago\Localization\DI\TranslatorExtension(translateDir: %appDir%/locale)
+	translator: Drago\Localization\DI\TranslatorExtension(%appDir%, %tempDir%)
 ```
 
 ## Optional configuration
 ```neon
 translator:
-	moduleLocaleDir: %appDir%/modules/Blog/locale
+	autoFinder: false
+	translateDir:
+		- %appDir%/First/Translate
+		- %appDir%/Second/Translate
 ```
 
-## The translator supports multiple translation directories.
-- The base directory is always loaded first
-- The optional module directory is loaded second
-- If translation keys collide, later directories override earlier ones
+## Translator Behavior
+- All directories listed in translateDirs are loaded in order.
+- Later directories override translations from earlier ones.
+- If autoFinder is enabled, the entire application directory is scanned for NEON files.
 
 Translation files must be named by language code:
 ```
