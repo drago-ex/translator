@@ -25,7 +25,7 @@ class TranslatorFinder
 	public const string Caching = 'translator.search';
 
 	private string $appDir;
-	private string $cacheDir . '/cache';
+	private string $cacheDir;
 
 
 	/**
@@ -35,7 +35,7 @@ class TranslatorFinder
 	public function __construct(string $appDir, string $cacheDir)
 	{
 		$this->appDir = $appDir;
-		$this->cacheDir = $cacheDir;
+		$this->cacheDir = $cacheDir . '/cache';
 	}
 
 
