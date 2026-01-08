@@ -26,6 +26,8 @@ class Options
 	/**
 	 * Custom translation directory.
 	 * Must be set if autoFinder is false.
+	 *
+	 * @var string[]
 	 */
-	public ?string $translateDir = null;
+	public array $translateDir = [];
 }

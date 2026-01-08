@@ -41,8 +41,10 @@ class Translator implements ITranslator
 		private readonly Options $options,
 		private readonly TranslatorFinder $translatorFinder,
 	) {
-		if (!$options->autoFinder && $options->translateDir !== null) {
-			$this->addTranslateDir($options->translateDir);
+		if (!$options->autoFinder) {
+			foreach ($options->translateDir as $dir) {
+				$this->addTranslateDir($dir);
+			}
 		}
 	}
 
