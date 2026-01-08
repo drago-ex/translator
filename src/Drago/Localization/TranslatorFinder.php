@@ -25,7 +25,7 @@ class TranslatorFinder
 	public const string Caching = 'translator.search';
 
 	private string $appDir;
-	private string $cacheDir;
+	private string $cacheDir . '/cache';
 
 
 	/**
