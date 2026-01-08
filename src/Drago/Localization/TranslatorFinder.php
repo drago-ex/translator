@@ -30,12 +30,12 @@ class TranslatorFinder
 
 	/**
 	 * @param string $appDir Base application directory (%appDir%)
-	 * @param string $cacheDir Optional temp directory (%tempDir%)
+	 * @param string $tempDir Optional temp directory (%tempDir%)
 	 */
-	public function __construct(string $appDir, string $cacheDir)
+	public function __construct(string $appDir, string $tempDir)
 	{
 		$this->appDir = $appDir;
-		$this->tempDir = $cacheDir . '/cache';
+		$this->tempDir = $tempDir . '/cache';
 	}
 
 
