@@ -38,7 +38,8 @@ class TestTranslatorExtension extends TestCase
 			$compiler->loadConfig(Tester\FileMock::create('
 			translator:
 				autoFinder: false
-				translateDir: locale
+				translateDir:
+					- locale
 			', 'neon'));
 			$compiler->addExtension(
 				'translator',
