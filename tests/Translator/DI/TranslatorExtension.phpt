@@ -35,8 +35,13 @@ class TestTranslatorExtension extends TestCase
 		$loader = new ContainerLoader($params['tempDir'], true);
 
 		$class = $loader->load(function (Compiler $compiler) use ($params): void {
+			$compiler->loadConfig(Tester\FileMock::create('
+			translator:
+				autoFinder: false
+				translateDir: %appDir%/locale
+			', 'neon'));
 			$compiler->addExtension('translator', new TranslatorExtension(
-				$params['appDir'] . '/locale',
+				$params['appDir'], $params['tempDir'],
 			));
 		});
 		return new $class;
