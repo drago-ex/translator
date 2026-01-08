@@ -14,12 +14,12 @@
 		"nette/di": "^3.1",
 		"nette/utils": "^4.0",
 		"nette/application": "^3.1",
-		"nette/caching": "^3.4"
+		"nette/caching": "^3.4",
+		"tracy/tracy": "^2.10"
 	},
 	"require-dev": {
 		"nette/tester": "^2.5",
 		"nette/bootstrap": "^3.1",
-		"tracy/tracy": "^2.10",
 		"phpstan/phpstan-nette": "^1.2.9"
 	},
 	"autoload": {
