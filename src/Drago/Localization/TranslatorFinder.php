@@ -25,17 +25,17 @@ class TranslatorFinder
 	public const string Caching = 'translator.search';
 
 	private string $appDir;
-	private string $cacheDir;
+	private string $tempDir;
 
 
 	/**
 	 * @param string $appDir Base application directory (%appDir%)
-	 * @param string $cacheDir Optional cache directory (%tempDir%)
+	 * @param string $cacheDir Optional temp directory (%tempDir%)
 	 */
 	public function __construct(string $appDir, string $cacheDir)
 	{
 		$this->appDir = $appDir;
-		$this->cacheDir = $cacheDir . '/cache';
+		$this->tempDir = $cacheDir . '/cache';
 	}
 
 
@@ -53,7 +53,7 @@ class TranslatorFinder
 
 	public function findFiles(string $lang): array
 	{
-		$storage = new FileStorage($this->cacheDir);
+		$storage = new FileStorage($this->tempDir);
 		$cache = new Cache($storage, self::Caching);
 		$cacheFiles = $cache->load(self::Caching);
 
