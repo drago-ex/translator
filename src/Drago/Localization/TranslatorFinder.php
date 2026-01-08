@@ -58,7 +58,9 @@ class TranslatorFinder
 		$cacheFiles = $cache->load(self::Caching);
 
 		if (Debugger::$productionMode === false) {
-			if ($cacheFiles) $cache->remove(self::Caching);
+			if ($cacheFiles) {
+				$cache->remove(self::Caching);
+			}
 			$files = $this->scanFiles($lang);
 
 		} else {

@@ -40,9 +40,13 @@ class TestTranslatorExtension extends TestCase
 				autoFinder: false
 				translateDir: locale
 			', 'neon'));
-			$compiler->addExtension('translator', new TranslatorExtension(
-				$params['appDir'], $params['tempDir'],
-			));
+			$compiler->addExtension(
+				'translator',
+				new TranslatorExtension(
+					$params['appDir'],
+					$params['tempDir'],
+				)
+			);
 		});
 		return new $class;
 	}
