@@ -20,7 +20,6 @@ composer require drago-ex/translator
 
 ## Extension registration
 Register the DI extension in your NEON configuration.
-You must provide a base directory for translation files.
 ```neon
 extensions:
 	translator: Drago\Localization\DI\TranslatorExtension(%appDir%, %tempDir%)
@@ -104,3 +103,4 @@ You can switch languages by passing the lang parameter:
 - Translator loads translations lazily on first use
 - Translations are loaded once per request
 - Missing keys return the original message
+
