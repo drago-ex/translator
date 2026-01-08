@@ -42,7 +42,7 @@ class Translator implements ITranslator
 		private readonly TranslatorFinder $translatorFinder,
 	) {
 		if (!$options->autoFinder) {
-			foreach ($options->translateDir as $dir) {
+			foreach ($options->translateDirs as $dir) {
 				$this->addTranslateDir($dir);
 			}
 		}

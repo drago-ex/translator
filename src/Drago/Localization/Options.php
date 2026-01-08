@@ -29,5 +29,5 @@ class Options
 	 *
 	 * @var string[]
 	 */
-	public array $translateDir = [];
+	public array $translateDirs = [];
 }
