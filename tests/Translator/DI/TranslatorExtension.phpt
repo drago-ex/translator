@@ -45,7 +45,7 @@ class TestTranslatorExtension extends TestCase
 				new TranslatorExtension(
 					$params['appDir'],
 					$params['tempDir'],
-				)
+				),
 			);
 		});
 		return new $class;
