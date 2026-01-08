@@ -9,9 +9,9 @@ declare(strict_types=1);
 
 namespace Drago\Localization;
 
-use Nette\Neon\Neon;
 use Nette\Localization\Translator as ITranslator;
 use Nette\Neon\Exception;
+use Nette\Neon\Neon;
 use Throwable;
 
 

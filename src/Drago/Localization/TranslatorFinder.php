@@ -50,6 +50,7 @@ class TranslatorFinder
 	 * @throws Throwable
 	 */
 
+
 	public function findFiles(string $lang): array
 	{
 		$storage = new FileStorage($this->cacheDir);
