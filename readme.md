@@ -1,12 +1,11 @@
-## Drago Translator
+# Drago Translator
+
 Lightweight translator for Nette Framework using NEON files, supporting global and module-specific translations.
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://raw.githubusercontent.com/drago-ex/translator/master/license)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://github.com/drago-ex/translator/blob/master/license)
 [![PHP version](https://badge.fury.io/ph/drago-ex%2Ftranslator.svg)](https://badge.fury.io/ph/drago-ex%2Ftranslator)
 [![Tests](https://github.com/drago-ex/translator/actions/workflows/tests.yml/badge.svg)](https://github.com/drago-ex/translator/actions/workflows/tests.yml)
 [![Coding Style](https://github.com/drago-ex/translator/actions/workflows/coding-style.yml/badge.svg)](https://github.com/drago-ex/translator/actions/workflows/coding-style.yml)
-[![CodeFactor](https://www.codefactor.io/repository/github/drago-ex/translator/badge)](https://www.codefactor.io/repository/github/drago-ex/translator)
-[![Coverage Status](https://coveralls.io/repos/github/drago-ex/translator/badge.svg?branch=master)](https://coveralls.io/github/drago-ex/translator?branch=master)
 
 ## Requirements
 - PHP >= 8.3
@@ -18,7 +17,7 @@ Lightweight translator for Nette Framework using NEON files, supporting global a
 composer require drago-ex/translator
 ```
 
-## Extension registration
+## Extension Registration
 Register the DI extension in your NEON configuration.
 ```neon
 extensions:
