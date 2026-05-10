@@ -50,4 +50,4 @@ class TranslatorTest extends TestCase
 	}
 }
 
-new TranslatorTest()->run();
+(new TranslatorTest)->run();

@@ -56,4 +56,4 @@ class TranslatorFinderTest extends TestCase
 	}
 }
 
-new TranslatorFinderTest()->run();
+(new TranslatorFinderTest)->run();
