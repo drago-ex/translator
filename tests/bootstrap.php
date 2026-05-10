@@ -13,13 +13,13 @@ if (@!include __DIR__ . '/../vendor/autoload.php') {
 Tester\Environment::setup();
 date_default_timezone_set('Europe/Prague');
 
-const TemDir = __DIR__ . '/tmp';
+const TempDir = __DIR__ . '/tmp';
 
-@mkdir(dirname(TemDir));
-@mkdir(TemDir);
+@mkdir(dirname(TempDir));
+@mkdir(TempDir);
 
 $boot = new Configurator;
-$boot->setTempDirectory(TemDir);
+$boot->setTempDirectory(TempDir);
 $boot->createRobotLoader()
 	->addDirectory(__DIR__)
 	->addDirectory(__DIR__ . '/../src')

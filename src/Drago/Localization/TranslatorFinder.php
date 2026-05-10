@@ -55,22 +55,24 @@ class TranslatorFinder
 	{
 		$storage = new FileStorage($this->tempDir);
 		$cache = new Cache($storage, self::Caching);
-		$cacheFiles = $cache->load(self::Caching);
+		$cacheKey = self::Caching . '.' . $lang;
+		$cacheFiles = $cache->load($cacheKey);
 
 		if (Debugger::$productionMode === false) {
-			$files = $this->scanFiles($lang);
-			$cache->remove(self::Caching);
-
-		} else {
-			if (!$cacheFiles) {
-				$files = $this->scanFiles($lang);
-				$cache->save(self::Caching, $files, [
-					Cache::All => true,
-				]);
-			}
+			$cache->remove($cacheKey);
+			return $this->scanFiles($lang);
 		}
 
-		return $cacheFiles ?: $files;
+		if ($cacheFiles !== null) {
+			return $cacheFiles;
+		}
+
+		$files = $this->scanFiles($lang);
+		$cache->save($cacheKey, $files, [
+			Cache::All => true,
+		]);
+
+		return $files;
 	}
 
 
