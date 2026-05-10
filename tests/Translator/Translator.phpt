@@ -23,7 +23,7 @@ class TranslatorTest extends TestCase
 	public function setUp(): void
 	{
 		$this->tempDir = TempDir . '/translator-test';
-		@mkdir($this->tempDir, 0777, true);
+		@mkdir($this->tempDir, 0o777, true);
 	}
 
 
@@ -31,8 +31,8 @@ class TranslatorTest extends TestCase
 	{
 		$base = $this->tempDir . '/base';
 		$module = $this->tempDir . '/module';
-		@mkdir($base, 0777, true);
-		@mkdir($module, 0777, true);
+		@mkdir($base, 0o777, true);
+		@mkdir($module, 0o777, true);
 
 		file_put_contents($base . '/en.neon', "hello: 'Hello'\nkey: 'base'\n");
 		file_put_contents($module . '/en.neon', "key: 'module'\n");

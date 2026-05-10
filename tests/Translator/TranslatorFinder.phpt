@@ -24,11 +24,11 @@ class TranslatorFinderTest extends TestCase
 	{
 		$this->appDir = TempDir . '/finder-app';
 		$this->tempDir = TempDir . '/finder-tmp';
-		@mkdir($this->appDir, 0777, true);
-		@mkdir($this->tempDir, 0777, true);
-		@mkdir($this->tempDir . '/cache', 0777, true);
-		@mkdir($this->appDir . '/ModuleA/locale', 0777, true);
-		@mkdir($this->appDir . '/ModuleB/locale', 0777, true);
+		@mkdir($this->appDir, 0o777, true);
+		@mkdir($this->tempDir, 0o777, true);
+		@mkdir($this->tempDir . '/cache', 0o777, true);
+		@mkdir($this->appDir . '/ModuleA/locale', 0o777, true);
+		@mkdir($this->appDir . '/ModuleB/locale', 0o777, true);
 
 		file_put_contents($this->appDir . '/ModuleA/locale/en.neon', "hello: 'Hello'\n");
 		file_put_contents($this->appDir . '/ModuleB/locale/cs.neon', "hello: 'Ahoj'\n");
