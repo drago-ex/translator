@@ -1,10 +1,5 @@
 <?php
 
-/**
- * Drago Extension
- * Package built on Nette Framework
- */
-
 declare(strict_types=1);
 
 namespace Drago\Localization;
@@ -15,28 +10,16 @@ use Nette\Neon\Neon;
 use Throwable;
 
 
-/**
- * NEON-based translator implementation.
- *
- * Supports multiple translation sources:
- * - Single translation directory (manual)
- * - Automatic finder scanning the whole app directory
- *
- * Later directories override earlier ones.
- */
+/** NEON-based translator implementation. */
 class Translator implements ITranslator
 {
 	/** @var array<string, string> */
 	private array $messages = [];
 
-	/** @var string[] */
+	/** @var list<string> */
 	private array $translateDirs = [];
 
 
-	/**
-	 * @param Options $options Translator configuration
-	 * @param TranslatorFinder $translatorFinder Finder service (used if autoFinder is enabled)
-	 */
 	public function __construct(
 		private readonly Options $options,
 		private readonly TranslatorFinder $translatorFinder,
@@ -49,11 +32,7 @@ class Translator implements ITranslator
 	}
 
 
-	/**
-	 * Add a custom translation directory.
-	 *
-	 * @param string $dir Absolute path to translation directory
-	 */
+	/** Add a custom translation directory. */
 	public function addTranslateDir(string $dir): void
 	{
 		if (!is_dir($dir)) {
@@ -68,8 +47,6 @@ class Translator implements ITranslator
 
 	/**
 	 * Loads translations for the given language.
-	 *
-	 * @param string $lang Language code (e.g. 'cs', 'en')
 	 * @return array<string, string>
 	 * @throws Exception
 	 * @throws Throwable
@@ -79,7 +56,7 @@ class Translator implements ITranslator
 		$this->messages = [];
 		$translateFiles = $this->options->autoFinder
 			? $this->translatorFinder->findFiles($lang)
-			: array_map(fn($dir) => $dir . '/' . $lang . '.neon', $this->translateDirs);
+			: array_map(fn(string $dir): string => $dir . '/' . $lang . '.neon', $this->translateDirs);
 
 		$this->loadTranslateFiles($translateFiles);
 		return $this->messages;
@@ -87,9 +64,7 @@ class Translator implements ITranslator
 
 
 	/**
-	 * Helper method to load NEON files and merge messages.
-	 *
-	 * @param string[] $files
+	 * @param list<string> $files
 	 * @throws Exception
 	 */
 	private function loadTranslateFiles(array $files): void
@@ -101,17 +76,17 @@ class Translator implements ITranslator
 
 			$data = Neon::decodeFile($file);
 			if (is_array($data)) {
+				/** @var array<string, string> $data */
 				$this->messages = array_merge($this->messages, $data);
 			}
 		}
 	}
 
 
-	/**
-	 * Translate a message.
-	 */
+	/** Translate a message. */
 	public function translate(mixed $message, mixed ...$parameters): string
 	{
-		return $this->messages[$message] ?? (string) $message;
+		$key = is_scalar($message) || $message instanceof \Stringable ? (string) $message : '';
+		return $this->messages[$key] ?? $key;
 	}
 }

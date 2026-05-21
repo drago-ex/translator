@@ -1,10 +1,5 @@
 <?php
 
-/**
- * Drago Extension
- * Package built on Nette Framework
- */
-
 declare(strict_types=1);
 
 namespace Drago\Localization\DI;
@@ -18,26 +13,13 @@ use Nette\Schema\Processor;
 use Nette\Schema\Schema;
 
 
-/**
- * Nette DI extension for registering the Translator service.
- *
- * Allows configuration of an optional module-specific
- * translation directory.
- */
+/** Nette DI extension for registering the translator service. */
 class TranslatorExtension extends CompilerExtension
 {
-	private string $appDir;
-	private string $tempDir;
-
-
-	/**
-	 * @param string $appDir  Base application directory (%appDir%)
-	 * @param string $tempDir Temp directory for caching (%tempDir%)
-	 */
-	public function __construct(string $appDir, string $tempDir)
-	{
-		$this->appDir = $appDir;
-		$this->tempDir = $tempDir;
+	public function __construct(
+		private readonly string $appDir,
+		private readonly string $tempDir,
+	) {
 	}
 
 

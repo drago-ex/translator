@@ -1,10 +1,5 @@
 <?php
 
-/**
- * Drago Extension
- * Package built on Nette Framework
- */
-
 declare(strict_types=1);
 
 namespace Drago\Localization;
@@ -16,46 +11,34 @@ use Throwable;
 use Tracy\Debugger;
 
 
-/**
- * Finds all .neon translation files for a given language under the app directory.
- * Caches the list of files for production mode to avoid repeated scanning.
- */
+/** Finds all .neon translation files for a given language. */
 class TranslatorFinder
 {
 	public const string Caching = 'translator.search';
 
-	private string $appDir;
 	private string $tempDir;
 
 
-	/**
-	 * @param string $appDir Base application directory (%appDir%)
-	 * @param string $tempDir Optional temp directory (%tempDir%)
-	 */
-	public function __construct(string $appDir, string $tempDir)
-	{
-		$this->appDir = $appDir;
+	public function __construct(
+		private readonly string $appDir,
+		string $tempDir,
+	) {
 		$this->tempDir = $tempDir . '/cache';
 	}
 
 
 	/**
 	 * Returns all .neon files for the given language.
-	 *
-	 * In development mode, cache is ignored and files are always scanned.
-	 * In production mode, the result is cached to improve performance.
-	 *
-	 * @param string $lang Language code (cs, en, etc.)
-	 * @return string[] Absolute paths to the neon files
+	 * @return list<string>
 	 * @throws Throwable
 	 */
-
-
 	public function findFiles(string $lang): array
 	{
 		$storage = new FileStorage($this->tempDir);
 		$cache = new Cache($storage, self::Caching);
 		$cacheKey = self::Caching . '.' . $lang;
+
+		/** @var list<string>|null $cacheFiles */
 		$cacheFiles = $cache->load($cacheKey);
 
 		if (Debugger::$productionMode === false) {
@@ -76,12 +59,7 @@ class TranslatorFinder
 	}
 
 
-	/**
-	 * Recursively scan appDir for translate neon files.
-	 *
-	 * @param string $lang
-	 * @return string[]
-	 */
+	/** @return list<string> */
 	private function scanFiles(string $lang): array
 	{
 		$files = [];
@@ -89,7 +67,10 @@ class TranslatorFinder
 			->from($this->appDir);
 
 		foreach ($finder as $file) {
-			$files[] = $file->getRealPath();
+			$path = $file->getRealPath();
+			if (is_string($path)) {
+				$files[] = $path;
+			}
 		}
 
 		return $files;

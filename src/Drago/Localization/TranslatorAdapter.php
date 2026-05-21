@@ -1,10 +1,5 @@
 <?php
 
-/**
- * Drago Extension
- * Package built on Nette Framework
- */
-
 declare(strict_types=1);
 
 namespace Drago\Localization;
@@ -15,12 +10,7 @@ use Nette\Neon\Exception;
 use Throwable;
 
 
-/**
- * Presenter helper for translator integration.
- *
- * Handles persistent language parameter
- * and template translator setup.
- */
+/** Presenter helper for translator integration. */
 trait TranslatorAdapter
 {
 	#[Persistent]
@@ -30,16 +20,16 @@ trait TranslatorAdapter
 	private bool $translatorInitialized = false;
 
 
-	/**
-	 * @param Translator $translator Translator service
-	 * @param Presenter  $presenter  Target presenter
-	 */
+	/** Inject translator service. */
 	public function injectTranslator(Translator $translator, Presenter $presenter): void
 	{
 		$this->translator = $translator;
-		$presenter->onRender[] = function () use ($presenter) {
-			$presenter->template->lang = $this->lang;
-			$presenter->template->setTranslator($this->getTranslator());
+		$presenter->onRender[] = function () use ($presenter): void {
+			$template = $presenter->getTemplate();
+			if ($template instanceof TranslateTemplate) {
+				$template->lang = $this->lang;
+				$template->setTranslator($this->getTranslator());
+			}
 		};
 	}
 

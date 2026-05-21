@@ -20,13 +20,13 @@
 	"require-dev": {
 		"nette/tester": "^2.5",
 		"nette/bootstrap": "^3.1",
-		"phpstan/phpstan-nette": "^1.2.9"
+		"phpstan/phpstan-nette": "^2.0"
 	},
 	"autoload": {
 		"classmap": ["src/"]
 	},
 	"scripts": {
-		"phpstan": "phpstan analyse --level 5 --configuration tests/phpstan.neon src",
+		"phpstan": "phpstan analyse",
 		"tester": "tester tests -s"
 	}
 }
