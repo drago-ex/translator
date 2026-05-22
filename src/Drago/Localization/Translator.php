@@ -76,6 +76,7 @@ class Translator implements ITranslator
 
 			$data = Neon::decodeFile($file);
 			if (is_array($data)) {
+
 				/** @var array<string, string> $data */
 				$this->messages = array_merge($this->messages, $data);
 			}

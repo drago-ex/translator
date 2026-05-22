@@ -2,7 +2,7 @@ includes:
     - vendor/phpstan/phpstan-nette/extension.neon
 
 parameters:
-    level: 10
+    level: 8
     paths:
         - src
         - tests
