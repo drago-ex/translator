@@ -6,6 +6,7 @@ namespace Drago\Localization;
 
 use Nette\Application\Attributes\Persistent;
 use Nette\Application\UI\Presenter;
+use Nette\Bridges\ApplicationLatte\Template;
 use Nette\Neon\Exception;
 use Throwable;
 
@@ -26,7 +27,7 @@ trait TranslatorAdapter
 		$this->translator = $translator;
 		$presenter->onRender[] = function () use ($presenter): void {
 			$template = $presenter->getTemplate();
-			if ($template instanceof TranslateTemplate) {
+			if ($template instanceof Template) {
 				$template->lang = $this->lang;
 				$template->setTranslator($this->getTranslator());
 			}
