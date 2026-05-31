@@ -31,12 +31,16 @@ translator:
 	translateDirs:
 		- %appDir%/First/Translate
 		- %appDir%/Second/Translate
+	exclude:
+		- %appDir%/Temp
+		- %appDir%/Legacy
 ```
 
 ## Translator Behavior
 - All directories listed in translateDirs are loaded in order.
 - Later directories override translations from earlier ones.
 - If autoFinder is enabled, the entire application directory is scanned for NEON files.
+- Directories listed in exclude are skipped during automatic scanning.
 
 Translation files must be named by language code:
 ```

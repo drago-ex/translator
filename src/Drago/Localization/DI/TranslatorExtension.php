@@ -28,6 +28,7 @@ class TranslatorExtension extends CompilerExtension
 		return Expect::structure([
 			'autoFinder' => Expect::bool(true),
 			'translateDirs' => Expect::arrayOf(Expect::string())->default([]),
+			'exclude' => Expect::arrayOf(Expect::string())->default([]),
 		]);
 	}
 

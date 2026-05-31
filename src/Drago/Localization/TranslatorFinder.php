@@ -29,28 +29,30 @@ class TranslatorFinder
 
 	/**
 	 * Returns all .neon files for the given language.
+	 * @param list<string> $exclude
 	 * @return list<string>
 	 * @throws Throwable
 	 */
-	public function findFiles(string $lang): array
+	public function findFiles(string $lang, array $exclude = []): array
 	{
 		$storage = new FileStorage($this->tempDir);
 		$cache = new Cache($storage, self::Caching);
-		$cacheKey = self::Caching . '.' . $lang;
+		$exclude = $this->normalizeExclude($exclude);
+		$cacheKey = self::Caching . '.' . $lang . '.' . md5(implode('|', $exclude));
 
 		/** @var list<string>|null $cacheFiles */
 		$cacheFiles = $cache->load($cacheKey);
 
 		if (Debugger::$productionMode === false) {
 			$cache->remove($cacheKey);
-			return $this->scanFiles($lang);
+			return $this->scanFiles($lang, $exclude);
 		}
 
 		if ($cacheFiles !== null) {
 			return $cacheFiles;
 		}
 
-		$files = $this->scanFiles($lang);
+		$files = $this->scanFiles($lang, $exclude);
 		$cache->save($cacheKey, $files, [
 			Cache::All => true,
 		]);
@@ -59,12 +61,19 @@ class TranslatorFinder
 	}
 
 
-	/** @return list<string> */
-	private function scanFiles(string $lang): array
+	/**
+	 * @param list<string> $exclude
+	 * @return list<string>
+	 */
+	private function scanFiles(string $lang, array $exclude): array
 	{
 		$files = [];
 		$finder = Finder::findFiles($lang . '*.neon')
 			->from($this->appDir);
+
+		if ($exclude !== []) {
+			$finder->exclude($exclude);
+		}
 
 		foreach ($finder as $file) {
 			$path = $file->getRealPath();
@@ -74,5 +83,33 @@ class TranslatorFinder
 		}
 
 		return $files;
+	}
+
+
+	/**
+	 * @param list<string> $exclude
+	 * @return list<string>
+	 */
+	private function normalizeExclude(array $exclude): array
+	{
+		$appDir = rtrim(str_replace('\\', '/', $this->appDir), '/');
+		$masks = [];
+
+		foreach ($exclude as $dir) {
+			$dir = rtrim(str_replace('\\', '/', $dir), '/');
+			if ($dir === '') {
+				continue;
+			}
+
+			if (str_starts_with($dir, $appDir . '/')) {
+				$dir = substr($dir, strlen($appDir) + 1);
+			}
+
+			if ($dir !== '') {
+				$masks[] = $dir;
+			}
+		}
+
+		return array_values(array_unique($masks));
 	}
 }

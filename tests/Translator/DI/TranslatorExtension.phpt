@@ -40,6 +40,8 @@ class TestTranslatorExtension extends TestCase
 				autoFinder: false
 				translateDirs:
 					- locale
+				exclude:
+					- temp
 			', 'neon'));
 			$compiler->addExtension(
 				'translator',

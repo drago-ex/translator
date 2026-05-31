@@ -29,9 +29,11 @@ class TranslatorFinderTest extends TestCase
 		@mkdir($this->tempDir . '/cache', 0o777, true);
 		@mkdir($this->appDir . '/ModuleA/locale', 0o777, true);
 		@mkdir($this->appDir . '/ModuleB/locale', 0o777, true);
+		@mkdir($this->appDir . '/ModuleC/locale', 0o777, true);
 
 		file_put_contents($this->appDir . '/ModuleA/locale/en.neon', "hello: 'Hello'\n");
 		file_put_contents($this->appDir . '/ModuleB/locale/cs.neon', "hello: 'Ahoj'\n");
+		file_put_contents($this->appDir . '/ModuleC/locale/en.neon', "bye: 'Bye'\n");
 	}
 
 
@@ -49,10 +51,25 @@ class TranslatorFinderTest extends TestCase
 		$enFiles = $finder->findFiles('en');
 		$csFiles = $finder->findFiles('cs');
 
-		Assert::count(1, $enFiles);
+		Assert::count(2, $enFiles);
 		Assert::count(1, $csFiles);
 		Assert::contains('/en.neon', str_replace('\\', '/', $enFiles[0]));
 		Assert::contains('/cs.neon', str_replace('\\', '/', $csFiles[0]));
+	}
+
+
+	public function testExcludesConfiguredDirectory(): void
+	{
+		Debugger::$productionMode = true;
+		$finder = new TranslatorFinder($this->appDir, $this->tempDir);
+
+		$enFiles = array_map(
+			static fn(string $file): string => str_replace('\\', '/', $file),
+			$finder->findFiles('en', [$this->appDir . '/ModuleA']),
+		);
+
+		Assert::count(1, $enFiles);
+		Assert::contains('/ModuleC/locale/en.neon', $enFiles[0]);
 	}
 }
 

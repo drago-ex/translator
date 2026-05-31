@@ -13,4 +13,7 @@ class Options
 
 	/** @var list<string> */
 	public array $translateDirs = [];
+
+	/** @var list<string> */
+	public array $exclude = [];
 }
