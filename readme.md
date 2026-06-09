@@ -102,6 +102,25 @@ You can switch languages by passing the lang parameter:
 <a n:href="this, lang => en">English</a>
 ```
 
+## Language Switch Widget
+The package provides a reusable Latte widget for language switching.
+When project file copying is handled by `drago-ex/project-tools`, the widget is copied to:
+```text
+app/Core/Widget/@lang-switch.latte
+```
+
+Import the widget in your layout:
+```latte
+{import 'path/to/@lang-switch.latte'}
+```
+
+Render language links:
+```latte
+{include lang-switch, lang: 'cs', name: 'Czech'}
+<span class="small ps-1 pe-1 text-secondary">|</span>
+{include lang-switch, lang: 'en', name: 'English'}
+```
+
 ## Notes
 - Translator loads translations lazily on first use
 - Translations are loaded once per request

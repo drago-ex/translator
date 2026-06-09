@@ -22,6 +22,15 @@
 		"nette/bootstrap": "^3.1",
 		"phpstan/phpstan-nette": "^2.0"
 	},
+	"extra": {
+		"drago-tools": {
+			"install": {
+				"copy": {
+					"src/Drago/assets/latte": "app/Core/Widget"
+				}
+			}
+		}
+	},
 	"autoload": {
 		"classmap": ["src/"]
 	},
