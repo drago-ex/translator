@@ -143,7 +143,7 @@ Use `tag` when the link must be wrapped, for example in a dropdown menu:
 
 Use `tagClass` when the wrapper needs styling:
 ```latte
-{include lang-switch, lang: 'cs', name: 'Czech', tag: 'li', tagClass: 'dropdown-item-wrapper'}
+{include lang-switch, lang: 'cs', name: 'Czech', tag: 'li', tagClass: 'item-wrapper'}
 ```
 
 ## Notes
