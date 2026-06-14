@@ -121,6 +121,31 @@ Render language links:
 {include lang-switch, lang: 'en', name: 'English'}
 ```
 
+The current language link automatically receives the `current` class.
+
+Available options:
+- `lang` - target language code.
+- `name` - visible translated label.
+- `class` - optional class added to the link.
+- `tag` - optional wrapper tag: `li`, `div`, or `span`.
+- `tagClass` - optional class added to the wrapper tag.
+
+Use `class` when the link needs a custom class:
+```latte
+{include lang-switch, lang: 'cs', name: 'Czech', class: 'nav-link'}
+```
+
+Use `tag` when the link must be wrapped, for example in a dropdown menu:
+```latte
+{include lang-switch, lang: 'cs', name: 'Czech', tag: 'li'}
+{include lang-switch, lang: 'en', name: 'English', tag: 'li'}
+```
+
+Use `tagClass` when the wrapper needs styling:
+```latte
+{include lang-switch, lang: 'cs', name: 'Czech', tag: 'li', tagClass: 'dropdown-item-wrapper'}
+```
+
 ## Notes
 - Translator loads translations lazily on first use
 - Translations are loaded once per request

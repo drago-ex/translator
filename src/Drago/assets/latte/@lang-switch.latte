@@ -1,6 +1,9 @@
 {varType Nette\Application\UI\Presenter $presenter}
-{define lang-switch, string $lang, string $name, ?string $class = null}
-	<a n:href="this, 'lang' => $lang" n:class="$presenter->isLinkCurrent() ? $class ? $class : 'fw-semibold'">
-		{$name}
-	</a>
+{define lang-switch, string $lang, string $name, ?string $class = null, ?string $tag = null, ?string $tagClass = null}
+	{var $tag = $tag in ['li', 'div', 'span'] ? $tag : null}
+	<span n:tag="$tag ?: 'span'" n:tag-if="$tag !== null" n:class="$tagClass">
+		<a n:href="this, 'lang' => $lang" n:class="$class, $presenter->isLinkCurrent() ? 'current'">
+			{_$name}
+		</a>
+	</span>
 {/define}
