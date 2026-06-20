@@ -11,7 +11,6 @@ use Nette\Neon\Exception;
 use Throwable;
 
 
-/** Presenter helper for translator integration. */
 trait TranslatorAdapter
 {
 	#[Persistent]
@@ -21,7 +20,6 @@ trait TranslatorAdapter
 	private bool $translatorInitialized = false;
 
 
-	/** Inject translator service. */
 	public function injectTranslator(Translator $translator, Presenter $presenter): void
 	{
 		$this->translator = $translator;

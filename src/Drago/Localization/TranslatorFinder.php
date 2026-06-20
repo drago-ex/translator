@@ -40,7 +40,7 @@ class TranslatorFinder
 		$exclude = $this->normalizeExclude($exclude);
 		$cacheKey = self::Caching . '.' . $lang . '.' . md5(implode('|', $exclude));
 
-		/** @var list<string>|null $cacheFiles */
+		/** @temp list<string>|null $cacheFiles */
 		$cacheFiles = $cache->load($cacheKey);
 
 		if (Debugger::$productionMode === false) {

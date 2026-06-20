@@ -1,7 +1,4 @@
 /vendor/
-
 /composer.lock
-
 /tests/tmp/
-
 /tests/**/temp/

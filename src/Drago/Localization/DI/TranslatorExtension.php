@@ -13,7 +13,6 @@ use Nette\Schema\Processor;
 use Nette\Schema\Schema;
 
 
-/** Nette DI extension for registering the translator service. */
 class TranslatorExtension extends CompilerExtension
 {
 	public function __construct(

@@ -10,7 +10,6 @@ use Nette\Neon\Neon;
 use Throwable;
 
 
-/** NEON-based translator implementation. */
 class Translator implements ITranslator
 {
 	/** @var array<string, string> */
@@ -32,7 +31,6 @@ class Translator implements ITranslator
 	}
 
 
-	/** Add a custom translation directory. */
 	public function addTranslateDir(string $dir): void
 	{
 		if (!is_dir($dir)) {
@@ -77,14 +75,13 @@ class Translator implements ITranslator
 			$data = Neon::decodeFile($file);
 			if (is_array($data)) {
 
-				/** @var array<string, string> $data */
+				/** @temp array<string, string> $data */
 				$this->messages = array_merge($this->messages, $data);
 			}
 		}
 	}
 
 
-	/** Translate a message. */
 	public function translate(mixed $message, mixed ...$parameters): string
 	{
 		$key = is_scalar($message) || $message instanceof \Stringable ? (string) $message : '';

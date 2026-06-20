@@ -26,7 +26,7 @@
 		"drago-tools": {
 			"install": {
 				"copy": {
-					"src/Drago/assets/latte": "app/Core/Widget"
+					"src/Drago/assets/latte": "app/Presentation/Accessory/Widget"
 				}
 			}
 		}

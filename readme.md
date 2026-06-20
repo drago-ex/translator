@@ -106,7 +106,7 @@ You can switch languages by passing the lang parameter:
 The package provides a reusable Latte widget for language switching.
 When project file copying is handled by `drago-ex/project-tools`, the widget is copied to:
 ```text
-app/Core/Widget/@lang-switch.latte
+app/Presentation/Accessory/Widget/@lang-switch.latte
 ```
 
 Import the widget in your layout:
