@@ -8,7 +8,7 @@ use Nette\Localization\Translator as ITranslator;
 use Nette\Neon\Exception;
 use Nette\Neon\Neon;
 use Throwable;
-use function sprintf;
+use function vsprintf;
 
 
 class Translator implements ITranslator
@@ -88,7 +88,7 @@ class Translator implements ITranslator
 		$key = is_scalar($message) || $message instanceof \Stringable ? (string) $message : '';
 		$translation = $this->messages[$key] ?? $key;
 		return $parameters !== [] && str_contains($translation, '%')
-			? sprintf($translation, ...$parameters)
+			? vsprintf($translation, $parameters)
 			: $translation;
 	}
 }
