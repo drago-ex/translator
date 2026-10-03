@@ -51,7 +51,29 @@ en.neon
 ## Translation File Format
 ```neon
 "Hello, world!": "Hello, world!"
+"Hello, %s!": "Ahoj, %s!"
+"You have %d items in your cart.": "V košíku máte %d položek."
 ```
+
+## Parameters in Translations
+Translations can contain `sprintf`-style placeholders. Pass their values after the message key; the translator inserts them in order using PHP's `vsprintf()`:
+
+```php
+$translator->translate('Hello, %s!', 'Jane');
+// Ahoj, Jane!
+
+$translator->translate('You have %d items in your cart.', 3);
+// V košíku máte 3 položek.
+```
+
+The same works with the translator registered in Latte:
+
+```latte
+{_'Hello, %s!', $name}
+{_'You have %d items in your cart.', $itemCount}
+```
+
+Use a matching placeholder for each argument, in the same order. Common placeholders include `%s` for text, `%d` for an integer, and `%.2f` for a decimal number with two digits after the decimal point. When no translation exists, the original message is used and its placeholders are formatted in the same way.
 
 ## Using Translator in Presenters
 Add the TranslatorAdapter trait to your presenter:
