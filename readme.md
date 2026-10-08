@@ -1,127 +1,139 @@
 # Drago Translator
 
-Lightweight translator for Nette Framework using NEON files, supporting
-global, module-specific, and package translations.
+Lightweight translator for Nette Framework using NEON files. Translation directories can be declared automatically in Composer packages and in the root application, with an optional manual NEON configuration for special cases.
 
-[![License:
-MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://github.com/drago-ex/translator/blob/master/license)
-[![PHP
-version](https://badge.fury.io/ph/drago-ex%2Ftranslator.svg)](https://badge.fury.io/ph/drago-ex%2Ftranslator)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://github.com/drago-ex/translator/blob/master/license)
+[![PHP version](https://badge.fury.io/ph/drago-ex%2Ftranslator.svg)](https://badge.fury.io/ph/drago-ex%2Ftranslator)
 [![Tests](https://github.com/drago-ex/translator/actions/workflows/tests.yml/badge.svg)](https://github.com/drago-ex/translator/actions/workflows/tests.yml)
-[![Coding
-Style](https://github.com/drago-ex/translator/actions/workflows/coding-style.yml/badge.svg)](https://github.com/drago-ex/translator/actions/workflows/coding-style.yml)
+[![Coding Style](https://github.com/drago-ex/translator/actions/workflows/coding-style.yml/badge.svg)](https://github.com/drago-ex/translator/actions/workflows/coding-style.yml)
 
 ## Requirements
-
--   PHP \>= 8.3
--   Nette Framework
--   Composer
+- PHP >= 8.3
+- Nette Framework
+- Composer 2.1+
 
 ## Installation
-
-``` bash
+```bash
 composer require drago-ex/translator
 ```
 
 ## Extension Registration
 
-Register the DI extension in your NEON configuration.
+Register the DI extension in your NEON configuration:
 
-``` neon
+```neon
 extensions:
-    translator: Drago\Localization\DI\TranslatorExtension(%appDir%, %tempDir%)
+	translator: Drago\Localization\DI\TranslatorExtension(%appDir%, %tempDir%)
 ```
 
-## Optional configuration
+No translation directories are required in NEON for the normal case. The translator discovers them from Composer metadata.
 
-``` neon
-translator:
-    autoFinder: false
-    translateDirs:
-        - %appDir%/First/Translate
-        - %appDir%/Second/Translate
-    exclude:
-        - %appDir%/Temp
-        - %appDir%/Legacy
-```
+## Composer Translation Discovery
 
-### Configuration options
+Each Composer package can declare one directory containing its translation files in `composer.json`:
 
--   `autoFinder` - automatically searches the application directory for
-    translation files. Enabled by default.
--   `translateDirs` - additional translation directories. They can be
-    configured by the application or registered by another DI extension.
--   `exclude` - directories excluded from automatic translation file
-    discovery.
-
-When `autoFinder` is enabled, `translateDirs` are loaded in addition to
-the automatically discovered translation files.
-
-## Translator Behavior
-
--   Automatically discovered translation files are searched recursively
-    in the application directory when `autoFinder` is enabled.
--   Directories listed in `translateDirs` are loaded in addition to
-    automatically discovered translations.
--   Translation directories are loaded in order.
--   Later translations override earlier translations when the same key
-    is used.
--   Directories listed in `exclude` are skipped during automatic
-    scanning.
--   Missing keys return the original message.
-
-Translation files must be named by language code:
-
-``` text
-cs.neon
-en.neon
-```
-
-## Package Translations
-
-Packages can provide their own translation files and register their
-translation directory through their DI extension.
-
-A package can register its translation directory with the translator
-extension:
-
-``` php
-use Drago\Localization\DI\TranslatorExtension;
-
-public function loadConfiguration(): void
-{
-    $translator = $this->compiler->getExtension('translator');
-
-    if ($translator instanceof TranslatorExtension) {
-        $translator->addTranslateDir(__DIR__ . '/../lang');
-    }
-
-    // Package services...
+```json
+"extra": {
+	"drago-translator": {
+		"translation": "src/Drago/Commerce/Translate"
+	}
 }
 ```
 
-The package can then keep its translations in its own `lang` directory:
+The path is always relative to the root of that Composer package.
 
-``` text
-src/
-└── Drago/
-    └── Package/
-        ├── DI/
-        │   └── PackageExtension.php
-        └── lang/
-            ├── cs.neon
-            └── en.neon
+For example, a package installed as:
+
+```text
+vendor/drago-ex/commerce/
 ```
 
-This allows a package to provide translations without requiring the
-application to register the package translation directory manually.
+with:
 
-If the translator extension is not installed, the package can simply
-skip translation registration.
+```json
+"translation": "src/Drago/Commerce/Translate"
+```
+
+provides translations from:
+
+```text
+vendor/drago-ex/commerce/src/Drago/Commerce/Translate/
+```
+
+The package does not need to depend on `drago-ex/translator`. The metadata is simply available for applications that use this translator. Other translation systems can ignore it.
+
+### Root application
+
+The root `composer.json` can declare the application's translation directory in exactly the same way:
+
+```json
+"extra": {
+	"drago-translator": {
+		"translation": "app/Presentation/Sign/Translate"
+	}
+}
+```
+
+The path is then resolved relative to the project root.
+
+This makes the setup automatic after installing a package. The application does not need to add a new NEON entry for every vendor package.
+
+## Translation precedence
+
+Translation sources are loaded in this order:
+
+1. Composer vendor packages.
+2. The root application's Composer translation directory.
+3. Translation directories configured manually in NEON.
+
+Later sources override translations loaded earlier. This means an application can override a translation supplied by a vendor package.
+
+For example, if both a package and the application define:
+
+```neon
+cart.add: "Add to cart"
+```
+
+the application's value wins.
+
+## Manual translation directories
+
+Composer discovery is the recommended approach, but a manual fallback is available for special cases:
+
+```neon
+translator:
+	translateDirs:
+		- %appDir%/Special/Translate
+```
+
+Multiple directories are supported when needed:
+
+```neon
+translator:
+	translateDirs:
+		- %appDir%/First/Translate
+		- %appDir%/Second/Translate
+```
+
+They are loaded after Composer-discovered translations, in the configured order. Later directories override earlier ones.
+
+There is no automatic recursive scan of the whole application directory. Every translation source must therefore be explicitly declared either in Composer metadata or in `translateDirs`.
+
+## Translation Files
+
+Translation files must use the language code as their filename, for example:
+
+```text
+cs.neon
+en.neon
+de.neon
+```
+
+The translator also accepts files whose name starts with the language code, for example `cs-CZ.neon` when requested as `cs`.
 
 ## Translation File Format
 
-``` neon
+```neon
 "Hello, world!": "Hello, world!"
 "Hello, %s!": "Ahoj, %s!"
 "You have %d items in your cart.": "V košíku máte %d položek."
@@ -129,11 +141,9 @@ skip translation registration.
 
 ## Parameters in Translations
 
-Translations can contain `sprintf`-style placeholders. Pass their values
-after the message key; the translator inserts them in order using PHP's
-`vsprintf()`:
+Translations can contain `sprintf`-style placeholders. Pass their values after the message key; the translator inserts them in order using PHP's `vsprintf()`:
 
-``` php
+```php
 $translator->translate('Hello, %s!', 'Jane');
 // Ahoj, Jane!
 
@@ -143,33 +153,33 @@ $translator->translate('You have %d items in your cart.', 3);
 
 The same works with the translator registered in Latte:
 
-``` latte
+```latte
 {_'Hello, %s!', $name}
 {_'You have %d items in your cart.', $itemCount}
 ```
 
-Use a matching placeholder for each argument, in the same order. Common
-placeholders include `%s` for text, `%d` for an integer, and `%.2f` for
-a decimal number with two digits after the decimal point. When no
-translation exists, the original message is used and its placeholders
-are formatted in the same way.
+Use a matching placeholder for each argument, in the same order. Common placeholders include `%s` for text, `%d` for an integer, and `%.2f` for a decimal number with two digits after the decimal point.
+
+When no translation exists, the original message is used and its placeholders are formatted in the same way.
 
 ## Using Translator in Presenters
 
-Add the TranslatorAdapter trait to your presenter:
+Add the `TranslatorAdapter` trait to your presenter:
 
-``` php
+```php
 use Drago\Localization\TranslatorAdapter;
 ```
 
-The trait provides: - persistent language parameter (`$lang`) -
-automatic translator initialization - template integration
+The trait provides:
+- persistent language parameter (`$lang`)
+- automatic translator initialization
+- template integration
 
 ## Accessing the Current Language
 
-You can access the currently set language using the following property:
+You can access the currently set language using:
 
-``` php
+```php
 $this->lang;
 ```
 
@@ -177,17 +187,15 @@ $this->lang;
 
 To get the initialized translator for the current language:
 
-``` php
-$this->getTranslator()
+```php
+$this->getTranslator();
 ```
 
 ## Using Translations in Templates
 
 The translator is automatically registered in templates.
 
-Example usage in Latte:
-
-``` latte
+```latte
 {_"Hello, world!"}
 {$label|translate}
 ```
@@ -196,7 +204,7 @@ Example usage in Latte:
 
 To enable translations in forms, set the translator explicitly:
 
-``` php
+```php
 $form->setTranslator($this->getTranslator());
 ```
 
@@ -204,15 +212,15 @@ $form->setTranslator($this->getTranslator());
 
 To support language prefixes, configure your routes accordingly:
 
-``` php
+```php
 $router->addRoute('[<lang=en cs|en>/]<presenter>/<action>', 'Presenter:action');
 ```
 
 ## Switching Languages in Templates
 
-You can switch languages by passing the lang parameter:
+You can switch languages by passing the `lang` parameter:
 
-``` latte
+```latte
 <a n:href="this, lang => cs">Czech</a>
 <a n:href="this, lang => en">English</a>
 ```
@@ -220,23 +228,21 @@ You can switch languages by passing the lang parameter:
 ## Language Switch Widget
 
 The package provides a reusable Latte widget for language switching.
+When project file copying is handled by `drago-ex/project-tools`, the widget is copied to:
 
-When project file copying is handled by `drago-ex/project-tools`, the
-widget is copied to:
-
-``` text
+```text
 app/Presentation/Accessory/Widget/@lang-switch.latte
 ```
 
 Import the widget in your layout:
 
-``` latte
+```latte
 {import 'path/to/@lang-switch.latte'}
 ```
 
 Render language links:
 
-``` latte
+```latte
 {include lang-switch, lang: 'cs', name: 'Czech'}
 <span class="small ps-1 pe-1 text-secondary">|</span>
 {include lang-switch, lang: 'en', name: 'English'}
@@ -244,32 +250,37 @@ Render language links:
 
 The current language link automatically receives the `current` class.
 
-Available options: - `lang` - target language code. - `name` - visible
-translated label. - `class` - optional class added to the link. -
-`tag` - optional wrapper tag: `li`, `div`, or `span`. - `tagClass` -
-optional class added to the wrapper tag.
+Available options:
+- `lang` - target language code.
+- `name` - visible translated label.
+- `class` - optional class added to the link.
+- `tag` - optional wrapper tag: `li`, `div`, or `span`.
+- `tagClass` - optional class added to the wrapper tag.
 
 Use `class` when the link needs a custom class:
 
-``` latte
+```latte
 {include lang-switch, lang: 'cs', name: 'Czech', class: 'nav-link'}
 ```
 
 Use `tag` when the link must be wrapped, for example in a dropdown menu:
 
-``` latte
+```latte
 {include lang-switch, lang: 'cs', name: 'Czech', tag: 'li'}
 {include lang-switch, lang: 'en', name: 'English', tag: 'li'}
 ```
 
 Use `tagClass` when the wrapper needs styling:
 
-``` latte
+```latte
 {include lang-switch, lang: 'cs', name: 'Czech', tag: 'li', tagClass: 'item-wrapper'}
 ```
 
 ## Notes
 
--   Translator loads translations lazily on first use.
--   Translations are loaded once per request.
--   Missing keys return the original message.
+- Composer package translation directories are discovered from `extra.drago-translator.translation`.
+- Each Composer package declares one translation directory.
+- The root project can declare its own translation directory using the same metadata.
+- Manual `translateDirs` remain available for exceptional cases.
+- Translations are loaded lazily on first use.
+- Missing keys return the original message.

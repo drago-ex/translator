@@ -6,12 +6,26 @@
 
 declare(strict_types=1);
 
+use Drago\Localization\ComposerPackageProvider;
+use Drago\Localization\ComposerTranslationFinder;
 use Drago\Localization\TranslatorFinder;
 use Tester\Assert;
 use Tester\TestCase;
 use Tracy\Debugger;
 
 require __DIR__ . '/../bootstrap.php';
+
+
+class EmptyComposerPackageProvider implements ComposerPackageProvider
+{
+	public function getData(): array
+	{
+		return [
+			'root' => ['name' => 'test/root', 'install_path' => TempDir],
+			'versions' => [],
+		];
+	}
+}
 
 
 class TranslatorFinderTest extends TestCase
@@ -46,7 +60,11 @@ class TranslatorFinderTest extends TestCase
 	public function testFindsFilesByLanguageInProductionCache(): void
 	{
 		Debugger::$productionMode = true;
-		$finder = new TranslatorFinder($this->appDir, $this->tempDir);
+		$finder = new TranslatorFinder(
+			$this->appDir,
+			$this->tempDir,
+			new ComposerTranslationFinder(new EmptyComposerPackageProvider),
+		);
 
 		$enFiles = $finder->findFiles('en');
 		$csFiles = $finder->findFiles('cs');
@@ -61,7 +79,11 @@ class TranslatorFinderTest extends TestCase
 	public function testExcludesConfiguredDirectory(): void
 	{
 		Debugger::$productionMode = true;
-		$finder = new TranslatorFinder($this->appDir, $this->tempDir);
+		$finder = new TranslatorFinder(
+			$this->appDir,
+			$this->tempDir,
+			new ComposerTranslationFinder(new EmptyComposerPackageProvider),
+		);
 
 		$enFiles = array_map(
 			static fn(string $file): string => str_replace('\\', '/', $file),

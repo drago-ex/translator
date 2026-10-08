@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Drago\Localization\DI;
 
+use Drago\Localization\ComposerTranslationFinder;
+use Drago\Localization\InstalledComposerPackageProvider;
 use Drago\Localization\Options;
 use Drago\Localization\Translator;
 use Drago\Localization\TranslatorFinder;
@@ -15,27 +17,7 @@ use Nette\Schema\Schema;
 
 class TranslatorExtension extends CompilerExtension
 {
-	private ?Options $options = null;
-
-	/** @var list<string> */
-	private array $additionalTranslateDirs = [];
-
-
-	public function addTranslateDir(string $dir): void
-	{
-		if (!in_array($dir, $this->additionalTranslateDirs, true)) {
-			$this->additionalTranslateDirs[] = $dir;
-		}
-
-		$options = $this->options;
-		if ($options !== null && !in_array($dir, $options->translateDirs, true)) {
-			$options->translateDirs[] = $dir;
-		}
-	}
-
-
 	public function __construct(
-		private readonly string $appDir,
 		private readonly string $tempDir,
 	) {
 	}
@@ -44,9 +26,7 @@ class TranslatorExtension extends CompilerExtension
 	public function getConfigSchema(): Schema
 	{
 		return Expect::structure([
-			'autoFinder' => Expect::bool(true),
 			'translateDirs' => Expect::arrayOf(Expect::string())->default([]),
-			'exclude' => Expect::arrayOf(Expect::string())->default([]),
 		]);
 	}
 
@@ -58,19 +38,16 @@ class TranslatorExtension extends CompilerExtension
 			Expect::from(new Options),
 			$this->config,
 		);
-		$this->options = $options;
 
-		foreach ($this->additionalTranslateDirs as $dir) {
-			if (!in_array($dir, $options->translateDirs, true)) {
-				$options->translateDirs[] = $dir;
-			}
-		}
+		$builder->addDefinition($this->prefix('composerProvider'))
+			->setFactory(InstalledComposerPackageProvider::class);
 
-		// Register TranslationFinder service.
+		$builder->addDefinition($this->prefix('composerFinder'))
+			->setFactory(ComposerTranslationFinder::class, [$this->prefix('@composerProvider')]);
+
 		$builder->addDefinition($this->prefix('finder'))
-			->setFactory(TranslatorFinder::class, [$this->appDir, $this->tempDir]);
+			->setFactory(TranslatorFinder::class, [$this->tempDir, $this->prefix('@composerFinder')]);
 
-		// Register Translator service.
 		$builder->addDefinition($this->prefix('translator'))
 			->setFactory(Translator::class, [$options, $this->prefix('@finder')]);
 	}

@@ -11,48 +11,50 @@ use Throwable;
 use Tracy\Debugger;
 
 
-/** Finds all .neon translation files for a given language. */
+/** Finds translation files from Composer packages and explicitly configured directories. */
 class TranslatorFinder
 {
 	public const string Caching = 'translator.search';
 
 	private string $tempDir;
+	private ComposerTranslationFinder $composerFinder;
 
 
 	public function __construct(
-		private readonly string $appDir,
 		string $tempDir,
+		?ComposerTranslationFinder $composerFinder = null,
 	) {
 		$this->tempDir = $tempDir . '/cache';
+		$this->composerFinder = $composerFinder ?? new ComposerTranslationFinder(new InstalledComposerPackageProvider);
 	}
 
 
 	/**
 	 * Returns all .neon files for the given language.
-	 * @param list<string> $exclude
+	 * @param list<string> $translateDirs
 	 * @return list<string>
 	 * @throws Throwable
 	 */
-	public function findFiles(string $lang, array $exclude = []): array
+	public function findFiles(string $lang, array $translateDirs = []): array
 	{
-		$storage = new FileStorage($this->tempDir);
-		$cache = new Cache($storage, self::Caching);
-		$exclude = $this->normalizeExclude($exclude);
-		$cacheKey = self::Caching . '.' . $lang . '.' . md5(implode('|', $exclude));
+		$composerDirs = $this->composerFinder->findDirectories();
+		$directories = array_values(array_unique([...$composerDirs, ...$translateDirs]));
+
+		$cache = new Cache(new FileStorage($this->tempDir), self::Caching);
+		$cacheKey = self::Caching . '.' . $lang . '.' . md5(implode('|', $directories));
 
 		/** @var list<string>|null $cacheFiles */
 		$cacheFiles = $cache->load($cacheKey);
-
 		if (Debugger::$productionMode === false) {
 			$cache->remove($cacheKey);
-			return $this->scanFiles($lang, $exclude);
+			return $this->scanDirectories($lang, $directories);
 		}
 
 		if ($cacheFiles !== null) {
 			return $cacheFiles;
 		}
 
-		$files = $this->scanFiles($lang, $exclude);
+		$files = $this->scanDirectories($lang, $directories);
 		$cache->save($cacheKey, $files, [
 			Cache::All => true,
 		]);
@@ -62,54 +64,26 @@ class TranslatorFinder
 
 
 	/**
-	 * @param list<string> $exclude
+	 * @param list<string> $directories
 	 * @return list<string>
 	 */
-	private function scanFiles(string $lang, array $exclude): array
+	private function scanDirectories(string $lang, array $directories): array
 	{
 		$files = [];
-		$finder = Finder::findFiles($lang . '*.neon')
-			->from($this->appDir);
-
-		if ($exclude !== []) {
-			$finder->exclude($exclude);
-		}
-
-		foreach ($finder as $file) {
-			$path = $file->getRealPath();
-			if (is_string($path)) {
-				$files[] = $path;
-			}
-		}
-
-		return $files;
-	}
-
-
-	/**
-	 * @param list<string> $exclude
-	 * @return list<string>
-	 */
-	private function normalizeExclude(array $exclude): array
-	{
-		$appDir = rtrim(str_replace('\\', '/', $this->appDir), '/');
-		$masks = [];
-
-		foreach ($exclude as $dir) {
-			$dir = rtrim(str_replace('\\', '/', $dir), '/');
-			if ($dir === '') {
+		foreach ($directories as $directory) {
+			if (!is_dir($directory)) {
 				continue;
 			}
 
-			if (str_starts_with($dir, $appDir . '/')) {
-				$dir = substr($dir, strlen($appDir) + 1);
-			}
-
-			if ($dir !== '') {
-				$masks[] = $dir;
+			$finder = Finder::findFiles($lang . '*.neon')->in($directory);
+			foreach ($finder as $file) {
+				$path = $file->getRealPath();
+				if (is_string($path)) {
+					$files[] = $path;
+				}
 			}
 		}
 
-		return array_values(array_unique($masks));
+		return array_values(array_unique($files));
 	}
 }

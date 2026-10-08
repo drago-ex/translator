@@ -24,10 +24,8 @@ class Translator implements ITranslator
 		private readonly Options $options,
 		private readonly TranslatorFinder $translatorFinder,
 	) {
-		if (!$options->autoFinder) {
-			foreach ($options->translateDirs as $dir) {
-				$this->addTranslateDir($dir);
-			}
+		foreach ($options->translateDirs as $dir) {
+			$this->addTranslateDir($dir);
 		}
 	}
 
@@ -46,6 +44,11 @@ class Translator implements ITranslator
 
 	/**
 	 * Loads translations for the given language.
+	 *
+	 * Composer-declared package translations are loaded first, followed by the
+	 * root project's Composer translation directory and explicit NEON directories.
+	 * Later sources override earlier translations.
+	 *
 	 * @return array<string, string>
 	 * @throws Exception
 	 * @throws Throwable
@@ -53,17 +56,7 @@ class Translator implements ITranslator
 	public function setTranslate(string $lang): array
 	{
 		$this->messages = [];
-		$translateFiles = $this->options->autoFinder
-			? $this->translatorFinder->findFiles($lang, $this->options->exclude)
-			: [];
-
-		$translateFiles = [
-			...$translateFiles,
-			...array_map(
-				fn(string $dir): string => $dir . '/' . $lang . '.neon',
-				$this->translateDirs,
-			),
-		];
+		$translateFiles = $this->translatorFinder->findFiles($lang, $this->translateDirs);
 
 		$this->loadTranslateFiles($translateFiles);
 		return $this->messages;
@@ -83,7 +76,6 @@ class Translator implements ITranslator
 
 			$data = Neon::decodeFile($file);
 			if (is_array($data)) {
-
 				/** @var array<string, string> $data */
 				$this->messages = array_merge($this->messages, $data);
 			}

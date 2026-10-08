@@ -6,6 +6,8 @@
 
 declare(strict_types=1);
 
+use Drago\Localization\ComposerPackageProvider;
+use Drago\Localization\ComposerTranslationFinder;
 use Drago\Localization\Options;
 use Drago\Localization\Translator;
 use Drago\Localization\TranslatorFinder;
@@ -13,6 +15,18 @@ use Tester\Assert;
 use Tester\TestCase;
 
 require __DIR__ . '/../bootstrap.php';
+
+
+class EmptyTranslatorComposerPackageProvider implements ComposerPackageProvider
+{
+	public function getData(): array
+	{
+		return [
+			'root' => ['name' => 'test/root', 'install_path' => TempDir],
+			'versions' => [],
+		];
+	}
+}
 
 
 class TranslatorTest extends TestCase
@@ -27,6 +41,54 @@ class TranslatorTest extends TestCase
 	}
 
 
+	public function testComposerPackageTranslationsAreOverriddenByRootTranslations(): void
+	{
+		$package = $this->tempDir . '/vendor-package';
+		$root = $this->tempDir . '/root-package';
+		@mkdir($package . '/src/Translate', 0o777, true);
+		@mkdir($root . '/app/Translate', 0o777, true);
+
+		file_put_contents($package . '/composer.json', json_encode([
+			'extra' => ['drago-translator' => ['translation' => 'src/Translate']],
+		], JSON_THROW_ON_ERROR));
+		file_put_contents($root . '/composer.json', json_encode([
+			'extra' => ['drago-translator' => ['translation' => 'app/Translate']],
+		], JSON_THROW_ON_ERROR));
+		file_put_contents($package . '/src/Translate/en.neon', "hello: 'Package'\nonlyPackage: 'Package'\n");
+		file_put_contents($root . '/app/Translate/en.neon', "hello: 'Application'\nonlyApplication: 'Application'\n");
+
+		$provider = new class ($root, $package) implements ComposerPackageProvider {
+			public function __construct(
+				private readonly string $root,
+				private readonly string $package,
+			) {
+			}
+
+
+			public function getData(): array
+			{
+				return [
+					'root' => ['name' => 'test/root', 'install_path' => $this->root],
+					'versions' => ['test/package' => ['install_path' => $this->package]],
+				];
+			}
+		};
+
+		$options = new Options;
+		$finder = new TranslatorFinder(
+			$this->tempDir,
+			$this->tempDir,
+			new ComposerTranslationFinder($provider),
+		);
+		$translator = new Translator($options, $finder);
+		$translator->setTranslate('en');
+
+		Assert::same('Application', $translator->translate('hello'));
+		Assert::same('Package', $translator->translate('onlyPackage'));
+		Assert::same('Application', $translator->translate('onlyApplication'));
+	}
+
+
 	public function testManualDirectoriesMergeWithOverrideOrder(): void
 	{
 		$base = $this->tempDir . '/base';
@@ -38,10 +100,14 @@ class TranslatorTest extends TestCase
 		file_put_contents($module . '/en.neon', "key: 'module'\n");
 
 		$options = new Options;
-		$options->autoFinder = false;
 		$options->translateDirs = [$base, $module];
 
-		$translator = new Translator($options, new TranslatorFinder($this->tempDir, $this->tempDir));
+		$finder = new TranslatorFinder(
+			$this->tempDir,
+			$this->tempDir,
+			new ComposerTranslationFinder(new EmptyTranslatorComposerPackageProvider),
+		);
+		$translator = new Translator($options, $finder);
 		$translator->setTranslate('en');
 
 		Assert::same('Hello', $translator->translate('hello'));

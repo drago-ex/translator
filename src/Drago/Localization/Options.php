@@ -7,12 +7,6 @@ namespace Drago\Localization;
 
 class Options
 {
-	/** Enables automatic scanning of all translation files in the app directory. */
-	public bool $autoFinder = true;
-
-	/** @var list<string> */
+	/** @var list<string> Explicit translation directories used as a manual fallback. */
 	public array $translateDirs = [];
-
-	/** @var list<string> */
-	public array $exclude = [];
 }
