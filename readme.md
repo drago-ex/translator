@@ -35,7 +35,7 @@ Each Composer package can declare one directory containing its translation files
 ```json
 "extra": {
 	"drago-translator": {
-		"translation": "src/Drago/Commerce/Translate"
+		"translation": "src/Commerce/Translate"
 	}
 }
 ```
@@ -51,7 +51,7 @@ vendor/drago-ex/commerce/
 with:
 
 ```json
-"translation": "src/Drago/Commerce/Translate"
+"translation": "src/Commerce/Translate"
 ```
 
 provides translations from:
