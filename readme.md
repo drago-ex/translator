@@ -23,7 +23,7 @@ Register the DI extension in your NEON configuration:
 
 ```neon
 extensions:
-	translator: Drago\Localization\DI\TranslatorExtension(%appDir%, %tempDir%)
+	translator: Drago\Localization\DI\TranslatorExtension(%tempDir%)
 ```
 
 No translation directories are required in NEON for the normal case. The translator discovers them from Composer metadata.
@@ -160,7 +160,7 @@ The same works with the translator registered in Latte:
 
 Use a matching placeholder for each argument, in the same order. Common placeholders include `%s` for text, `%d` for an integer, and `%.2f` for a decimal number with two digits after the decimal point.
 
-When no translation exists, the original message is used and its placeholders are formatted in the same way.
+When no translation exists, the original message is used and its placeholders are formatted in the same way. If the placeholders do not match the arguments, the unformatted text is returned instead of throwing.
 
 ## Using Translator in Presenters
 

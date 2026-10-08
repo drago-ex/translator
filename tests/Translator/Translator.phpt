@@ -112,6 +112,28 @@ class TranslatorTest extends TestCase
 		Assert::same('module', $translator->translate('key'));
 		Assert::same('missing', $translator->translate('missing'));
 	}
+
+
+	public function testParametersAreFormattedAndMismatchedPlaceholdersDoNotThrow(): void
+	{
+		$dir = $this->tempDir . '/params';
+		@mkdir($dir, 0o777, true);
+		file_put_contents($dir . '/en.neon', "\"Hello, %s!\": \"Hi, %s!\"\n");
+
+		$options = new Options;
+		$options->translateDirs = [$dir];
+
+		$translator = new Translator($options, new TranslatorFinder(
+			$this->tempDir,
+			new ComposerTranslationFinder(new EmptyTranslatorComposerPackageProvider),
+		));
+		$translator->setTranslate('en');
+
+		Assert::same('Hi, Jane!', $translator->translate('Hello, %s!', 'Jane'));
+		Assert::same('You have 3 items', $translator->translate('You have %d items', 3));
+		Assert::same('%s and %s', $translator->translate('%s and %s', 'one'));
+		Assert::same('Plain', $translator->translate('Plain', 'unused'));
+	}
 }
 
 (new TranslatorTest)->run();

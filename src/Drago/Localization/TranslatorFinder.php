@@ -58,9 +58,7 @@ class TranslatorFinder
 		}
 
 		$files = $this->scanDirectories($lang, $directories);
-		$cache->save($cacheKey, $files, [
-			Cache::All => true,
-		]);
+		$cache->save($cacheKey, $files);
 
 		return $files;
 	}
