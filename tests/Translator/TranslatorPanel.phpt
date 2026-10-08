@@ -83,8 +83,10 @@ class TranslatorPanelTest extends TestCase
 		$translator->setTranslate('de');
 		$translator->translate('Hello');
 
+		$panel = new TranslatorPanel($translator);
+
 		Assert::same([], $translator->getMissing());
-		Assert::same('<span title="Drago Translator"><span class="tracy-label">Translator: de</span></span>', new TranslatorPanel($translator)->getTab());
+		Assert::same('<span title="Drago Translator"><span class="tracy-label">Translator: de</span></span>', $panel->getTab());
 	}
 }
 
