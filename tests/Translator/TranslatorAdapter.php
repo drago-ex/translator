@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-use Localization\TranslatorAdapter;
+use Drago\Localization\TranslatorAdapter;
 
 
 class TestTranslatorAdapter

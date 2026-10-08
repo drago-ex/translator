@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Localization;
+namespace Drago\Localization;
 
 use Tracy\IBarPanel;
 use function count;
@@ -10,10 +10,10 @@ use function htmlspecialchars;
 
 
 /** Tracy bar panel showing where translations come from and which messages have none. */
-class TranslatorPanel implements IBarPanel
+readonly class TranslatorPanel implements IBarPanel
 {
 	public function __construct(
-		private readonly Translator $translator,
+		private Translator $translator,
 	) {
 	}
 
