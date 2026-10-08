@@ -101,4 +101,4 @@ class TestTranslatorExtension extends TestCase
 	}
 }
 
-(new TestTranslatorExtension($container))->run();
+new TestTranslatorExtension($container)->run();

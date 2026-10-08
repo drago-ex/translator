@@ -15,6 +15,25 @@ use Nette\Schema\Schema;
 
 class TranslatorExtension extends CompilerExtension
 {
+	private ?Options $options = null;
+
+	/** @var list<string> */
+	private array $additionalTranslateDirs = [];
+
+
+	public function addTranslateDir(string $dir): void
+	{
+		if (!in_array($dir, $this->additionalTranslateDirs, true)) {
+			$this->additionalTranslateDirs[] = $dir;
+		}
+
+		$options = $this->options;
+		if ($options !== null && !in_array($dir, $options->translateDirs, true)) {
+			$options->translateDirs[] = $dir;
+		}
+	}
+
+
 	public function __construct(
 		private readonly string $appDir,
 		private readonly string $tempDir,
@@ -39,6 +58,13 @@ class TranslatorExtension extends CompilerExtension
 			Expect::from(new Options),
 			$this->config,
 		);
+		$this->options = $options;
+
+		foreach ($this->additionalTranslateDirs as $dir) {
+			if (!in_array($dir, $options->translateDirs, true)) {
+				$options->translateDirs[] = $dir;
+			}
+		}
 
 		// Register TranslationFinder service.
 		$builder->addDefinition($this->prefix('finder'))

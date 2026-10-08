@@ -55,7 +55,15 @@ class Translator implements ITranslator
 		$this->messages = [];
 		$translateFiles = $this->options->autoFinder
 			? $this->translatorFinder->findFiles($lang, $this->options->exclude)
-			: array_map(fn(string $dir): string => $dir . '/' . $lang . '.neon', $this->translateDirs);
+			: [];
+
+		$translateFiles = [
+			...$translateFiles,
+			...array_map(
+				fn(string $dir): string => $dir . '/' . $lang . '.neon',
+				$this->translateDirs,
+			),
+		];
 
 		$this->loadTranslateFiles($translateFiles);
 		return $this->messages;
