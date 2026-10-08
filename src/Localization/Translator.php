@@ -30,7 +30,7 @@ class Translator implements ITranslator
 
 
 	public function __construct(
-		private readonly Options $options,
+		Options $options,
 		private readonly TranslatorFinder $translatorFinder,
 	) {
 		foreach ($options->translateDirs as $dir) {
