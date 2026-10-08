@@ -162,6 +162,10 @@ Use a matching placeholder for each argument, in the same order. Common placehol
 
 When no translation exists, the original message is used and its placeholders are formatted in the same way. If the placeholders do not match the arguments, the unformatted text is returned instead of throwing.
 
+## Tracy Panel
+
+In debug mode the Tracy bar shows the current language, searched directories, loaded files and the messages that had no translation. Messages are reported only when the language has at least one translation file loaded, so a source-language file is not needed.
+
 ## Using Translator in Presenters
 
 Add the `TranslatorAdapter` trait to your presenter:

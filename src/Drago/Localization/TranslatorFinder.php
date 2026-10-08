@@ -33,6 +33,17 @@ class TranslatorFinder
 
 
 	/**
+	 * Returns Composer-discovered directories followed by the explicit ones.
+	 * @param list<string> $translateDirs
+	 * @return list<string>
+	 */
+	public function findDirectories(array $translateDirs = []): array
+	{
+		return array_values(array_unique([...$this->composerFinder->findDirectories(), ...$translateDirs]));
+	}
+
+
+	/**
 	 * Returns all .neon files for the given language.
 	 * @param list<string> $translateDirs
 	 * @return list<string>
@@ -40,8 +51,7 @@ class TranslatorFinder
 	 */
 	public function findFiles(string $lang, array $translateDirs = []): array
 	{
-		$composerDirs = $this->composerFinder->findDirectories();
-		$directories = array_values(array_unique([...$composerDirs, ...$translateDirs]));
+		$directories = $this->findDirectories($translateDirs);
 
 		$cache = new Cache(new FileStorage($this->tempDir), self::Caching);
 		$cacheKey = self::Caching . '.' . $lang . '.' . md5(implode('|', $directories));

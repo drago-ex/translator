@@ -9,7 +9,9 @@ use Drago\Localization\InstalledComposerPackageProvider;
 use Drago\Localization\Options;
 use Drago\Localization\Translator;
 use Drago\Localization\TranslatorFinder;
+use Drago\Localization\TranslatorPanel;
 use Nette\DI\CompilerExtension;
+use Nette\PhpGenerator\ClassType;
 use Nette\Schema\Expect;
 use Nette\Schema\Processor;
 use Nette\Schema\Schema;
@@ -50,5 +52,21 @@ class TranslatorExtension extends CompilerExtension
 
 		$builder->addDefinition($this->prefix('translator'))
 			->setFactory(Translator::class, [$options, $this->prefix('@finder')]);
+	}
+
+
+	/** Adds the Tracy bar panel in debug mode. */
+	public function afterCompile(ClassType $class): void
+	{
+		if (!($this->getContainerBuilder()->parameters['debugMode'] ?? false)) {
+			return;
+		}
+
+		$class->getMethod('initialize')->addBody(sprintf(
+			'Tracy\Debugger::getBar()->addPanel(new \%s($this->getService(%s)), %s);',
+			TranslatorPanel::class,
+			var_export($this->prefix('translator'), true),
+			var_export('drago.translator', true),
+		));
 	}
 }

@@ -20,6 +20,14 @@ class Translator implements ITranslator
 	/** @var list<string> */
 	private array $translateDirs = [];
 
+	/** @var list<string> */
+	private array $files = [];
+
+	/** @var array<int|string, true> Messages requested without a translation. */
+	private array $missing = [];
+
+	private ?string $lang = null;
+
 
 	public function __construct(
 		private readonly Options $options,
@@ -57,10 +65,55 @@ class Translator implements ITranslator
 	public function setTranslate(string $lang): array
 	{
 		$this->messages = [];
-		$translateFiles = $this->translatorFinder->findFiles($lang, $this->translateDirs);
+		$this->missing = [];
+		$this->lang = $lang;
+		$this->files = $this->translatorFinder->findFiles($lang, $this->translateDirs);
 
-		$this->loadTranslateFiles($translateFiles);
+		$this->loadTranslateFiles($this->files);
 		return $this->messages;
+	}
+
+
+	/** Language set by the last setTranslate() call, null before the first one. */
+	public function getLang(): ?string
+	{
+		return $this->lang;
+	}
+
+
+	/**
+	 * @return list<string>
+	 */
+	public function getDirectories(): array
+	{
+		return $this->translatorFinder->findDirectories($this->translateDirs);
+	}
+
+
+	/**
+	 * @return list<string> Translation files loaded for the current language, in loading order.
+	 */
+	public function getFiles(): array
+	{
+		return $this->files;
+	}
+
+
+	public function getMessageCount(): int
+	{
+		return count($this->messages);
+	}
+
+
+	/**
+	 * Messages requested without a translation. Reported only when the current language
+	 * has some translations loaded, because a source-language file is usually not needed.
+	 *
+	 * @return list<string>
+	 */
+	public function getMissing(): array
+	{
+		return array_map(strval(...), array_keys($this->missing));
 	}
 
 
@@ -88,6 +141,10 @@ class Translator implements ITranslator
 	{
 		$key = is_scalar($message) || $message instanceof \Stringable ? (string) $message : '';
 		$translation = $this->messages[$key] ?? $key;
+		if (!isset($this->messages[$key]) && $key !== '' && $this->messages !== []) {
+			$this->missing[$key] = true;
+		}
+
 		if ($parameters === [] || !str_contains($translation, '%')) {
 			return $translation;
 		}
