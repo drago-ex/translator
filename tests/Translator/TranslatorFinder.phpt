@@ -61,13 +61,17 @@ class TranslatorFinderTest extends TestCase
 	{
 		Debugger::$productionMode = true;
 		$finder = new TranslatorFinder(
-			$this->appDir,
 			$this->tempDir,
 			new ComposerTranslationFinder(new EmptyComposerPackageProvider),
 		);
 
-		$enFiles = $finder->findFiles('en');
-		$csFiles = $finder->findFiles('cs');
+		$directories = [
+			$this->appDir . '/ModuleA',
+			$this->appDir . '/ModuleB',
+			$this->appDir . '/ModuleC',
+		];
+		$enFiles = $finder->findFiles('en', $directories);
+		$csFiles = $finder->findFiles('cs', $directories);
 
 		Assert::count(2, $enFiles);
 		Assert::count(1, $csFiles);
@@ -76,22 +80,22 @@ class TranslatorFinderTest extends TestCase
 	}
 
 
-	public function testExcludesConfiguredDirectory(): void
+	public function testMergesConfiguredDirectories(): void
 	{
 		Debugger::$productionMode = true;
 		$finder = new TranslatorFinder(
-			$this->appDir,
 			$this->tempDir,
 			new ComposerTranslationFinder(new EmptyComposerPackageProvider),
 		);
 
 		$enFiles = array_map(
 			static fn(string $file): string => str_replace('\\', '/', $file),
-			$finder->findFiles('en', [$this->appDir . '/ModuleA']),
+			$finder->findFiles('en', [$this->appDir . '/ModuleA', $this->appDir . '/ModuleC']),
 		);
 
-		Assert::count(1, $enFiles);
-		Assert::contains('/ModuleC/locale/en.neon', $enFiles[0]);
+		Assert::count(2, $enFiles);
+		Assert::contains('/ModuleA/locale/en.neon', $enFiles[0]);
+		Assert::contains('/ModuleC/locale/en.neon', $enFiles[1]);
 	}
 }
 

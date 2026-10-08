@@ -77,7 +77,6 @@ class TranslatorTest extends TestCase
 		$options = new Options;
 		$finder = new TranslatorFinder(
 			$this->tempDir,
-			$this->tempDir,
 			new ComposerTranslationFinder($provider),
 		);
 		$translator = new Translator($options, $finder);
@@ -103,7 +102,6 @@ class TranslatorTest extends TestCase
 		$options->translateDirs = [$base, $module];
 
 		$finder = new TranslatorFinder(
-			$this->tempDir,
 			$this->tempDir,
 			new ComposerTranslationFinder(new EmptyTranslatorComposerPackageProvider),
 		);
