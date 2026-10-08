@@ -33,13 +33,10 @@ class TestTranslatorExtension extends TestCase
 	{
 		$params = $this->container->getParameters();
 		$loader = new ContainerLoader($params['tempDir'], true);
+		$translationDir = str_replace('\\', '/', __DIR__ . '/../locale');
 
-		$class = $loader->load(function (Compiler $compiler) use ($params): void {
-			$compiler->loadConfig(Tester\FileMock::create('
-			translator:
-				translateDirs:
-					- %tempDir%/../Translator/locale
-			', 'neon'));
+		$class = $loader->load(function (Compiler $compiler) use ($params, $translationDir): void {
+			$compiler->loadConfig(Tester\FileMock::create(sprintf("\n			translator:\n			\ttranslateDirs:\n			\t\t- %s\n			", $translationDir), 'neon'));
 			$compiler->addExtension(
 				'translator',
 				new TranslatorExtension(
@@ -97,4 +94,5 @@ class TestTranslatorExtension extends TestCase
 	}
 }
 
-new TestTranslatorExtension($container)->run();
+$test = new TestTranslatorExtension($container);
+$test->run();

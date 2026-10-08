@@ -66,9 +66,9 @@ class TranslatorFinderTest extends TestCase
 		);
 
 		$directories = [
-			$this->appDir . '/ModuleA',
-			$this->appDir . '/ModuleB',
-			$this->appDir . '/ModuleC',
+			$this->appDir . '/ModuleA/locale',
+			$this->appDir . '/ModuleB/locale',
+			$this->appDir . '/ModuleC/locale',
 		];
 		$enFiles = $finder->findFiles('en', $directories);
 		$csFiles = $finder->findFiles('cs', $directories);
@@ -90,7 +90,7 @@ class TranslatorFinderTest extends TestCase
 
 		$enFiles = array_map(
 			static fn(string $file): string => str_replace('\\', '/', $file),
-			$finder->findFiles('en', [$this->appDir . '/ModuleA', $this->appDir . '/ModuleC']),
+			$finder->findFiles('en', [$this->appDir . '/ModuleA/locale', $this->appDir . '/ModuleC/locale']),
 		);
 
 		Assert::count(2, $enFiles);

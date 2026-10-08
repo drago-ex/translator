@@ -25,6 +25,9 @@ class TranslatorFinder
 		?ComposerTranslationFinder $composerFinder = null,
 	) {
 		$this->tempDir = $tempDir . '/cache';
+		if (!is_dir($this->tempDir)) {
+			mkdir($this->tempDir, 0o777, true);
+		}
 		$this->composerFinder = $composerFinder ?? new ComposerTranslationFinder(new InstalledComposerPackageProvider);
 	}
 
