@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace Drago\Localization\DI;
+namespace Localization\DI;
 
-use Drago\Localization\ComposerTranslationFinder;
-use Drago\Localization\InstalledComposerPackageProvider;
-use Drago\Localization\Options;
-use Drago\Localization\Translator;
-use Drago\Localization\TranslatorFinder;
-use Drago\Localization\TranslatorPanel;
+use Localization\ComposerTranslationFinder;
+use Localization\InstalledComposerPackageProvider;
+use Localization\Options;
+use Localization\Translator;
+use Localization\TranslatorFinder;
+use Localization\TranslatorPanel;
 use Nette\DI\CompilerExtension;
 use Nette\PhpGenerator\ClassType;
 use Nette\Schema\Expect;

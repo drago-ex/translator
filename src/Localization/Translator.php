@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Drago\Localization;
+namespace Localization;
 
 use Nette\Localization\Translator as ITranslator;
 use Nette\Neon\Exception;

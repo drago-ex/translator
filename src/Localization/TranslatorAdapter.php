@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Drago\Localization;
+namespace Localization;
 
 use Nette\Application\Attributes\Persistent;
 use Nette\Application\UI\Presenter;

@@ -33,7 +33,10 @@
 		}
 	},
 	"autoload": {
-		"classmap": ["src/"]
+		"classmap": ["src/"],
+		"psr-4": {
+			"Drago\\": "src"
+		}
 	},
 	"scripts": {
 		"phpstan": "phpstan analyse",

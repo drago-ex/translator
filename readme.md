@@ -171,7 +171,7 @@ In debug mode the Tracy bar shows the current language, searched directories, lo
 Add the `TranslatorAdapter` trait to your presenter:
 
 ```php
-use Drago\Localization\TranslatorAdapter;
+
 ```
 
 The trait provides:
