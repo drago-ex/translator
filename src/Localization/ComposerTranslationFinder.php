@@ -124,10 +124,6 @@ class ComposerTranslationFinder
 			return false;
 		}
 
-		if (in_array('..', explode('/', $path), true)) {
-			return false;
-		}
-
-		return true;
+		return !in_array('..', explode('/', $path), true);
 	}
 }
