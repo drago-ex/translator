@@ -7,7 +7,6 @@
 declare(strict_types=1);
 
 use Drago\Localization\ComposerPackageProvider;
-use Drago\Localization\ComposerTranslationFinder;
 use Drago\Localization\Options;
 use Drago\Localization\Translator;
 use Drago\Localization\TranslatorFinder;

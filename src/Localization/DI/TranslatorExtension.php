@@ -38,7 +38,7 @@ class TranslatorExtension extends CompilerExtension
 		);
 
 		// Composer metadata is read once while the container is compiled.
-		$directories = (new ComposerTranslationFinder(new InstalledComposerPackageProvider))->findDirectories();
+		$directories = new ComposerTranslationFinder(new InstalledComposerPackageProvider)->findDirectories();
 		$this->watchInstalledPackages();
 
 		$builder->addDefinition($this->prefix('finder'))
@@ -55,7 +55,7 @@ class TranslatorExtension extends CompilerExtension
 	/** Recompiles the container when installed Composer packages change. */
 	private function watchInstalledPackages(): void
 	{
-		$file = (new ReflectionClass(InstalledVersions::class))->getFileName();
+		$file = new ReflectionClass(InstalledVersions::class)->getFileName();
 		if (is_string($file) && is_file($installed = dirname($file) . '/installed.php')) {
 			$this->getContainerBuilder()->addDependency($installed);
 		}
