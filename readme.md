@@ -8,11 +8,13 @@ Lightweight translator for Nette Framework using NEON files. Translation directo
 [![Coding Style](https://github.com/drago-ex/translator/actions/workflows/coding-style.yml/badge.svg)](https://github.com/drago-ex/translator/actions/workflows/coding-style.yml)
 
 ## Requirements
+
 - PHP >= 8.3
 - Nette Framework
 - Composer 2.1+
 
 ## Installation
+
 ```bash
 composer require drago-ex/translator
 ```
