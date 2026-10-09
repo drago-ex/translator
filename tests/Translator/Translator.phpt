@@ -75,7 +75,8 @@ class TranslatorTest extends TestCase
 		};
 
 		$options = new Options;
-		$finder = new TranslatorFinder(new ComposerTranslationFinder($provider)->findDirectories());
+		$composerFinder = new ComposerTranslationFinder($provider);
+		$finder = new TranslatorFinder($composerFinder->findDirectories());
 		$translator = new Translator($options, $finder);
 		$translator->setTranslate('en');
 
