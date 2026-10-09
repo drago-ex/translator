@@ -1,7 +1,7 @@
 {
 	"name": "drago-ex/translator",
-	"type": "library",
 	"description": "Lightweight translator for Nette Framework using NEON files with automatic Composer package discovery.",
+	"type": "library",
 	"license": ["MIT"],
 	"authors": [
 		{
@@ -23,15 +23,6 @@
 		"nette/bootstrap": "^3.1",
 		"phpstan/phpstan-nette": "^2.0"
 	},
-	"extra": {
-		"drago-tools": {
-			"install": {
-				"copy": {
-					"src/Drago/assets/latte": "app/Presentation/Accessory/Widget"
-				}
-			}
-		}
-	},
 	"autoload": {
 		"classmap": ["src/"],
 		"psr-4": {
@@ -41,5 +32,14 @@
 	"scripts": {
 		"phpstan": "phpstan analyse",
 		"tester": "tester tests -s"
+	},
+	"extra": {
+		"drago-tools": {
+			"install": {
+				"copy": {
+					"src/Drago/assets/latte": "app/Presentation/Accessory/Widget"
+				}
+			}
+		}
 	}
 }
