@@ -7,6 +7,7 @@ namespace Drago\Localization;
 use Nette\Caching\Cache;
 use Nette\Caching\Storage;
 use Nette\Utils\Finder;
+use Throwable;
 
 
 /** Finds translation files from Composer packages and explicitly configured directories. */
@@ -45,6 +46,7 @@ class TranslatorFinder
 	 * Returns all .neon files for the given language.
 	 * @param list<string> $translateDirs
 	 * @return list<string>
+	 * @throws Throwable
 	 */
 	public function findFiles(string $lang, array $translateDirs = []): array
 	{

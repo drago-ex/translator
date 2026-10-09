@@ -124,10 +124,8 @@ class ComposerTranslationFinder
 			return false;
 		}
 
-		foreach (explode('/', $path) as $segment) {
-			if ($segment === '..') {
-				return false;
-			}
+		if (in_array('..', explode('/', $path), true)) {
+			return false;
 		}
 
 		return true;
