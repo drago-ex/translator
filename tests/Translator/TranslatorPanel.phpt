@@ -47,10 +47,7 @@ class TranslatorPanelTest extends TestCase
 		$options = new Options;
 		$options->translateDirs = [$this->tempDir . '/locale'];
 
-		return new Translator($options, new TranslatorFinder(
-			$this->tempDir,
-			new ComposerTranslationFinder(new PanelEmptyComposerPackageProvider),
-		));
+		return new Translator($options, new TranslatorFinder);
 	}
 
 

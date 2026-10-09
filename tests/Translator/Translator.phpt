@@ -75,10 +75,7 @@ class TranslatorTest extends TestCase
 		};
 
 		$options = new Options;
-		$finder = new TranslatorFinder(
-			$this->tempDir,
-			new ComposerTranslationFinder($provider),
-		);
+		$finder = new TranslatorFinder((new ComposerTranslationFinder($provider))->findDirectories());
 		$translator = new Translator($options, $finder);
 		$translator->setTranslate('en');
 
@@ -101,10 +98,7 @@ class TranslatorTest extends TestCase
 		$options = new Options;
 		$options->translateDirs = [$base, $module];
 
-		$finder = new TranslatorFinder(
-			$this->tempDir,
-			new ComposerTranslationFinder(new EmptyTranslatorComposerPackageProvider),
-		);
+		$finder = new TranslatorFinder;
 		$translator = new Translator($options, $finder);
 		$translator->setTranslate('en');
 
@@ -123,10 +117,7 @@ class TranslatorTest extends TestCase
 		$options = new Options;
 		$options->translateDirs = [$dir];
 
-		$translator = new Translator($options, new TranslatorFinder(
-			$this->tempDir,
-			new ComposerTranslationFinder(new EmptyTranslatorComposerPackageProvider),
-		));
+		$translator = new Translator($options, new TranslatorFinder);
 		$translator->setTranslate('en');
 
 		Assert::same('Hi, Jane!', $translator->translate('Hello, %s!', 'Jane'));

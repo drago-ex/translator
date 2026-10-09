@@ -5,10 +5,8 @@ declare(strict_types=1);
 namespace Drago\Localization;
 
 use Nette\Caching\Cache;
-use Nette\Caching\Storages\FileStorage;
+use Nette\Caching\Storage;
 use Nette\Utils\Finder;
-use Throwable;
-use Tracy\Debugger;
 
 
 /** Finds translation files from Composer packages and explicitly configured directories. */
@@ -16,19 +14,19 @@ class TranslatorFinder
 {
 	public const string Caching = 'translator.search';
 
-	private string $tempDir;
-	private ComposerTranslationFinder $composerFinder;
+	private ?Cache $cache;
 
 
+	/**
+	 * @param list<string> $composerDirectories Directories discovered from Composer metadata.
+	 * @param Storage|null $storage Optional cache for found files; skipped in debug mode.
+	 */
 	public function __construct(
-		string $tempDir,
-		?ComposerTranslationFinder $composerFinder = null,
+		private readonly array $composerDirectories = [],
+		?Storage $storage = null,
+		private readonly bool $debugMode = false,
 	) {
-		$this->tempDir = $tempDir . '/cache';
-		if (!is_dir($this->tempDir)) {
-			mkdir($this->tempDir, 0o777, true);
-		}
-		$this->composerFinder = $composerFinder ?? new ComposerTranslationFinder(new InstalledComposerPackageProvider);
+		$this->cache = $storage === null ? null : new Cache($storage, self::Caching);
 	}
 
 
@@ -39,7 +37,7 @@ class TranslatorFinder
 	 */
 	public function findDirectories(array $translateDirs = []): array
 	{
-		return array_values(array_unique([...$this->composerFinder->findDirectories(), ...$translateDirs]));
+		return array_values(array_unique([...$this->composerDirectories, ...$translateDirs]));
 	}
 
 
@@ -47,29 +45,19 @@ class TranslatorFinder
 	 * Returns all .neon files for the given language.
 	 * @param list<string> $translateDirs
 	 * @return list<string>
-	 * @throws Throwable
 	 */
 	public function findFiles(string $lang, array $translateDirs = []): array
 	{
 		$directories = $this->findDirectories($translateDirs);
-
-		$cache = new Cache(new FileStorage($this->tempDir), self::Caching);
-		$cacheKey = self::Caching . '.' . $lang . '.' . md5(implode('|', $directories));
-
-		/** @var list<string>|null $cacheFiles */
-		$cacheFiles = $cache->load($cacheKey);
-		if (Debugger::$productionMode === false) {
-			$cache->remove($cacheKey);
+		if ($this->cache === null || $this->debugMode) {
 			return $this->scanDirectories($lang, $directories);
 		}
 
-		if ($cacheFiles !== null) {
-			return $cacheFiles;
-		}
-
-		$files = $this->scanDirectories($lang, $directories);
-		$cache->save($cacheKey, $files);
-
+		/** @var list<string> $files */
+		$files = $this->cache->load(
+			$lang . '.' . md5(implode('|', $directories)),
+			fn(): array => $this->scanDirectories($lang, $directories),
+		);
 		return $files;
 	}
 

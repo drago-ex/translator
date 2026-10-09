@@ -39,9 +39,7 @@ class TestTranslatorExtension extends TestCase
 			$compiler->loadConfig(Tester\FileMock::create(sprintf("\n			translator:\n			\ttranslateDirs:\n			\t\t- %s\n			", $translationDir), 'neon'));
 			$compiler->addExtension(
 				'translator',
-				new TranslatorExtension(
-					$params['tempDir'],
-				),
+				new TranslatorExtension,
 			);
 		});
 		return new $class;

@@ -23,7 +23,7 @@ Register the DI extension in your NEON configuration:
 
 ```neon
 extensions:
-	translator: Drago\Localization\DI\TranslatorExtension(%tempDir%)
+	translator: Drago\Localization\DI\TranslatorExtension
 ```
 
 No translation directories are required in NEON for the normal case. The translator discovers them from Composer metadata.

@@ -6,41 +6,23 @@
 
 declare(strict_types=1);
 
-use Drago\Localization\ComposerPackageProvider;
-use Drago\Localization\ComposerTranslationFinder;
 use Drago\Localization\TranslatorFinder;
+use Nette\Caching\Storages\MemoryStorage;
 use Tester\Assert;
 use Tester\TestCase;
-use Tracy\Debugger;
 
 require __DIR__ . '/../bootstrap.php';
-
-
-class EmptyComposerPackageProvider implements ComposerPackageProvider
-{
-	public function getData(): array
-	{
-		return [
-			'root' => ['name' => 'test/root', 'install_path' => TempDir],
-			'versions' => [],
-		];
-	}
-}
 
 
 class TranslatorFinderTest extends TestCase
 {
 	private string $appDir;
-	private string $tempDir;
 
 
 	public function setUp(): void
 	{
 		$this->appDir = TempDir . '/finder-app';
-		$this->tempDir = TempDir . '/finder-tmp';
 		@mkdir($this->appDir, 0o777, true);
-		@mkdir($this->tempDir, 0o777, true);
-		@mkdir($this->tempDir . '/cache', 0o777, true);
 		@mkdir($this->appDir . '/ModuleA/locale', 0o777, true);
 		@mkdir($this->appDir . '/ModuleB/locale', 0o777, true);
 		@mkdir($this->appDir . '/ModuleC/locale', 0o777, true);
@@ -51,19 +33,9 @@ class TranslatorFinderTest extends TestCase
 	}
 
 
-	public function tearDown(): void
-	{
-		Debugger::$productionMode = false;
-	}
-
-
 	public function testFindsFilesByLanguageInProductionCache(): void
 	{
-		Debugger::$productionMode = true;
-		$finder = new TranslatorFinder(
-			$this->tempDir,
-			new ComposerTranslationFinder(new EmptyComposerPackageProvider),
-		);
+		$finder = new TranslatorFinder([], new MemoryStorage);
 
 		$directories = [
 			$this->appDir . '/ModuleA/locale',
@@ -82,11 +54,7 @@ class TranslatorFinderTest extends TestCase
 
 	public function testMergesConfiguredDirectories(): void
 	{
-		Debugger::$productionMode = true;
-		$finder = new TranslatorFinder(
-			$this->tempDir,
-			new ComposerTranslationFinder(new EmptyComposerPackageProvider),
-		);
+		$finder = new TranslatorFinder([], new MemoryStorage);
 
 		$enFiles = array_map(
 			static fn(string $file): string => str_replace('\\', '/', $file),
