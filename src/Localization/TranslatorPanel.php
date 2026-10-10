@@ -22,9 +22,9 @@ readonly class TranslatorPanel implements IBarPanel
 	{
 		$label = 'Translator';
 		$icon = '<svg viewBox="0 0 2048 2048" aria-hidden="true">'
-			. '<circle cx="1024" cy="1024" r="820" fill="none" stroke="#6ba9e6" stroke-width="120"></circle>'
-			. '<ellipse cx="1024" cy="1024" rx="360" ry="820" fill="none" stroke="#6ba9e6" stroke-width="100"></ellipse>'
-			. '<path d="M260 760h1528M260 1288h1528" fill="none" stroke="#6ba9e6" stroke-width="100"></path>'
+			. '<circle cx="1024" cy="1024" r="820" fill="none" stroke="#2878c7" stroke-width="120"></circle>'
+			. '<ellipse cx="1024" cy="1024" rx="360" ry="820" fill="none" stroke="#2878c7" stroke-width="100"></ellipse>'
+			. '<path d="M260 760h1528M260 1288h1528" fill="none" stroke="#2878c7" stroke-width="100"></path>'
 			. '</svg>';
 		if ($this->translator->getLang() !== null) {
 			$label .= ': ' . $this->translator->getLang();
