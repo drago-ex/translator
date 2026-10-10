@@ -90,6 +90,13 @@ class Translator implements ITranslator
 	}
 
 
+	/** @return list<string> */
+	public function getManualDirectories(): array
+	{
+		return $this->translateDirs;
+	}
+
+
 	/**
 	 * @return list<string> Translation files loaded for the current language, in loading order.
 	 */

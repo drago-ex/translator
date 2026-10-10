@@ -45,6 +45,7 @@ class ComposerTranslationFinder
 		$directories = [];
 		$data = $this->packageProvider->getData();
 		$rootName = $data['root']['name'];
+		$rootPath = $data['root']['install_path'];
 
 		foreach ($data['versions'] as $packageName => $package) {
 			if ($packageName === $rootName || !isset($package['install_path'])) {
@@ -52,10 +53,12 @@ class ComposerTranslationFinder
 			}
 
 			$path = $package['install_path'];
-			$this->addTranslationDirectory($directories, $path, $this->readComposerTranslation($path));
+			$translation = $this->readComposerTranslation($path);
+			if ($translation !== null && !$this->addTranslationDirectory($directories, $path, $translation)) {
+				$this->addTranslationDirectory($directories, $rootPath, $translation);
+			}
 		}
 
-		$rootPath = $data['root']['install_path'];
 		$this->addTranslationDirectory($directories, $rootPath, $this->readComposerTranslation($rootPath));
 
 		return $this->directories = $directories;
@@ -65,18 +68,24 @@ class ComposerTranslationFinder
 	/**
 	 * @param list<string> $directories
 	 */
-	private function addTranslationDirectory(array &$directories, string $basePath, ?string $relativePath): void
+	private function addTranslationDirectory(array &$directories, string $basePath, ?string $relativePath): bool
 	{
 		if ($relativePath === null || !$this->isRelativePath($relativePath)) {
-			return;
+			return false;
 		}
 
 		$path = rtrim($basePath, '/\\') . DIRECTORY_SEPARATOR
 			. str_replace(['/', '\\'], DIRECTORY_SEPARATOR, $relativePath);
 
-		if (is_dir($path) && !in_array($path, $directories, true)) {
+		if (!is_dir($path)) {
+			return false;
+		}
+
+		if (!in_array($path, $directories, true)) {
 			$directories[] = $path;
 		}
+
+		return true;
 	}
 
 

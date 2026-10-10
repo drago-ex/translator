@@ -42,7 +42,7 @@ readonly class TranslatorPanel implements IBarPanel
 
 		$html = '<h1>Translator: ' . self::escape($lang) . '</h1><div class="tracy-inner">'
 			. '<p>' . $this->translator->getMessageCount() . ' messages loaded.</p>'
-			. self::table('Directories', $this->translator->getDirectories())
+			. self::manualDirectories($this->translator->getManualDirectories())
 			. self::table('Loaded files', $this->translator->getFiles());
 
 		$missing = $this->translator->getMissing();
@@ -51,6 +51,13 @@ readonly class TranslatorPanel implements IBarPanel
 		}
 
 		return $html . '</div>';
+	}
+
+
+	/** @param list<string> $directories */
+	private static function manualDirectories(array $directories): string
+	{
+		return $directories === [] ? '' : self::table('Manually configured directories', $directories);
 	}
 
 
