@@ -26,6 +26,12 @@ class Translator implements ITranslator
 	/** @var array<int|string, true> Messages requested without a translation. */
 	private array $missing = [];
 
+	/** @var list<array{key: string, previousFile: string, file: string, previousValue: string, value: string}> */
+	private array $overwritten = [];
+
+	/** @var array<string, string> */
+	private array $messageFiles = [];
+
 	private ?string $lang = null;
 
 
@@ -66,6 +72,8 @@ class Translator implements ITranslator
 	{
 		$this->messages = [];
 		$this->missing = [];
+		$this->overwritten = [];
+		$this->messageFiles = [];
 		$this->lang = $lang;
 		$this->files = $this->translatorFinder->findFiles($lang, $this->translateDirs);
 
@@ -124,6 +132,13 @@ class Translator implements ITranslator
 	}
 
 
+	/** @return list<array{key: string, previousFile: string, file: string, previousValue: string, value: string}> */
+	public function getOverwritten(): array
+	{
+		return $this->overwritten;
+	}
+
+
 	/**
 	 * @param list<string> $files
 	 * @throws Exception
@@ -138,7 +153,20 @@ class Translator implements ITranslator
 			$data = Neon::decodeFile($file);
 			if (is_array($data)) {
 				/** @var array<string, string> $data */
-				$this->messages = array_merge($this->messages, $data);
+				foreach ($data as $key => $value) {
+					if (array_key_exists($key, $this->messages) && $this->messages[$key] !== $value) {
+						$this->overwritten[] = [
+							'key' => $key,
+							'previousFile' => $this->messageFiles[$key],
+							'file' => $file,
+							'previousValue' => $this->messages[$key],
+							'value' => $value,
+						];
+					}
+
+					$this->messages[$key] = $value;
+					$this->messageFiles[$key] = $file;
+				}
 			}
 		}
 	}
