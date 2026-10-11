@@ -29,10 +29,6 @@
 			"Drago\\": "src"
 		}
 	},
-	"scripts": {
-		"phpstan": "phpstan analyse",
-		"tester": "tester tests -s"
-	},
 	"extra": {
 		"drago-tools": {
 			"install": {
@@ -41,5 +37,9 @@
 				}
 			}
 		}
+	},
+	"scripts": {
+		"phpstan": "phpstan analyse",
+		"tester": "tester tests -s"
 	}
 }
