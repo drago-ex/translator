@@ -139,6 +139,26 @@ class Translator implements ITranslator
 	}
 
 
+	public function translate(mixed $message, mixed ...$parameters): string
+	{
+		$key = is_scalar($message) || $message instanceof \Stringable ? (string) $message : '';
+		$translation = $this->messages[$key] ?? $key;
+		if (!isset($this->messages[$key]) && $key !== '' && $this->messages !== []) {
+			$this->missing[$key] = true;
+		}
+
+		if ($parameters === [] || !str_contains($translation, '%')) {
+			return $translation;
+		}
+
+		try {
+			return vsprintf($translation, $parameters);
+		} catch (ValueError) {
+			return $translation;
+		}
+	}
+
+
 	/**
 	 * @param list<string> $files
 	 * @throws Exception
@@ -168,26 +188,6 @@ class Translator implements ITranslator
 					$this->messageFiles[$key] = $file;
 				}
 			}
-		}
-	}
-
-
-	public function translate(mixed $message, mixed ...$parameters): string
-	{
-		$key = is_scalar($message) || $message instanceof \Stringable ? (string) $message : '';
-		$translation = $this->messages[$key] ?? $key;
-		if (!isset($this->messages[$key]) && $key !== '' && $this->messages !== []) {
-			$this->missing[$key] = true;
-		}
-
-		if ($parameters === [] || !str_contains($translation, '%')) {
-			return $translation;
-		}
-
-		try {
-			return vsprintf($translation, $parameters);
-		} catch (ValueError) {
-			return $translation;
 		}
 	}
 }

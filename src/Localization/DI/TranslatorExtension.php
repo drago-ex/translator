@@ -53,17 +53,6 @@ class TranslatorExtension extends CompilerExtension
 	}
 
 
-	/** Recompiles the container when installed Composer packages change. */
-	private function watchInstalledPackages(): void
-	{
-		$reflection = new ReflectionClass(InstalledVersions::class);
-		$file = $reflection->getFileName();
-		if (is_string($file) && is_file($installed = dirname($file) . '/installed.php')) {
-			$this->getContainerBuilder()->addDependency($installed);
-		}
-	}
-
-
 	/** Adds the Tracy bar panel in debug mode. */
 	public function afterCompile(ClassType $class): void
 	{
@@ -77,5 +66,16 @@ class TranslatorExtension extends CompilerExtension
 			var_export($this->prefix('translator'), true),
 			var_export('drago.translator', true),
 		));
+	}
+
+
+	/** Recompiles the container when installed Composer packages change. */
+	private function watchInstalledPackages(): void
+	{
+		$reflection = new ReflectionClass(InstalledVersions::class);
+		$file = $reflection->getFileName();
+		if (is_string($file) && is_file($installed = dirname($file) . '/installed.php')) {
+			$this->getContainerBuilder()->addDependency($installed);
+		}
 	}
 }
