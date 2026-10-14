@@ -104,6 +104,30 @@ class ComposerTranslationFinderTest extends TestCase
 			$root . DIRECTORY_SEPARATOR . 'app' . DIRECTORY_SEPARATOR . 'Translate',
 		], $finder->findDirectories());
 	}
+
+
+	public function testFallsBackToProjectRootWhenPackageDirectoryIsMissing(): void
+	{
+		$root = realpath($this->tempDir . '/root');
+		$package = realpath($this->tempDir . '/vendor/package');
+		Assert::type('string', $root);
+		Assert::type('string', $package);
+
+		@mkdir($root . '/resources/Translate', 0o777, true);
+		file_put_contents($package . '/composer.json', json_encode([
+			'extra' => [
+				'drago-translator' => [
+					'translation' => 'resources/Translate',
+				],
+			],
+		], JSON_THROW_ON_ERROR));
+
+		$finder = new ComposerTranslationFinder(new ComposerTranslationPackageProvider($root, $package));
+		Assert::same([
+			$root . DIRECTORY_SEPARATOR . 'resources' . DIRECTORY_SEPARATOR . 'Translate',
+			$root . DIRECTORY_SEPARATOR . 'app' . DIRECTORY_SEPARATOR . 'Translate',
+		], $finder->findDirectories());
+	}
 }
 
 (new ComposerTranslationFinderTest)->run();

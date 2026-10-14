@@ -172,8 +172,12 @@ class Translator implements ITranslator
 
 			$data = Neon::decodeFile($file);
 			if (is_array($data)) {
-				/** @var array<string, string> $data */
 				foreach ($data as $key => $value) {
+					if (!is_string($value)) {
+						continue; // nested arrays, booleans etc. are not translations
+					}
+
+					$key = (string) $key;
 					if (array_key_exists($key, $this->messages) && $this->messages[$key] !== $value) {
 						$this->overwritten[] = [
 							'key' => $key,

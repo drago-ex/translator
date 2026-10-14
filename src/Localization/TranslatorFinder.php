@@ -15,6 +15,9 @@ class TranslatorFinder
 {
 	public const string Caching = 'translator.search';
 
+	/** Accepted language codes, e.g. cs, en, cs-CZ. Anything else finds no files. */
+	private const string LangPattern = '~^[a-z]{2,3}([_-][A-Za-z0-9]+)?$~';
+
 	private ?Cache $cache;
 
 
@@ -43,13 +46,17 @@ class TranslatorFinder
 
 
 	/**
-	 * Returns all .neon files for the given language.
+	 * Returns all .neon files for the given language: `<lang>.neon` first, then `<lang>-*.neon` by name.
 	 * @param list<string> $translateDirs
 	 * @return list<string>
 	 * @throws Throwable
 	 */
 	public function findFiles(string $lang, array $translateDirs = []): array
 	{
+		if (preg_match(self::LangPattern, $lang) !== 1) {
+			return [];
+		}
+
 		$directories = $this->findDirectories($translateDirs);
 		if ($this->cache === null || $this->debugMode) {
 			return $this->scanDirectories($lang, $directories);
@@ -76,7 +83,12 @@ class TranslatorFinder
 				continue;
 			}
 
-			$finder = Finder::findFiles($lang . '*.neon')->in($directory);
+			$exact = realpath($directory . DIRECTORY_SEPARATOR . $lang . '.neon');
+			if ($exact !== false) {
+				$files[] = $exact;
+			}
+
+			$finder = Finder::findFiles($lang . '-*.neon')->in($directory)->sortByName();
 			foreach ($finder as $file) {
 				$path = $file->getRealPath();
 				if (is_string($path)) {

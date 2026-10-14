@@ -126,6 +126,24 @@ class TranslatorTest extends TestCase
 		Assert::same('%s and %s', $translator->translate('%s and %s', 'one'));
 		Assert::same('Plain', $translator->translate('Plain', 'unused'));
 	}
+
+
+	public function testIgnoresValuesThatAreNotStrings(): void
+	{
+		$dir = $this->tempDir . '/invalid-values';
+		@mkdir($dir, 0o777, true);
+		file_put_contents($dir . '/en.neon', "ok: 'Fine'\nnested: {a: 'b'}\nflag: yes\n");
+
+		$options = new Options;
+		$options->translateDirs = [$dir];
+
+		$translator = new Translator($options, new TranslatorFinder);
+		$translator->setTranslate('en');
+
+		Assert::same('Fine', $translator->translate('ok'));
+		Assert::same('nested', $translator->translate('nested'));
+		Assert::same('flag', $translator->translate('flag'));
+	}
 }
 
 (new TranslatorTest)->run();

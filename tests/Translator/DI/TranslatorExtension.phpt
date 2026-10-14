@@ -63,7 +63,7 @@ class TestTranslatorExtension extends TestCase
 	public function test02(): void
 	{
 		$class = $this->getTranslatorByType();
-		Assert::same('Hello, world!', $class->translate('Hello, world!'));
+		Assert::same('Hello, translated world!', $class->translate('Hello, world!'));
 	}
 
 
@@ -76,20 +76,9 @@ class TestTranslatorExtension extends TestCase
 		$class->lang = 'en';
 		$class->injectTranslator($this->getTranslatorByType(), $testPresenter);
 
-		Assert::type($class->getTranslator(), $this->getTranslatorByType());
+		Assert::type(Translator::class, $class->getTranslator());
 	}
 
-
-	private function translator(): Translator
-	{
-		$presenter = $this->container->getByType(IPresenterFactory::class);
-		$testPresenter = $presenter->createPresenter('Test');
-
-		$class = new TestTranslatorAdapter;
-		$class->lang = 'en';
-		$class->injectTranslator($this->getTranslatorByType(), $testPresenter);
-		return $class->getTranslator();
-	}
 }
 
 $test = new TestTranslatorExtension($container);

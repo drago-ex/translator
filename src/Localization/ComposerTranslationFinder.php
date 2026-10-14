@@ -10,6 +10,7 @@ use function is_file;
 use function is_string;
 use function json_decode;
 use function preg_match;
+use function realpath;
 use function rtrim;
 use function str_replace;
 use function str_starts_with;
@@ -77,7 +78,8 @@ class ComposerTranslationFinder
 		$path = rtrim($basePath, '/\\') . DIRECTORY_SEPARATOR
 			. str_replace(['/', '\\'], DIRECTORY_SEPARATOR, $relativePath);
 
-		if (!is_dir($path)) {
+		$path = realpath($path);
+		if ($path === false || !is_dir($path)) {
 			return false;
 		}
 

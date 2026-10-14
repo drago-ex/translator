@@ -42,7 +42,7 @@ Each Composer package can declare one directory containing its translation files
 }
 ```
 
-The path is always relative to the root of that Composer package.
+The path is relative to the root of that Composer package. If the directory is not there (for example because the package resources were copied into the application), the same path is looked up in the project root.
 
 For example, a package installed as:
 
@@ -59,7 +59,7 @@ with:
 provides translations from:
 
 ```text
-vendor/drago-ex/commerce/src/Drago/Commerce/Translate/
+vendor/drago-ex/commerce/src/Commerce/Translate/
 ```
 
 The package does not need to depend on `drago-ex/translator`. The metadata is simply available for applications that use this translator. Other translation systems can ignore it.
@@ -93,7 +93,7 @@ Later sources override translations loaded earlier. This means an application ca
 For example, if both a package and the application define:
 
 ```neon
-cart.add: "Add to cart"
+"Add to cart": "Přidat do košíku"
 ```
 
 the application's value wins.
@@ -131,15 +131,17 @@ en.neon
 de.neon
 ```
 
-The translator also accepts files whose name starts with the language code, for example `cs-CZ.neon` when requested as `cs`.
+Files like `cs-CZ.neon` are loaded too when `cs` is requested. The base file `cs.neon` is loaded first, the others follow alphabetically. The language code must look like `cs` or `cs-CZ`; anything else finds no files.
 
 ## Translation File Format
 
 ```neon
-"Hello, world!": "Hello, world!"
+"Hello, world!": "Ahoj, světe!"
 "Hello, %s!": "Ahoj, %s!"
 "You have %d items in your cart.": "V košíku máte %d položek."
 ```
+
+Values must be strings; anything else (nested arrays, booleans) is ignored.
 
 ## Parameters in Translations
 
@@ -166,14 +168,19 @@ When no translation exists, the original message is used and its placeholders ar
 
 ## Tracy Panel
 
-In debug mode the Tracy bar shows the current language, searched directories, loaded files and the messages that had no translation. Messages are reported only when the language has at least one translation file loaded, so a source-language file is not needed.
+In debug mode the Tracy bar shows the current language, manually configured directories, loaded files and the messages that had no translation. Messages are reported only when the language has at least one translation file loaded, so a source-language file is not needed.
 
 ## Using Translator in Presenters
 
 Add the `TranslatorAdapter` trait to your presenter:
 
 ```php
+use Drago\Localization\TranslatorAdapter;
 
+class BasePresenter extends Presenter
+{
+	use TranslatorAdapter;
+}
 ```
 
 The trait provides:

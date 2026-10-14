@@ -65,6 +65,30 @@ class TranslatorFinderTest extends TestCase
 		Assert::contains('/ModuleA/locale/en.neon', $enFiles[0]);
 		Assert::contains('/ModuleC/locale/en.neon', $enFiles[1]);
 	}
+
+
+	public function testLoadsBaseFileFirstThenRegionalFilesByName(): void
+	{
+		$dir = $this->appDir . '/Regional';
+		@mkdir($dir, 0o777, true);
+		foreach (['cs.neon', 'cs-CZ.neon', 'cs-AT.neon', 'csx.neon', 'en.neon'] as $name) {
+			file_put_contents($dir . '/' . $name, "hello: 'x'\n");
+		}
+
+		$files = array_map('basename', (new TranslatorFinder)->findFiles('cs', [$dir]));
+		Assert::same(['cs.neon', 'cs-AT.neon', 'cs-CZ.neon'], $files);
+	}
+
+
+	public function testInvalidLanguageFindsNothing(): void
+	{
+		$finder = new TranslatorFinder([], new MemoryStorage);
+		$dir = $this->appDir . '/ModuleA/locale';
+
+		Assert::same([], $finder->findFiles('*', [$dir]));
+		Assert::same([], $finder->findFiles('../en', [$dir]));
+		Assert::same([], $finder->findFiles('', [$dir]));
+	}
 }
 
 (new TranslatorFinderTest)->run();
