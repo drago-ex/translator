@@ -78,7 +78,6 @@ class TestTranslatorExtension extends TestCase
 
 		Assert::type(Translator::class, $class->getTranslator());
 	}
-
 }
 
 $test = new TestTranslatorExtension($container);
