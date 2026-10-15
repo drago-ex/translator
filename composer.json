@@ -2,7 +2,7 @@
 	"name": "drago-ex/translator",
 	"description": "Lightweight translator for Nette Framework using NEON files with automatic Composer package discovery.",
 	"type": "library",
-	"license": ["MIT"],
+	"license": "MIT",
 	"authors": [
 		{
 			"name": "Zdeněk Papučík",
@@ -24,7 +24,9 @@
 		"phpstan/phpstan-nette": "^2.0"
 	},
 	"autoload": {
-		"classmap": ["src/"],
+		"classmap": [
+			"src/"
+		],
 		"psr-4": {
 			"Drago\\": "src"
 		}

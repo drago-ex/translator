@@ -9,7 +9,7 @@ Lightweight translator for Nette Framework using NEON files. Translation directo
 
 ## Requirements
 
-- PHP >= 8.3
+- PHP >= 8.3, < 9
 - Nette Framework
 - Composer 2.1+
 
