@@ -54,6 +54,6 @@ trait TranslatorAdapter
 	 */
 	private function getLang(): string
 	{
-		return isset($this->lang) ? $this->lang : '';
+		return $this->lang ?? '';
 	}
 }
