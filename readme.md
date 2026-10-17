@@ -133,6 +133,9 @@ de.neon
 
 Files like `cs-CZ.neon` are loaded too when `cs` is requested. The base file `cs.neon` is loaded first, the others follow alphabetically. The language code must look like `cs` or `cs-CZ`; anything else finds no files.
 
+In production the list of found files is cached in the application cache. After adding or removing a
+translation file on a production server, clear `temp/cache`. In debug mode the directories are searched on every request.
+
 ## Translation File Format
 
 ```neon
@@ -228,6 +231,9 @@ To support language prefixes, configure your routes accordingly:
 ```php
 $router->addRoute('[<lang=en cs|en>/]<presenter>/<action>', 'Presenter:action');
 ```
+
+Give the `lang` parameter a default value in the route, as above. Without a language, the `TranslatorAdapter`
+returns messages untranslated.
 
 ## Switching Languages in Templates
 

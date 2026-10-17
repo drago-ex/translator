@@ -26,7 +26,7 @@ trait TranslatorAdapter
 		$presenter->onRender[] = function () use ($presenter): void {
 			$template = $presenter->getTemplate();
 			if ($template instanceof Template) {
-				$template->lang = $this->lang;
+				$template->lang = $this->getLang();
 				$template->setTranslator($this->getTranslator());
 			}
 		};
@@ -41,9 +41,19 @@ trait TranslatorAdapter
 	public function getTranslator(): Translator
 	{
 		if (!$this->translatorInitialized) {
-			$this->translator->setTranslate($this->lang);
+			$this->translator->setTranslate($this->getLang());
 			$this->translatorInitialized = true;
 		}
 		return $this->translator;
+	}
+
+
+	/**
+	 * Language from the persistent parameter; empty when the route does not provide one,
+	 * so messages are then returned untranslated instead of failing.
+	 */
+	private function getLang(): string
+	{
+		return isset($this->lang) ? $this->lang : '';
 	}
 }
