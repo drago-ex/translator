@@ -12,9 +12,9 @@
 	"require": {
 		"php": ">=8.3 <9",
 		"composer-runtime-api": "^2.1",
-		"nette/di": "^3.1",
+		"nette/di": "~3.1.0 || ^3.2.1",
 		"nette/utils": "^4.0",
-		"nette/application": "^3.1",
+		"nette/application": "^3.2",
 		"nette/caching": "^3.4",
 		"tracy/tracy": "^2.10",
 		"nette/neon": "^3.4"
@@ -43,6 +43,6 @@
 	},
 	"scripts": {
 		"phpstan": "phpstan analyse",
-		"tester": "tester tests -s"
+		"tester": "tester tests -s -C"
 	}
 }

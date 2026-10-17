@@ -8,7 +8,6 @@ declare(strict_types=1);
 
 use Drago\Localization\DI\TranslatorExtension;
 use Drago\Localization\Translator;
-use Nette\Application\IPresenterFactory;
 use Nette\DI\Compiler;
 use Nette\DI\Container;
 use Nette\DI\ContainerLoader;
@@ -69,8 +68,7 @@ class TestTranslatorExtension extends TestCase
 
 	public function test03(): void
 	{
-		$presenter = $this->container->getByType(IPresenterFactory::class);
-		$testPresenter = $presenter->createPresenter('Test');
+		$testPresenter = new App\Presentation\Test\TestPresenter;
 
 		$class = new TestTranslatorAdapter;
 		$class->lang = 'en';
