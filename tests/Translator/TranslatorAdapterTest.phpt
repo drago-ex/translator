@@ -36,6 +36,20 @@ test('The translator is initialized for the language of the request', function (
 });
 
 
+test('The language is loaded on startup, so forms validated in signals get translated messages', function () {
+	$translator = createTranslator();
+	$presenter = new App\Presentation\Test\TestPresenter;
+
+	$adapter = new TestTranslatorAdapter;
+	$adapter->lang = 'cs';
+	$adapter->injectTranslator($translator, $presenter);
+
+	Assert::same('Hello', $translator->translate('Hello'));
+	Nette\Utils\Arrays::invoke($presenter->onStartup, $presenter);
+	Assert::same('Ahoj', $translator->translate('Hello'));
+});
+
+
 test('Without a language from the route, messages are returned untranslated instead of failing', function () {
 	$adapter = new TestTranslatorAdapter;
 	$adapter->translator = createTranslator();

@@ -23,6 +23,12 @@ trait TranslatorAdapter
 	public function injectTranslator(Translator $translator, Presenter $presenter): void
 	{
 		$this->translator = $translator;
+
+		// Forms are validated in signals, before rendering, and translate their messages at that moment.
+		$presenter->onStartup[] = function (): void {
+			$this->getTranslator();
+		};
+
 		$presenter->onRender[] = function () use ($presenter): void {
 			$template = $presenter->getTemplate();
 			if ($template instanceof Template) {
