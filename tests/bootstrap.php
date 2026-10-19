@@ -11,6 +11,7 @@ if (@!include __DIR__ . '/../vendor/autoload.php') {
 
 
 Tester\Environment::setup();
+Tester\Environment::setupFunctions();
 date_default_timezone_set('Europe/Prague');
 
 const TempDir = __DIR__ . '/tmp';

@@ -6,3 +6,8 @@ parameters:
 	paths:
 		- src
 		- tests
+	excludePaths:
+		analyseAndScan:
+			- tests/tmp (?)
+			- tests/*/temp/* (?)
+			- tests/*/*/temp/* (?)
