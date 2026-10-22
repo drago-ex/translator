@@ -7,7 +7,7 @@ Use this file as package-specific guidance when working in this repository. Keep
 - **Type**: library
 - **Purpose**: Lightweight translator for Nette Framework using NEON files with automatic Composer package discovery.
 - **PHP**: >=8.3 <9
-- **Runtime dependencies**: composer-runtime-api (^2.1), nette/di (^3.1), nette/utils (^4.0), nette/application (^3.1), nette/caching (^3.4), tracy/tracy (^2.10)
+- **Runtime dependencies**: composer-runtime-api (^2.1), nette/di (~3.1.0 || ^3.2.1), nette/utils (^4.0), nette/application (^3.2), nette/caching (^3.4), tracy/tracy (^2.10), nette/neon (^3.4), nette/schema (^1.2)
 - **License**: MIT
 
 ## Repository Layout
@@ -17,7 +17,7 @@ Use this file as package-specific guidance when working in this repository. Keep
 - `composer.json`: package metadata, dependency constraints, autoloading, and available Composer scripts.
 
 ## Key Parts
-- `DI\TranslatorExtension` finds translation directories in Composer metadata (`extra.drago-translator.translation`) while the container is compiled; the order is packages, the root project, manual `translateDirs`, and later sources win.
+- `DI\TranslatorExtension` finds translation directories in Composer metadata (`extra.drago-translator.translation`) while the container is compiled; the order is packages, the root project, manual `translateDirs`, and later sources win. The config schema is `Expect::from(new Options)`; a manual directory that does not exist throws in `Translator::addTranslateDir()`.
 - `TranslatorFinder` caches found files in production (without file dependencies); `Translator` loads `<lang>.neon`, then `<lang>-*.neon`.
 - `TranslatorAdapter` uses the persistent `$lang`; without it messages stay untranslated. `TranslatorPanel` is added to Tracy in debug mode.
 

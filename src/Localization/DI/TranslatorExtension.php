@@ -14,7 +14,6 @@ use Drago\Localization\TranslatorPanel;
 use Nette\DI\CompilerExtension;
 use Nette\PhpGenerator\ClassType;
 use Nette\Schema\Expect;
-use Nette\Schema\Processor;
 use Nette\Schema\Schema;
 use ReflectionClass;
 
@@ -23,19 +22,15 @@ class TranslatorExtension extends CompilerExtension
 {
 	public function getConfigSchema(): Schema
 	{
-		return Expect::structure([
-			'translateDirs' => Expect::arrayOf(Expect::string())->default([]),
-		]);
+		return Expect::from(new Options);
 	}
 
 
 	public function loadConfiguration(): void
 	{
 		$builder = $this->getContainerBuilder();
-		$options = (new Processor)->process(
-			Expect::from(new Options),
-			$this->config,
-		);
+		$options = $this->config;
+		assert($options instanceof Options);
 
 		// Composer metadata is read once while the container is compiled.
 		$composerFinder = new ComposerTranslationFinder(new InstalledComposerPackageProvider);

@@ -109,6 +109,19 @@ class TranslatorTest extends TestCase
 	}
 
 
+	public function testMissingManualDirectoryThrows(): void
+	{
+		$options = new Options;
+		$options->translateDirs = [$this->tempDir . '/does-not-exist'];
+
+		Assert::exception(
+			fn() => new Translator($options, new TranslatorFinder),
+			InvalidArgumentException::class,
+			"Translation directory '%a%does-not-exist' does not exist.",
+		);
+	}
+
+
 	public function testParametersAreFormattedAndMismatchedPlaceholdersDoNotThrow(): void
 	{
 		$dir = $this->tempDir . '/params';

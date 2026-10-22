@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Drago\Localization;
 
+use InvalidArgumentException;
 use Nette\Localization\Translator as ITranslator;
 use Nette\Neon\Exception;
 use Nette\Neon\Neon;
@@ -45,10 +46,11 @@ class Translator implements ITranslator
 	}
 
 
+	/** @throws InvalidArgumentException when the directory does not exist, so a mistyped path is not ignored */
 	public function addTranslateDir(string $dir): void
 	{
 		if (!is_dir($dir)) {
-			return;
+			throw new InvalidArgumentException("Translation directory '$dir' does not exist.");
 		}
 
 		if (!in_array($dir, $this->translateDirs, true)) {

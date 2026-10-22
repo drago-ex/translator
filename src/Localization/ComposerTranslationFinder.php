@@ -5,7 +5,11 @@ declare(strict_types=1);
 namespace Drago\Localization;
 
 use JsonException;
+use function explode;
+use function file_get_contents;
+use function in_array;
 use function is_array;
+use function is_dir;
 use function is_file;
 use function is_string;
 use function json_decode;

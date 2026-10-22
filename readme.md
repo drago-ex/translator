@@ -118,6 +118,7 @@ translator:
 ```
 
 They are loaded after Composer-discovered translations, in the configured order. Later directories override earlier ones.
+A directory that does not exist throws an exception, so a mistyped path is not silently ignored.
 
 There is no automatic recursive scan of the whole application directory. Every translation source must therefore be explicitly declared either in Composer metadata or in `translateDirs`.
 

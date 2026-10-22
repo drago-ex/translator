@@ -17,7 +17,8 @@
 		"nette/application": "^3.2",
 		"nette/caching": "^3.4",
 		"tracy/tracy": "^2.10",
-		"nette/neon": "^3.4"
+		"nette/neon": "^3.4",
+		"nette/schema": "^1.2"
 	},
 	"require-dev": {
 		"nette/tester": "^2.5",
