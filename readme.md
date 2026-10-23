@@ -1,5 +1,7 @@
 # Drago Translator
 
+English | [Čeština](readme.cs.md)
+
 Lightweight translator for Nette Framework using NEON files. Translation directories can be declared automatically in Composer packages and in the root application, with an optional manual NEON configuration for special cases.
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://github.com/drago-ex/translator/blob/main/license)
