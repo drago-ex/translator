@@ -79,6 +79,8 @@ class TranslatorFinder
 	{
 		$files = [];
 		foreach ($directories as $directory) {
+			// Manual directories are checked by Translator::addTranslateDir() and Composer ones when the container
+			// is compiled (a declared directory may be missing on purpose); this only skips a directory removed since.
 			if (!is_dir($directory)) {
 				continue;
 			}

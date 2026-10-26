@@ -22,7 +22,8 @@ class TranslatorExtension extends CompilerExtension
 {
 	public function getConfigSchema(): Schema
 	{
-		return Expect::from(new Options);
+		// the native type of Options::$translateDirs is only array, so the items are checked here
+		return Expect::from(new Options, ['translateDirs' => Expect::listOf('string')]);
 	}
 
 

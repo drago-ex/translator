@@ -53,6 +53,15 @@ class TestTranslatorExtension extends TestCase
 	}
 
 
+	public function testTranslateDirsMustBeStrings(): void
+	{
+		$compiler = new Compiler;
+		$compiler->addExtension('translator', new TranslatorExtension);
+		$compiler->addConfig(['translator' => ['translateDirs' => [123]]]);
+		Assert::exception(fn() => $compiler->compile(), Nette\DI\InvalidConfigurationException::class, "The item 'translator%a%translateDirs%a%0' expects to be string, 123 given.");
+	}
+
+
 	public function test01(): void
 	{
 		Assert::type(Translator::class, $this->getTranslatorByType());
