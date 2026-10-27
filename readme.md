@@ -19,6 +19,11 @@ Lightweight translator for Nette Framework using NEON files. Translation directo
 composer require drago-ex/translator
 ```
 
+## Files copied into the project
+
+The files are copied into the project by [drago-ex/project-tools](https://github.com/drago-ex/project-tools),
+as set in `extra.drago-tools` of this package's `composer.json`.
+
 ## Extension Registration
 
 Register the DI extension in your NEON configuration:

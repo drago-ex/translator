@@ -19,6 +19,11 @@ Malý překladač pro Nette Framework s překlady v souborech NEON. Adresáře s
 composer require drago-ex/translator
 ```
 
+## Soubory kopírované do projektu
+
+Soubory do projektu kopíruje [drago-ex/project-tools](https://github.com/drago-ex/project-tools)
+podle nastavení v `extra.drago-tools` v `composer.json` tohoto balíčku.
+
 ## Registrace rozšíření
 
 Zaregistrujte DI rozšíření v konfiguraci NEON:
