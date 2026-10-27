@@ -1,7 +1,5 @@
 # Drago Translator
 
-[English](readme.md) | Čeština
-
 Malý překladač pro Nette Framework s překlady v souborech NEON. Adresáře s překlady lze automaticky deklarovat v balíčcích Composeru i v kořenové aplikaci, pro zvláštní případy je k dispozici volitelná ruční konfigurace v NEON.
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://github.com/drago-ex/translator/blob/main/license)
