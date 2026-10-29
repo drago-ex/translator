@@ -1,6 +1,4 @@
-<?php
-
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
 namespace Drago\Localization\DI;
 
@@ -16,6 +14,7 @@ use Nette\PhpGenerator\ClassType;
 use Nette\Schema\Expect;
 use Nette\Schema\Schema;
 use ReflectionClass;
+use function is_string, sprintf;
 
 
 class TranslatorExtension extends CompilerExtension

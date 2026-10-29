@@ -1,10 +1,8 @@
-<?php
+<?php declare(strict_types=1);
 
 /**
  * Test: Drago\Localization\TranslatorFinder
  */
-
-declare(strict_types=1);
 
 use Drago\Localization\TranslatorFinder;
 use Nette\Caching\Storages\MemoryStorage;
@@ -22,10 +20,10 @@ class TranslatorFinderTest extends TestCase
 	public function setUp(): void
 	{
 		$this->appDir = TempDir . '/finder-app';
-		@mkdir($this->appDir, 0o777, true);
-		@mkdir($this->appDir . '/ModuleA/locale', 0o777, true);
-		@mkdir($this->appDir . '/ModuleB/locale', 0o777, true);
-		@mkdir($this->appDir . '/ModuleC/locale', 0o777, true);
+		@mkdir($this->appDir, 0o777, true); // @ directory may already exist
+		@mkdir($this->appDir . '/ModuleA/locale', 0o777, true); // @ directory may already exist
+		@mkdir($this->appDir . '/ModuleB/locale', 0o777, true); // @ directory may already exist
+		@mkdir($this->appDir . '/ModuleC/locale', 0o777, true); // @ directory may already exist
 
 		file_put_contents($this->appDir . '/ModuleA/locale/en.neon', "hello: 'Hello'\n");
 		file_put_contents($this->appDir . '/ModuleB/locale/cs.neon', "hello: 'Ahoj'\n");
@@ -70,7 +68,7 @@ class TranslatorFinderTest extends TestCase
 	public function testLoadsBaseFileFirstThenRegionalFilesByName(): void
 	{
 		$dir = $this->appDir . '/Regional';
-		@mkdir($dir, 0o777, true);
+		@mkdir($dir, 0o777, true); // @ directory may already exist
 		foreach (['cs.neon', 'cs-CZ.neon', 'cs-AT.neon', 'csx.neon', 'en.neon'] as $name) {
 			file_put_contents($dir . '/' . $name, "hello: 'x'\n");
 		}

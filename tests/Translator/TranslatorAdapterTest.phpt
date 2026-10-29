@@ -1,10 +1,8 @@
-<?php
+<?php declare(strict_types=1);
 
 /**
  * Test: Drago\Localization\TranslatorAdapter
  */
-
-declare(strict_types=1);
 
 use Drago\Localization\Options;
 use Drago\Localization\Translator;
@@ -17,7 +15,7 @@ require __DIR__ . '/../bootstrap.php';
 function createTranslator(): Translator
 {
 	$dir = TempDir . '/adapter-locale';
-	@mkdir($dir, 0o777, true);
+	@mkdir($dir, 0o777, true); // @ directory may already exist
 	file_put_contents($dir . '/cs.neon', "Hello: Ahoj\n");
 
 	$options = new Options;

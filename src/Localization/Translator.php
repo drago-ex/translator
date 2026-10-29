@@ -1,6 +1,4 @@
-<?php
-
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
 namespace Drago\Localization;
 
@@ -10,7 +8,7 @@ use Nette\Neon\Exception;
 use Nette\Neon\Neon;
 use Throwable;
 use ValueError;
-use function vsprintf;
+use function array_key_exists, count, is_array, is_scalar, is_string;
 
 
 class Translator implements ITranslator

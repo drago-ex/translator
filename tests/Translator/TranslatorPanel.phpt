@@ -1,10 +1,8 @@
-<?php
+<?php declare(strict_types=1);
 
 /**
  * Test: Drago\Localization\TranslatorPanel
  */
-
-declare(strict_types=1);
 
 use Drago\Localization\ComposerPackageProvider;
 use Drago\Localization\Options;
@@ -37,7 +35,7 @@ class TranslatorPanelTest extends TestCase
 	public function setUp(): void
 	{
 		$this->tempDir = TempDir . '/translator-panel-test';
-		@mkdir($this->tempDir . '/locale', 0o777, true);
+		@mkdir($this->tempDir . '/locale', 0o777, true); // @ directory may already exist
 	}
 
 

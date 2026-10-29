@@ -1,10 +1,8 @@
-<?php
-
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
 use Nette\Bootstrap\Configurator;
 
-if (@!include __DIR__ . '/../vendor/autoload.php') {
+if (@!include __DIR__ . '/../vendor/autoload.php') { // @ dependencies may not be installed
 	echo 'Install Nette Tester using `composer install`';
 	exit(1);
 }
@@ -16,8 +14,8 @@ date_default_timezone_set('Europe/Prague');
 
 const TempDir = __DIR__ . '/tmp';
 
-@mkdir(dirname(TempDir));
-@mkdir(TempDir);
+@mkdir(dirname(TempDir)); // @ directory may already exist
+@mkdir(TempDir); // @ directory may already exist
 
 $boot = new Configurator;
 $boot->setTempDirectory(TempDir);

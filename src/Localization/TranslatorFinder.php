@@ -1,6 +1,4 @@
-<?php
-
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
 namespace Drago\Localization;
 
@@ -8,6 +6,7 @@ use Nette\Caching\Cache;
 use Nette\Caching\Storage;
 use Nette\Utils\Finder;
 use Throwable;
+use function is_string;
 
 
 /** Finds translation files from Composer packages and explicitly configured directories. */
@@ -22,10 +21,10 @@ class TranslatorFinder
 
 
 	/**
-	 * @param list<string> $composerDirectories Directories discovered from Composer metadata.
 	 * @param Storage|null $storage Optional cache for found files; skipped in debug mode.
 	 */
 	public function __construct(
+		/** @var list<string> Directories discovered from Composer metadata. */
 		private readonly array $composerDirectories = [],
 		?Storage $storage = null,
 		private readonly bool $debugMode = false,

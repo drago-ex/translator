@@ -1,12 +1,10 @@
-<?php
-
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
 namespace Drago\Localization;
 
 use Tracy\IBarPanel;
 use function count;
-use function htmlspecialchars;
+use const ENT_QUOTES, ENT_SUBSTITUTE;
 
 
 /** Tracy bar panel showing where translations come from and which messages have none. */

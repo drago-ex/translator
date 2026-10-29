@@ -1,24 +1,9 @@
-<?php
-
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
 namespace Drago\Localization;
 
 use JsonException;
-use function explode;
-use function file_get_contents;
-use function in_array;
-use function is_array;
-use function is_dir;
-use function is_file;
-use function is_string;
-use function json_decode;
-use function preg_match;
-use function realpath;
-use function rtrim;
-use function str_replace;
-use function str_starts_with;
-use function trim;
+use function is_array, is_string;
 
 
 /** Finds translation directories declared in Composer package metadata. */
@@ -26,7 +11,6 @@ class ComposerTranslationFinder
 {
 	private const string ExtraKey = 'drago-translator';
 	private const string TranslationKey = 'translation';
-
 
 	/** @var list<string>|null */
 	private ?array $directories = null;
@@ -109,6 +93,7 @@ class ComposerTranslationFinder
 			}
 
 			$data = json_decode($json, true, 512, JSON_THROW_ON_ERROR);
+
 		} catch (JsonException) {
 			return null;
 		}

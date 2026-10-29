@@ -1,10 +1,8 @@
-<?php
+<?php declare(strict_types=1);
 
 /**
  * Test: Drago\Localization\ComposerTranslationFinder
  */
-
-declare(strict_types=1);
 
 use Drago\Localization\ComposerPackageProvider;
 use Drago\Localization\ComposerTranslationFinder;
@@ -48,8 +46,8 @@ class ComposerTranslationFinderTest extends TestCase
 	public function setUp(): void
 	{
 		$this->tempDir = TempDir . '/composer-finder';
-		@mkdir($this->tempDir . '/root/app/Translate', 0o777, true);
-		@mkdir($this->tempDir . '/vendor/package/src/Translate', 0o777, true);
+		@mkdir($this->tempDir . '/root/app/Translate', 0o777, true); // @ directory may already exist
+		@mkdir($this->tempDir . '/vendor/package/src/Translate', 0o777, true); // @ directory may already exist
 
 		file_put_contents($this->tempDir . '/root/composer.json', json_encode([
 			'extra' => [
@@ -113,7 +111,7 @@ class ComposerTranslationFinderTest extends TestCase
 		Assert::type('string', $root);
 		Assert::type('string', $package);
 
-		@mkdir($root . '/resources/Translate', 0o777, true);
+		@mkdir($root . '/resources/Translate', 0o777, true); // @ directory may already exist
 		file_put_contents($package . '/composer.json', json_encode([
 			'extra' => [
 				'drago-translator' => [

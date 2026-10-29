@@ -1,6 +1,4 @@
-<?php
-
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
 namespace Drago\Localization;
 
@@ -13,5 +11,5 @@ interface ComposerPackageProvider
 	 *     versions: array<string, array{install_path?: string}>
 	 * }
 	 */
-	public function getData(): array;
+	function getData(): array;
 }

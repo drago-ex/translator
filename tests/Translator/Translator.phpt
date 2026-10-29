@@ -1,10 +1,8 @@
-<?php
+<?php declare(strict_types=1);
 
 /**
  * Test: Drago\Localization\Translator
  */
-
-declare(strict_types=1);
 
 use Drago\Localization\ComposerPackageProvider;
 use Drago\Localization\ComposerTranslationFinder;
@@ -37,7 +35,7 @@ class TranslatorTest extends TestCase
 	public function setUp(): void
 	{
 		$this->tempDir = TempDir . '/translator-test';
-		@mkdir($this->tempDir, 0o777, true);
+		@mkdir($this->tempDir, 0o777, true); // @ directory may already exist
 	}
 
 
@@ -45,8 +43,8 @@ class TranslatorTest extends TestCase
 	{
 		$package = $this->tempDir . '/vendor-package';
 		$root = $this->tempDir . '/root-package';
-		@mkdir($package . '/src/Translate', 0o777, true);
-		@mkdir($root . '/app/Translate', 0o777, true);
+		@mkdir($package . '/src/Translate', 0o777, true); // @ directory may already exist
+		@mkdir($root . '/app/Translate', 0o777, true); // @ directory may already exist
 
 		file_put_contents($package . '/composer.json', json_encode([
 			'extra' => ['drago-translator' => ['translation' => 'src/Translate']],
@@ -57,10 +55,10 @@ class TranslatorTest extends TestCase
 		file_put_contents($package . '/src/Translate/en.neon', "hello: 'Package'\nonlyPackage: 'Package'\n");
 		file_put_contents($root . '/app/Translate/en.neon', "hello: 'Application'\nonlyApplication: 'Application'\n");
 
-		$provider = new class ($root, $package) implements ComposerPackageProvider {
+		$provider = new readonly class ($root, $package) implements ComposerPackageProvider {
 			public function __construct(
-				private readonly string $root,
-				private readonly string $package,
+				private string $root,
+				private string $package,
 			) {
 			}
 
@@ -90,8 +88,8 @@ class TranslatorTest extends TestCase
 	{
 		$base = $this->tempDir . '/base';
 		$module = $this->tempDir . '/module';
-		@mkdir($base, 0o777, true);
-		@mkdir($module, 0o777, true);
+		@mkdir($base, 0o777, true); // @ directory may already exist
+		@mkdir($module, 0o777, true); // @ directory may already exist
 
 		file_put_contents($base . '/en.neon', "hello: 'Hello'\nkey: 'base'\n");
 		file_put_contents($module . '/en.neon', "key: 'module'\n");
@@ -125,7 +123,7 @@ class TranslatorTest extends TestCase
 	public function testParametersAreFormattedAndMismatchedPlaceholdersDoNotThrow(): void
 	{
 		$dir = $this->tempDir . '/params';
-		@mkdir($dir, 0o777, true);
+		@mkdir($dir, 0o777, true); // @ directory may already exist
 		file_put_contents($dir . '/en.neon', "\"Hello, %s!\": \"Hi, %s!\"\n");
 
 		$options = new Options;
@@ -144,7 +142,7 @@ class TranslatorTest extends TestCase
 	public function testIgnoresValuesThatAreNotStrings(): void
 	{
 		$dir = $this->tempDir . '/invalid-values';
-		@mkdir($dir, 0o777, true);
+		@mkdir($dir, 0o777, true); // @ directory may already exist
 		file_put_contents($dir . '/en.neon', "ok: 'Fine'\nnested: {a: 'b'}\nflag: yes\n");
 
 		$options = new Options;

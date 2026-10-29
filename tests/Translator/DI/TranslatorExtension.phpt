@@ -1,10 +1,8 @@
-<?php
+<?php declare(strict_types=1);
 
 /**
  * Test: Drago\Localization\DI\TranslatorExtension
  */
-
-declare(strict_types=1);
 
 use Drago\Localization\DI\TranslatorExtension;
 use Drago\Localization\Translator;
@@ -19,12 +17,9 @@ $container = require __DIR__ . '/../../bootstrap.php';
 
 class TestTranslatorExtension extends TestCase
 {
-	protected Container $container;
-
-
-	public function __construct(Container $container)
-	{
-		$this->container = $container;
+	public function __construct(
+		protected Container $container,
+	) {
 	}
 
 
@@ -35,7 +30,10 @@ class TestTranslatorExtension extends TestCase
 		$translationDir = str_replace('\\', '/', __DIR__ . '/../locale');
 
 		$class = $loader->load(function (Compiler $compiler) use ($params, $translationDir): void {
-			$compiler->loadConfig(Tester\FileMock::create(sprintf("\n			translator:\n			\ttranslateDirs:\n			\t\t- %s\n			", $translationDir), 'neon'));
+			$compiler->loadConfig(Tester\FileMock::create(
+				sprintf("\n			translator:\n			\ttranslateDirs:\n			\t\t- %s\n			", $translationDir),
+				'neon',
+			));
 			$compiler->addExtension(
 				'translator',
 				new TranslatorExtension,
@@ -58,7 +56,11 @@ class TestTranslatorExtension extends TestCase
 		$compiler = new Compiler;
 		$compiler->addExtension('translator', new TranslatorExtension);
 		$compiler->addConfig(['translator' => ['translateDirs' => [123]]]);
-		Assert::exception(fn() => $compiler->compile(), Nette\DI\InvalidConfigurationException::class, "The item 'translator%a%translateDirs%a%0' expects to be string, 123 given.");
+		Assert::exception(
+			fn() => $compiler->compile(),
+			Nette\DI\InvalidConfigurationException::class,
+			"The item 'translator%a%translateDirs%a%0' expects to be string, 123 given.",
+		);
 	}
 
 
