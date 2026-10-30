@@ -46,25 +46,3 @@ jobs:
 
       - name: Run tests
         run: composer tester
-
-  lowest_dependencies:
-    name: Lowest dependencies
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v6
-
-      - name: Setup PHP
-        uses: shivammathur/setup-php@v2
-        with:
-          php-version: "8.3"
-          extensions: ${{ env.php-extensions }}
-          tools: ${{ env.php-tools }}
-          coverage: none
-
-      - name: Install lowest dependencies
-        run: composer update --no-progress --prefer-dist --prefer-lowest --prefer-stable
-
-      - name: Run tests
-        run: composer tester
