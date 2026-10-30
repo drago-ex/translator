@@ -96,9 +96,7 @@ readonly class TranslatorPanel implements IBarPanel
 	}
 
 
-	/**
-	 * @param list<string> $rows
-	 */
+	/** @param list<string> $rows */
 	private static function table(string $title, array $rows): string
 	{
 		$html = '<h2>' . self::escape($title) . '</h2>';

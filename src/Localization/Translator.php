@@ -89,9 +89,7 @@ class Translator implements ITranslator
 	}
 
 
-	/**
-	 * @return list<string>
-	 */
+	/** @return list<string> */
 	public function getDirectories(): array
 	{
 		return $this->translatorFinder->findDirectories($this->translateDirs);
@@ -105,9 +103,7 @@ class Translator implements ITranslator
 	}
 
 
-	/**
-	 * @return list<string> Translation files loaded for the current language, in loading order.
-	 */
+	/** @return list<string> Translation files loaded for the current language, in loading order. */
 	public function getFiles(): array
 	{
 		return $this->files;

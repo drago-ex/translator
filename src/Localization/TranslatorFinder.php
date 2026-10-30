@@ -20,9 +20,7 @@ class TranslatorFinder
 	private ?Cache $cache;
 
 
-	/**
-	 * @param Storage|null $storage Optional cache for found files; skipped in debug mode.
-	 */
+	/** @param Storage|null $storage Optional cache for found files; skipped in debug mode. */
 	public function __construct(
 		/** @var list<string> Directories discovered from Composer metadata. */
 		private readonly array $composerDirectories = [],

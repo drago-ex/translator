@@ -22,9 +22,7 @@ class ComposerTranslationFinder
 	}
 
 
-	/**
-	 * @return list<string>
-	 */
+	/** @return list<string> */
 	public function findDirectories(): array
 	{
 		if ($this->directories !== null) {
@@ -54,9 +52,7 @@ class ComposerTranslationFinder
 	}
 
 
-	/**
-	 * @param list<string> $directories
-	 */
+	/** @param list<string> $directories */
 	private function addTranslationDirectory(array &$directories, string $basePath, ?string $relativePath): bool
 	{
 		if ($relativePath === null || !$this->isRelativePath($relativePath)) {
