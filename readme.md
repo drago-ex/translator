@@ -19,10 +19,8 @@ Lightweight translator for Nette Framework using NEON files. Translation directo
 composer require drago-ex/translator
 ```
 
-## Files copied into the project
-
-The files are copied into the project by [drago-ex/project-tools](https://github.com/drago-ex/project-tools),
-as set in `extra.drago-tools` of this package's `composer.json`.
+[Project Tools](https://github.com/drago-ex/project-tools) copies the Latte widget `@lang-switch` into
+`app/Presentation/Accessory/Widget`, where you adapt it.
 
 ## Extension Registration
 
@@ -49,25 +47,7 @@ Each Composer package can declare one directory containing its translation files
 
 The path is relative to the root of that Composer package. If the directory is not there (for example because the package resources were copied into the application), the same path is looked up in the project root.
 
-For example, a package installed as:
-
-```text
-vendor/drago-ex/commerce/
-```
-
-with:
-
-```json
-"translation": "src/Commerce/Translate"
-```
-
-provides translations from:
-
-```text
-vendor/drago-ex/commerce/src/Commerce/Translate/
-```
-
-The package does not need to depend on `drago-ex/translator`. The metadata is simply available for applications that use this translator. Other translation systems can ignore it.
+The package does not need to depend on `drago-ex/translator`; other translation systems ignore the metadata.
 
 ### Root application
 
@@ -82,8 +62,6 @@ The root `composer.json` can declare the application's translation directory in 
 ```
 
 The path is then resolved relative to the project root.
-
-This makes the setup automatic after installing a package. The application does not need to add a new NEON entry for every vendor package.
 
 ## Translation precedence
 
@@ -125,7 +103,7 @@ translator:
 They are loaded after Composer-discovered translations, in the configured order. Later directories override earlier ones.
 A directory that does not exist throws an exception, so a mistyped path is not silently ignored.
 
-There is no automatic recursive scan of the whole application directory. Every translation source must therefore be explicitly declared either in Composer metadata or in `translateDirs`.
+Every translation source is declared in Composer metadata or in `translateDirs`.
 
 ## Translation Files
 
@@ -252,14 +230,7 @@ You can switch languages by passing the `lang` parameter:
 
 ## Language Switch Widget
 
-The package provides a reusable Latte widget for language switching.
-When project file copying is handled by `drago-ex/project-tools`, the widget is copied to:
-
-```text
-app/Presentation/Accessory/Widget/@lang-switch.latte
-```
-
-Import the widget in your layout:
+Import the widget `@lang-switch.latte` in your layout:
 
 ```latte
 {import 'path/to/@lang-switch.latte'}
@@ -301,11 +272,3 @@ Use `tagClass` when the wrapper needs styling:
 {include lang-switch, lang: 'cs', name: 'Czech', tag: 'li', tagClass: 'item-wrapper'}
 ```
 
-## Notes
-
-- Composer package translation directories are discovered from `extra.drago-translator.translation`.
-- Each Composer package declares one translation directory.
-- The root project can declare its own translation directory using the same metadata.
-- Manual `translateDirs` remain available for exceptional cases.
-- Translations are loaded lazily on first use.
-- Missing keys return the original message.
