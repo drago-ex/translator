@@ -266,6 +266,16 @@ Use `tag` when the link must be wrapped, for example in a dropdown menu:
 {include lang-switch, lang: 'en', name: 'English', tag: 'li'}
 ```
 
+In a dropdown of Bootstrap, `lang-switch-item` prints an item with the name, the code of the language and a check
+at the current one (the check is an icon of Bootstrap Icons):
+
+```latte
+<ul class="dropdown-menu">
+	{include lang-switch-item, lang: 'cs', name: 'Czech', current: $lang}
+	{include lang-switch-item, lang: 'en', name: 'English', current: $lang}
+</ul>
+```
+
 Use `tagClass` when the wrapper needs styling:
 
 ```latte

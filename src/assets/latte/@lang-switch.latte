@@ -7,3 +7,14 @@
 		</a>
 	</span>
 {/define}
+
+{* an item of a dropdown with the languages: the name, the code and a check at the current one *}
+{define lang-switch-item, string $lang, string $name, string $current}
+	<li>
+		<a n:href="this, 'lang' => $lang" n:class="'dropdown-item d-flex align-items-center gap-3', $lang === $current ? active" lang="{$lang}" n:attr="aria-current: $lang === $current ? 'true'">
+			<span class="me-auto">{_$name}</span>
+			<span class="small text-body-secondary">{$lang|upper}</span>
+			<i n:class="'bi bi-check-lg', $lang !== $current ? invisible" aria-hidden="true"></i>
+		</a>
+	</li>
+{/define}
