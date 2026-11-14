@@ -281,4 +281,3 @@ Use `tagClass` when the wrapper needs styling:
 ```latte
 {include lang-switch, lang: 'cs', name: 'Czech', tag: 'li', tagClass: 'item-wrapper'}
 ```
-
